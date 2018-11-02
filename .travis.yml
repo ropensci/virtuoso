@@ -3,3 +3,10 @@
 language: R
 sudo: false
 cache: packages
+
+addons:
+  apt:
+    packages:
+      - libv8-dev
+      - virtuoso-server
+      - unixodbc-dev
