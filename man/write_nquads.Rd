@@ -16,9 +16,3 @@ write_nquads(x, file, ...)
 \description{
 write object out as nquads
 }
-\examples{
-tmp <- tempfile(fileext = ".nq")
-library(datasets)
-write_nquads(iris, tmp)
-read_nquads(tmp)
-}

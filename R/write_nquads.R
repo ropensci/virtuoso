@@ -7,13 +7,6 @@
 #' @param ... additional parameters, see examples
 #'
 #' @export
-#'
-#' @examples
-#' tmp <- tempfile(fileext = ".nq")
-#' library(datasets)
-#' write_nquads(iris, tmp)
-#' read_nquads(tmp)
-#' @export
 write_nquads <- function(x, file, ...){
   df <- normalize_table(x, ...)
   poor_mans_nquads(df, file, ...)
