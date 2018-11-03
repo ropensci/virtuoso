@@ -23,5 +23,6 @@ RoxygenNote: 6.1.0
 Suggests: 
     knitr,
     rmarkdown,
-    nycflights13
+    nycflights13,
+    testthat
 VignetteBuilder: knitr
