@@ -16,7 +16,9 @@ Imports:
     DBI,
     utils,
     dplyr,
-    tidyr
+    tidyr,
+    ini,
+    rappdirs
 RoxygenNote: 6.1.0
 Suggests: 
     knitr,

@@ -84,25 +84,40 @@ vos_configure_odbc <- function(odbcinst = NULL){
 
 
 
-#find_virtuoso_ini <- function(){
-#  switch(which_os(),
-#         osx = "/usr/local/Cellar/virtuoso/7.2.5.1/var/lib/virtuoso/db/virtuoso.ini",
-#         linux = "/etc/virtuoso-opensource-6.1/virtuoso.ini",
-#         )
-#}
+find_virtuoso_ini <- function(){
+  switch(which_os(),
+         osx = "/usr/local/Cellar/virtuoso/7.2.5.1/var/lib/virtuoso/db/virtuoso.ini",
+         linux = "/etc/virtuoso-opensource-6.1/virtuoso.ini",
+         )
+}
 
+#' @importFrom ini read.ini write.ini
+#' @importFrom rappdirs user_log_dir
+vos_configure <- function(ini_file = find_virtuoso_ini(),
+                          DirsAllowed = ".",
+                          gigs_ram = 2,
+                          db_dir = rappdirs::user_log_dir("Virtuoso")){
 
-vos_configure <- function(){
-  if(file.exists("virtuoso.ini"))
-    return(message(paste("A virtuoso.ini file already exists",
-                         "in the current working directory,",
-                         "please edit that file.")))
+  ## dbdir cannot have spaces in path(?)
+  dir.create(db_dir, FALSE)
 
-  ini <- system.file("virtuoso", "virtuoso.ini", package="virtuoso")
-  file.copy(ini, basename(ini))
-  message(paste("A template virtuoso.ini has been added to the working",
-                "directory. Edit that file as indicated based on available",
-                "free RAM etc."))
+  V <- ini::read.ini(ini_file)
+  V$Parameters$DirsAllowed <- DirsAllowed
+  V$Database$DatabaseFile <- file.path(db_dir, basename(V$Database$DatabaseFile))
+  V$Database$ErrorLogFile <- file.path(db_dir, basename(V$Database$ErrorLogFile))
+  V$Database$LockFile <- file.path(db_dir, basename(V$Database$LockFile))
+  V$Database$TransactionFile <- file.path(db_dir, basename(V$Database$TransactionFile))
+  V$Database$xa_persistent_file <- file.path(db_dir, basename(V$Database$xa_persistent_file))
+
+  V$TempDatabase$DatabaseFile <- file.path(db_dir, basename(V$TempDatabase$DatabaseFile))
+  V$TempDatabase$TransactionFile <- file.path(db_dir, basename(V$TempDatabase$TransactionFile))
+
+  V$Parameters$NumberOfBuffers <- 85000 * gigs_ram
+  V$Parameters$MaxDirtyBuffers <- 65000 * gigs_ram
+
+  output <- file.path(db_dir, "virtuoso.ini")
+  ini::write.ini(V, output)
+  output
 }
 
 #' Start a local Virtuoso Server
@@ -114,12 +129,8 @@ vos_configure <- function(){
 vos_start <- function(ini = NULL){
 
   if (is.null(ini)) {
-    ini <- system.file("virtuoso", "virtuoso.ini",
-                       package="virtuoso", mustWork = TRUE)
-    # FIXME .ini file needs somewhere it can write configs...
-    dir.create("virtuoso-db", FALSE)
+    ini <- vos_configure()
   }
-
   p <- processx::process$new("virtuoso-t", c("-f", "-c", ini))
   invisible(p)
 }

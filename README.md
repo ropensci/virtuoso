@@ -68,11 +68,28 @@ example <- system.file("extdata", "person.nq", package = "virtuoso")
 vos_import(con, example)
 ```
 
+``` r
+vos_query(con, 
+"SELECT ?p ?o 
+ WHERE { ?s ?p ?o .
+        ?s a <http://schema.org/Person>
+       }")
+#> [1] p o
+#> <0 rows> (or 0-length row.names)
+```
+
 We can clear all data in the default graph if we want a fresh start:
 
 ``` r
 vos_clear_graph(con)
 #> data frame with 0 columns and 0 rows
+```
+
+Stop the server explicitly (Will otherwise stop when R session ends)
+
+``` r
+myserver$kill()
+#> [1] FALSE
 ```
 
 -----

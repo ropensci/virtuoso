@@ -86,6 +86,13 @@ We can clear all data in the default graph if we want a fresh start:
 vos_clear_graph(con)
 ```
 
+
+Stop the server explicitly (Will otherwise stop when R session ends)
+
+```{r}
+myserver$kill()
+```
+
 ---
 
 See richer examples in the package vignettes.

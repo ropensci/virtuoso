@@ -81,3 +81,10 @@ df <- vos_query(con, query)
 
 head(df)
 ```
+
+
+
+
+```{r}
+myserver$kill()
+```
