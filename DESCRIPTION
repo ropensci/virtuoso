@@ -20,5 +20,6 @@ Imports:
 RoxygenNote: 6.1.0
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    nycflights13
 VignetteBuilder: knitr
