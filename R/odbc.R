@@ -64,11 +64,12 @@ vos_configure_odbc <- function(odbcinst = NULL){
           file = odbcinst,
           append = TRUE)
 
-  } else if (is_linux() && FALSE) {
+  } else if (is_linux()) {
+    ## Cannot modify /etc/odbcinst.ini without root
     write(c("", "[Local Virtuoso]",
             "Driver = /usr/lib/x86_64-linux-gnu/odbc/virtodbc_r.so",
             ""),
-          file = odbcinst,
+          file = "~/.odbcinst.ini",
           append = TRUE)
 
   } else {
@@ -80,13 +81,29 @@ vos_configure_odbc <- function(odbcinst = NULL){
 
 # virtuoso.ini file provides the default configuration
 # Crucially, it sets AllowedDirs that we can bulk import from
-find_virtuoso_ini <- function(){
-  switch(which_os(),
-         osx = "/usr/local/Cellar/virtuoso/7.2.5.1/var/lib/virtuoso/db/virtuoso.ini",
-         linux = "/etc/virtuoso-opensource-6.1/virtuoso.ini",
-         )
-}
 
+
+
+#find_virtuoso_ini <- function(){
+#  switch(which_os(),
+#         osx = "/usr/local/Cellar/virtuoso/7.2.5.1/var/lib/virtuoso/db/virtuoso.ini",
+#         linux = "/etc/virtuoso-opensource-6.1/virtuoso.ini",
+#         )
+#}
+
+
+vos_configure <- function(){
+  if(file.exists("virtuoso.ini"))
+    return(message(paste("A virtuoso.ini file already exists",
+                         "in the current working directory,",
+                         "please edit that file.")))
+
+  ini <- system.file("virtuoso", "virtuoso.ini", package="virtuoso")
+  file.copy(ini, basename(ini))
+  message(paste("A template virtuoso.ini has been added to the working",
+                "directory. Edit that file as indicated based on available",
+                "free RAM etc."))
+}
 
 #' Start a local Virtuoso Server
 #'
@@ -97,11 +114,13 @@ find_virtuoso_ini <- function(){
 vos_start <- function(ini = NULL){
 
   if (is.null(ini)) {
-    ini <- find_virtuoso_ini()
+    ini <- system.file("virtuoso", "virtuoso.ini",
+                       package="virtuoso", mustWork = TRUE)
+    # FIXME .ini file needs somewhere it can write configs...
+    dir.create("virtuoso-db", FALSE)
   }
 
-  file.copy(ini, basename(ini))
-  p <- processx::process$new("virtuoso-t", "-f")
+  p <- processx::process$new("virtuoso-t", c("-f", "-c", ini))
   invisible(p)
 }
 

@@ -4,7 +4,7 @@
 \alias{vos_connect}
 \title{Connect to a Virtuoso Server over ODBC}
 \usage{
-vos_connect(driver = "Virtuoso", uid = "dba", pwd = "dba",
+vos_connect(driver = "Local Virtuoso", uid = "dba", pwd = "dba",
   host = "localhost", port = "1111")
 }
 \arguments{
