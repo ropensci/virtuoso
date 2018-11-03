@@ -30,18 +30,16 @@ operating system.
 
 ``` r
 vos_install()
-#> Configuration for Local Virtuoso found
+#> Configuration for Virtuoso found
 #> virtuoso already installed.
 ```
 
-We can now start a server. (Here we assign the server process to an
-object, `myserver` which we can use to stop or control it explicitly, if
-necessary). Note that the server may take a few seconds to come up.
+We can now start our Virtuoso server from R:
 
 ``` r
-myserver <- vos_start()
-
-Sys.sleep(5)
+vos_start()
+#> PROCESS 'virtuoso-t', running, pid 44366.
+#> 11:52:57 Server online at 1111 (pid 44366)
 ```
 
 Once the server is running, we can connect to the database.
@@ -74,8 +72,12 @@ vos_query(con,
  WHERE { ?s ?p ?o .
         ?s a <http://schema.org/Person>
        }")
-#> [1] p o
-#> <0 rows> (or 0-length row.names)
+#>                                                 p                        o
+#> 1 http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://schema.org/Person
+#> 2                      http://schema.org/jobTitle                Professor
+#> 3                          http://schema.org/name                 Jane Doe
+#> 4                     http://schema.org/telephone           (425) 123-4567
+#> 5                           http://schema.org/url   http://www.janedoe.com
 ```
 
 We can clear all data in the default graph if we want a fresh start:
@@ -85,11 +87,33 @@ vos_clear_graph(con)
 #> data frame with 0 columns and 0 rows
 ```
 
-Stop the server explicitly (Will otherwise stop when R session ends)
+## Server controls
+
+We can control any `virtuoso` server started with `vos_start()` using a
+series of helper commands.
 
 ``` r
-myserver$kill()
-#> [1] FALSE
+vos_status()
+#> 11:52:58 PL LOG: No more files to load. Loader has finished,
+#> [1] "online"
+```
+
+Advanced usage note: `vos_start()` invisibly returns a `processx` object
+which we can pass to other server control functions, or access the
+embedded `processx` control methods directly. The `virtuoso` package
+also caches this object in an environment so that it can be accessed
+directly without having to keep track of an object in the global
+environment. Use `vos_process()` to return the `processx` object. For
+example:
+
+``` r
+p <- vos_process()
+p$get_error_file()
+#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/Rtmpk5hipI/vos_startad3e5078bd68.log"
+p$suspend()
+#> NULL
+p$resume()
+#> NULL
 ```
 
 -----

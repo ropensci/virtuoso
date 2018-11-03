@@ -12,8 +12,9 @@ vos_start <- function(ini = NULL){
              envir = virtuoso_cache,
              ifnotfound = NA)[[1]]
   if (inherits(p, "process")) {
-    return(message(paste("Found existing process:",
-                         p$format())))
+    message(paste("Found existing process:",
+                  p$format()))
+    return(p)
   }
 
 
@@ -33,11 +34,21 @@ vos_start <- function(ini = NULL){
   invisible(p)
 }
 
+#' Stop (kill) the Virtuoso server
+#'
+#' Kill ends the process started by [`vos_start()`]
+#' @param p a process object, returned by
+#'  [`vos_process()`] or  [`vos_start()`]
+#' @export
 vos_kill <- function(p = NA){
  p <- vos_process(p)
  p$kill()
 }
 
+#' Return a handle to an existing Virtuoso Process
+#'
+#' @inheritParams vos_kill
+#' @export
 vos_process <- function(p = NA){
   if (!inherits(p, "process")) {
     p <- mget("virtuoso_process",
@@ -54,14 +65,17 @@ vos_process <- function(p = NA){
   p
 }
 
-
+#' Query the server status
+#'
+#' @inheritParams vos_kill
+#' @export
 vos_status <- function(p = NA){
 
   p <- vos_process(p)
 
   if (!p$is_alive()) {
     warning(paste("Server failed to start\n"))
-    message(p$read_all_error())
+    message(cat(readLines(p$get_error_file()), sep = "\n"))
     return("dead")
   }
 

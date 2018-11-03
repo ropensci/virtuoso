@@ -39,12 +39,10 @@ For Mac users, `virtuoso` package includes a utility function to install and con
 vos_install()
 ```
 
-We can now start a server.  (Here we assign the server process to an object, `myserver` which we can use to stop or control it explicitly, if necessary). Note that the server may take a few seconds to come up.  
+We can now start our Virtuoso server from R:
 
 ```{r}
-myserver <- vos_start()
-
-Sys.sleep(5)
+vos_start()
 ```
 
 
@@ -87,10 +85,26 @@ vos_clear_graph(con)
 ```
 
 
-Stop the server explicitly (Will otherwise stop when R session ends)
+
+## Server controls
+
+We can control any `virtuoso` server started with `vos_start()` using a series of helper commands.  
 
 ```{r}
-myserver$kill()
+vos_status()
+```
+
+Advanced usage note: `vos_start()` invisibly returns a `processx` object which we can pass to other server control functions, or access the embedded `processx` control methods directly.  The `virtuoso` package also caches this object in an environment so that it can be accessed directly without having to keep track of an object in the global environment. Use `vos_process()` to return the `processx` object.  For example:
+
+```{r}
+p <- vos_process()
+p$get_error_file()
+p$suspend()
+p$resume()
+```
+
+```{r include = FALSE}
+vos_kill()
 ```
 
 ---

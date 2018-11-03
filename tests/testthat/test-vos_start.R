@@ -1,4 +1,4 @@
 context("vos_start")
 
-expect_error(vos_server_status(NA))
+expect_error(vos_status(NA))
 #             "No virtuoso process found")
