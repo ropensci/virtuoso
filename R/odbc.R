@@ -86,9 +86,14 @@ vos_configure_odbc <- function(odbcinst = NULL){
 
 find_virtuoso_ini <- function(){
   switch(which_os(),
-         osx = "/usr/local/Cellar/virtuoso/7.2.5.1/var/lib/virtuoso/db/virtuoso.ini",
+         osx = find_virtuoso_ini_osx(),
          linux = "/etc/virtuoso-opensource-6.1/virtuoso.ini",
          )
+}
+
+find_virtuoso_ini_osx <- function(){
+  cmd <- processx::run("brew", c("--prefix", "virtuoso"))
+  paste0(gsub("\\n$", "", cmd$stdout), "/var/lib/virtuoso/db/virtuoso.ini")
 }
 
 #' @importFrom ini read.ini write.ini
