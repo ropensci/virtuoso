@@ -1,0 +1,83 @@
+---
+title: "The Data Lake: Schema on Read"
+author: "Carl Boettiger"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The Datal Lake}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+
+```{r}
+library(virtuoso)
+library(nycflights13)
+library(dplyr)
+
+```
+
+We start up our Virtuoso server, wait for it to come up, and then connect:
+
+```{r install}
+myserver <- vos_start()
+Sys.sleep(5)
+con <- vos_connect()
+```
+
+
+We can represent any data as RDF with a little care.  For instance, consider the `nycflights13` data. First, we must represent any primary or foreign keys in any table must be as URIs and not literal integers or strings: 
+
+```{r as_uri}
+uri_flights <- flights %>% 
+  mutate(tailnum = paste0("planes:", tailnum),
+         carrier = paste0("airlines:", carrier))
+```
+
+We write the `data.frame`s out as nquads.  Recall that each cell of a `data.frame` can be represented as a triple, in which the column is the predicate, the primary key (or row number) the subject, and the cell value the object.  We turn column names and primary keys into URIs using a prefix based on the table name.  (Note that `rdflib` does this conversion by merely munging cells and calling `write.table`, it is not a standard `redland` library transform).
+
+```{r}
+write_nquads(airlines,  "airlines.nq", key = "carrier", prefix = "airlines:")
+write_nquads(planes,  "planes.nq", key = "tailnum", prefix = "planes:")
+write_nquads(uri_flights,  "flights.nq", prefix = "flights:")
+```
+
+We're ready to import all these triples.  This may take a few minutes:
+
+```{r}
+system.time(
+  vos_import(con, c("flights.nq", "planes.nq", "airlines.nq"))
+)
+```
+
+
+The data from all three tables is now reduced into a single triplestore graph, one triple for each data point. Rather than joining tables, we can write SPARQL query that names the columns we want.
+
+
+
+```{r}
+query <- 
+'SELECT  ?carrier ?name ?manufacturer ?model ?dep_delay
+WHERE {
+?flight <flights:tailnum>  ?tailnum .
+?flight <flights:carrier>  ?carrier .
+?flight <flights:dep_delay>  ?dep_delay .
+?tailnum <planes:manufacturer> ?manufacturer .
+?tailnum <planes:model> ?model .
+?carrier <airlines:name> ?name
+}'
+
+system.time(
+df <- vos_query(con, query)
+)
+
+head(df)
+```

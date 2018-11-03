@@ -1,9 +1,14 @@
+#' Helper method for installing Virtuoso Server on Mac OSX
+#'
 #' @export
 #' @importFrom processx run process
 vos_install <- function(){
-  if (Sys.which('virtuoso-t') != '')
+  if (Sys.which('virtuoso-t') != '') {
+
+    vos_configure_odbc()
     return(message(paste("virtuoso already installed.\n")))
 
+  }
   if (!is_osx())
     stop(paste("helper function only supports Mac OSX at this time.",
                "see documentation for details."))
@@ -25,8 +30,25 @@ install_brew <- function() {
   }
 }
 
-#' @export
-vos_configure_odbc <- function(odbcinst = "~/.odbcinst.ini"){
+#' @importFrom utils read.table
+find_odbcinst <- function(){
+  if (Sys.which("odbcinst") == "")
+    return(normalizePath("~/.odbcinst.ini"))
+
+  ## Otherwise we can use `odbcinst -j` to find odbcinst.ini file
+  p <- processx::run("odbcinst", "-j")
+  trimws(
+    read.table(textConnection(p$stdout),
+               skip = 1, sep = ":",
+               stringsAsFactors = FALSE)[1,2]
+  )
+}
+
+
+vos_configure_odbc <- function(odbcinst = NULL){
+
+  if (is.null(odbcinst))
+    odbcinst <- find_odbcinst()
 
   if (file.exists(odbcinst)) {
     if (any(grepl("\\[Local Virtuoso\\]", readLines(odbcinst))) ) {
@@ -34,22 +56,49 @@ vos_configure_odbc <- function(odbcinst = "~/.odbcinst.ini"){
       return(invisible(TRUE))
     }
   }
-  ## Look for an entry first!
-  write(c("", "[Local Virtuoso]",
-          "Driver = /usr/local/Cellar/virtuoso/7.2.4.2/lib/virtodbc.so",
-          ""),
-        file = odbcinst,
-        append = TRUE)
+
+  if (is_osx()) {
+    write(c("", "[Local Virtuoso]",
+            "Driver = /usr/local/Cellar/virtuoso/7.2.5.1/lib/virtodbc.so",
+            ""),
+          file = odbcinst,
+          append = TRUE)
+
+  } else if (is_linux() && FALSE) {
+    write(c("", "[Local Virtuoso]",
+            "Driver = /usr/lib/x86_64-linux-gnu/odbc/virtodbc_r.so",
+            ""),
+          file = odbcinst,
+          append = TRUE)
+
+  } else {
+    stop("Can not configure odbc for this operating system.")
+  }
 
   invisible(TRUE)
 }
 
-#' @export
-vos_start <- function(ini = system.file("virtuoso",
-                                        "virtuoso.ini",
-                                        package = "virtuoso")){
+# virtuoso.ini file provides the default configuration
+# Crucially, it sets AllowedDirs that we can bulk import from
+find_virtuoso_ini <- function(){
+  switch(which_os(),
+         osx = "/usr/local/Cellar/virtuoso/7.2.5.1/var/lib/virtuoso/db/virtuoso.ini",
+         linux = "/etc/virtuoso-opensource-6.1/virtuoso.ini",
+         )
+}
 
-  ## FIXME: check if virtuoso is already running first?
+
+#' Start a local Virtuoso Server
+#'
+#' @param ini path to a virtuoso.ini configuration file. If not
+#' provided, function will attempt to determine the location of the
+#' default configuration file.
+#' @export
+vos_start <- function(ini = NULL){
+
+  if (is.null(ini)) {
+    ini <- find_virtuoso_ini()
+  }
 
   file.copy(ini, basename(ini))
   p <- processx::process$new("virtuoso-t", "-f")
@@ -57,14 +106,24 @@ vos_start <- function(ini = system.file("virtuoso",
 }
 
 
+
+#' Connect to a Virtuoso Server over ODBC
+#'
+#' @param driver Name of the Driver line in the ODBC configuration
+#' @param uid User id. Defaults to "dba"
+#' @param pwd Password. Defaults to "dba"
+#' @param host IP address of the Virtuoso Server
+#' @param port Port used by Virtuoso. Defaults to
+#'  the Virtuoso standard port, 1111
+#'
 #' @export
 #' @importFrom DBI dbConnect
 #' @importFrom odbc odbc
 vos_connect <- function(driver = "Local Virtuoso",
-                             uid = "dba",
-                             pwd = "dba",
-                             host = "localhost",
-                             port = "1111"){
+                        uid = "dba",
+                        pwd = "dba",
+                        host = "localhost",
+                        port = "1111"){
   DBI::dbConnect(odbc::odbc(),
                  driver = driver,
                  uid = uid,
@@ -73,7 +132,18 @@ vos_connect <- function(driver = "Local Virtuoso",
                  port = port)
 }
 
+
+## Helper routines
 is_osx <- function() unname(Sys.info()['sysname'] == 'Darwin')
+is_linux <- function() unname(Sys.info()['sysname'] == 'Linux')
+is_windows <- function() .Platform$OS.type == 'windows'
+which_os <- function(){
+  if (is_osx()) return("osx")
+  if (is_linux()) return("linux")
+  if (is_windows()) return("windows")
+  warning("OS could not be determined")
+  NULL
+}
 
 
 #library(rdflib)
