@@ -56,6 +56,7 @@ vos_configure <- function(DirsAllowed = ".",
 
 
   output <- file.path(db_dir, "virtuoso.ini")
+  dir.create(db_dir, FALSE, recursive = TRUE)
   ini::write.ini(V, output)
   output
 }
