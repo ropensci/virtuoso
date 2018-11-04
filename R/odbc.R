@@ -22,13 +22,13 @@ vos_odbcinst <- function(odbcinst = NULL){
   } else if (is_linux()) {
     ## Cannot modify /etc/odbcinst.ini without root
     write(c("", "[Local Virtuoso]",
-            "Driver = /usr/lib/x86_64-linux-gnu/odbc/virtodbc_r.so",
+            "Driver = virtodbc.so",
             ""),
           file = "~/.odbcinst.ini",
           append = TRUE)
 
   } else {
-    stop("Can not configure odbc for this operating system.")
+    stop("Cannot configure odbc for this operating system.")
   }
 
   invisible(TRUE)

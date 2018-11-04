@@ -1,19 +1,42 @@
-
+#' Configure Virtuoso Server ini file
+#'
+#' Virtuoso Server configuration is determined by a virtuoso.ini file when
+#' server starts. This file includes both system-specific information from
+#' your install (location of server files, addons, etc) and user-configurable
+#' parameters. This helper function provides a way to create and modify an
+#' appropriate `virtuoso.ini` file.
+#'
+#' @param DirsAllowed Paths (relative or absolute) to directories from which
+#' Virtoso should have read and write access (e.g. for bulk uploading). Should
+#' be specificied as a single comma-separated string.  Default is the current
+#' working directory.
+#' @param gigs_ram Indicate approximately the maximum GB of memory Virtuoso can
+#' have access to.  (Used to set NumberOfBuffers & MaxDirtyBuffers in config.)
+#' @param template Location of an existing virtuoso.ini file which will be used
+#' as a template. By default, `vos_configure()` will attempt to locate the
+#' appropriate template for your system.
+#' @param db_dir location where `virtuoso.ini` file should be written.  Other
+#' Virtuoso database log files will also be written here.
+#' @return Writes the requested `virtuoso.ini` file to the db_dir specified
+#' and returns the path to this file.
 #' @importFrom ini read.ini write.ini
 #' @importFrom rappdirs user_log_dir
-vos_configure <- function(ini_file = find_virtuoso_ini(),
-                          DirsAllowed = ".",
+#' @export
+vos_configure <- function(DirsAllowed = ".",
                           gigs_ram = 2,
-                          db_dir = rappdirs::user_log_dir("Virtuoso")){
+                          template = find_virtuoso_ini(),
+                          db_dir = rappdirs::user_log_dir("Virtuoso")
+                          ){
 
   ## dbdir cannot have spaces in path(?)
   dir.create(db_dir, FALSE)
 
-  V <- ini::read.ini(ini_file)
+  V <- ini::read.ini(template)
   V$Parameters$DirsAllowed <- DirsAllowed
   V$Parameters$NumberOfBuffers <- 85000 * gigs_ram
   V$Parameters$MaxDirtyBuffers <- 65000 * gigs_ram
 
+  ## FIXME give option not to change these? e.g. on MacOS the default is fine.
   ## By default on Linux example config, these files are below $HOME and need
   ## root access.  Pointing them at user_log_dir instead.
   V$Database$DatabaseFile <-
@@ -33,6 +56,7 @@ vos_configure <- function(ini_file = find_virtuoso_ini(),
 
 
   output <- file.path(db_dir, "virtuoso.ini")
+  dir.create(db_dir, FALSE, recursive = TRUE)
   ini::write.ini(V, output)
   output
 }

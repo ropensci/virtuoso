@@ -16,6 +16,19 @@ vos_install <- function(){
                "see documentation for details."))
 
   install_brew()
+
+  ## Avoid possible brew install  error:
+
+  ## Error: Cannot install virtuoso because conflicting formulae are installed.
+  ## unixodbc: because Both install `isql` binaries.
+  ## Please `brew unlink unixodbc` before continuing.
+  ## Unlinking removes a formula's symlinks from /usr/local. You can
+  ## link the formula again after the install finishes. You can --force this
+  ## install, but the build may fail or cause obscure side-effects in the
+  ## resulting software.
+  if (file.exists("/usr/local/bin/isql"))
+    file.rename("/usr/local/bin/isql", "/usr/local/bin/isql-unixodbc")
+
   processx::run("brew", c("install", "virtuoso"))
 
   vos_odbcinst()
