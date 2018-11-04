@@ -28,5 +28,6 @@ Suggests:
     knitr,
     rmarkdown,
     nycflights13,
-    testthat
+    testthat,
+    covr
 VignetteBuilder: knitr

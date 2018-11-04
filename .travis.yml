@@ -10,3 +10,6 @@ addons:
       - libv8-dev
       - virtuoso-server
       - unixodbc-dev
+
+after_success:
+    - Rscript -e 'covr::codecov()'

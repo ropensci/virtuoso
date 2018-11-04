@@ -1,6 +1,11 @@
 
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Travis build
 status](https://travis-ci.org/cboettig/virtuoso.svg?branch=master)](https://travis-ci.org/cboettig/virtuoso)
+[![Coverage
+status](https://codecov.io/gh/cboettig/virtuoso/branch/master/graph/badge.svg)](https://codecov.io/github/cboettig/virtuoso?branch=master)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/virtuoso)](https://cran.r-project.org/package=virtuoso)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -38,8 +43,8 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 44366.
-#> 11:52:57 Server online at 1111 (pid 44366)
+#> PROCESS 'virtuoso-t', running, pid 50980.
+#> 21:01:50 Server online at 1111 (pid 50980)
 ```
 
 Once the server is running, we can connect to the database.
@@ -94,7 +99,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> 11:52:58 PL LOG: No more files to load. Loader has finished,
+#> 21:01:51 PL LOG: No more files to load. Loader has finished,
 #> [1] "online"
 ```
 
@@ -109,7 +114,7 @@ example:
 ``` r
 p <- vos_process()
 p$get_error_file()
-#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/Rtmpk5hipI/vos_startad3e5078bd68.log"
+#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/RtmpPitaHN/vos_startc68640a64f02.log"
 p$suspend()
 #> NULL
 p$resume()
