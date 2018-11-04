@@ -16,6 +16,14 @@ vos_install <- function(){
                "see documentation for details."))
 
   install_brew()
+
+  ## FIXME: brew install will likely error:
+
+  ## Error: Cannot install virtuoso because conflicting formulae are installed.
+  ## unixodbc: because Both install `isql` binaries.
+  ## Please `brew unlink unixodbc` before continuing.
+
+
   processx::run("brew", c("install", "virtuoso"))
 
   vos_odbcinst()
