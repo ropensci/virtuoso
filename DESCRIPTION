@@ -2,10 +2,14 @@ Package: virtuoso
 Type: Package
 Title: R interface to Virtuoso using ODBC
 Version: 0.1.0
-Authors@R: person("Carl", "Boettiger", 
+Authors@R: c(person("Carl", "Boettiger", 
                   email = "cboettig@gmail.com", 
                   role = c("aut", "cre", "cph"),
-                  comment = c(ORCID = "0000-0002-1642-628X"))
+                  comment = c(ORCID = "0000-0002-1642-628X")),
+             person("Bryce", "Mecum", 
+                    role = "ctb", 
+                    email = "brycemecum@gmail.com",
+                    comment = c(ORCID = "0000-0002-0381-3766")))
 Description: Virtuoso is an open source performance database engine.
 License: MIT + file LICENSE
 Encoding: UTF-8

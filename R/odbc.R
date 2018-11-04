@@ -1,33 +1,49 @@
 
 
+vos_odbcinst <- function(odbcinst = NULL){
 
+  if (is.null(odbcinst))
+    odbcinst <- find_odbcinst()
 
-#' Connect to a Virtuoso Server over ODBC
-#'
-#' @param driver Name of the Driver line in the ODBC configuration
-#' @param uid User id. Defaults to "dba"
-#' @param pwd Password. Defaults to "dba"
-#' @param host IP address of the Virtuoso Server
-#' @param port Port used by Virtuoso. Defaults to
-#'  the Virtuoso standard port, 1111
-#'
-#' @export
-#' @importFrom DBI dbConnect
-#' @importFrom odbc odbc
-vos_connect <- function(driver = "Local Virtuoso",
-                        uid = "dba",
-                        pwd = "dba",
-                        host = "localhost",
-                        port = "1111"){
-  DBI::dbConnect(odbc::odbc(),
-                 driver = driver,
-                 uid = uid,
-                 pwd = pwd,
-                 host = host,
-                 port = port)
+  if (file.exists(odbcinst)) {
+    if (any(grepl("\\[Local Virtuoso\\]", readLines(odbcinst))) ) {
+      message("Configuration for Virtuoso found")
+      return(invisible(TRUE))
+    }
+  }
+
+  if (is_osx()) {
+    write(c("", "[Local Virtuoso]",
+            "Driver = /usr/local/Cellar/virtuoso/7.2.5.1/lib/virtodbc.so",
+            ""),
+          file = odbcinst,
+          append = TRUE)
+
+  } else if (is_linux()) {
+    ## Cannot modify /etc/odbcinst.ini without root
+    write(c("", "[Local Virtuoso]",
+            "Driver = /usr/lib/x86_64-linux-gnu/odbc/virtodbc_r.so",
+            ""),
+          file = "~/.odbcinst.ini",
+          append = TRUE)
+
+  } else {
+    stop("Can not configure odbc for this operating system.")
+  }
+
+  invisible(TRUE)
 }
 
+#' @importFrom utils read.table
+find_odbcinst <- function(){
+  if (Sys.which("odbcinst") == "")
+    return(normalizePath("~/.odbcinst.ini", mustWork = FALSE))
 
-
-#library(rdflib)
-#triplestore  <- rdf(storage = "virtuoso", user = "dba", password = "dba", host="localhost:1111")
+  ## Otherwise we can use `odbcinst -j` to find odbcinst.ini file
+  p <- processx::run("odbcinst", "-j")
+  trimws(
+    read.table(textConnection(p$stdout),
+               skip = 1, sep = ":",
+               stringsAsFactors = FALSE)[1,2]
+  )
+}
