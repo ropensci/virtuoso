@@ -11,8 +11,8 @@ vos_odbcinst <- function(odbcinst = NULL){
       return(invisible(odbcinst))
     }
   }
-  if (!file.access(odbcinst, mode = 2))# test write access
-    odbcinst <- "~/.odbcinst.ini"
+  #if (!file.access(odbcinst, mode = 2))# test write access
+  odbcinst <- "~/.odbcinst.ini"
 
   write(c("",
           "[Local Virtuoso]",
