@@ -12,36 +12,29 @@ vos_odbcinst <- function(odbcinst = NULL){
     }
   }
 
-  if (is_osx()) {
+  ## FIXME check if we can write to odbcinst from above first?
     write(c("", "[Local Virtuoso]",
-            "Driver = /usr/local/Cellar/virtuoso/7.2.5.1/lib/virtodbc.so",
-            ""),
-          file = odbcinst,
-          append = TRUE)
-
-  } else if (is_linux()) {
-    ## Cannot modify /etc/odbcinst.ini without root
-    write(c("", "[Local Virtuoso]",
-            "Driver = virtodbc.so",
+            paste("Driver =", find_driver()),
             ""),
           file = "~/.odbcinst.ini",
           append = TRUE)
 
-  } else {
-    stop("Cannot configure odbc for this operating system.")
-  }
 
   invisible(TRUE)
 }
 
 find_driver <- function(){
-  switch(which_os(){
-    "osx" =   find_driver_osx()
-    "linux" = find_driver_linux()
-    "virtuoso.so"
-  })
+  lookup <- c(
+    "/usr/lib/virtodbc.so",
+    "/usr/local/lib/virtodbc.so", # Mac Homebrew link
+    "/usr/lib/odbc/virtodbc.so",  # Typical Ubuntu virutoso-opensource loc
+    "/usr/lib/x86_64-linux-gnu/odbc/virtodbc.so",
+    "/usr/local/Cellar/virtuoso/7.2.5.1/lib/virtodbc.so")
+  i <- vapply(lookup, file.exists, logical(1L))
+  names(which(i))[[1]]
 }
-find_driver_osx <- function()
+
+
 
 #' @importFrom utils read.table
 find_odbcinst <- function(){
