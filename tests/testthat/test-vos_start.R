@@ -10,14 +10,14 @@ test_that("we can start a vos server and check status",{
   p <- vos_start()
   expect_message(vos_start(), "Found existing")
   expect_is(p, "process")
-  expect_equal(p$get_status(), "running")
+  expect_true(p$get_status() %in% c("sleeping", "running"))
 
   ## We can access process handle independently
   p2 <- vos_process()
   expect_identical(p, p2)
 
   ## vos_status responds correctly
-  expect_equal(vos_status(p), "running")
+  expect_true(vos_status(p) %in% c("sleeping", "running"))
   p$suspend()
   expect_equal(vos_status(p), "stopped")
 
