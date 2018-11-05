@@ -1,5 +1,5 @@
 
-
+# Rename as vos_odbc_driver ?
 vos_odbcinst <- function(odbcinst = NULL){
 
   if (is.null(odbcinst))
