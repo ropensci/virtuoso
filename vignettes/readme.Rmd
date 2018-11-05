@@ -1,0 +1,121 @@
+---
+title: "A Brief Introduction to Virtuoso"
+author: "Carl Boettiger"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{readme}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+
+# virtuoso
+
+The goal of virtuoso is to provide an easy interface to Virtuoso RDF database from R. 
+
+## Installation
+
+You can install the development version of `virtuoso` from GitHub with:
+
+``` r
+remotes::install_github("cboettig/virtuoso")
+```
+
+Linux users should install Virtuoso server from their package manager.
+
+
+## Getting Started
+
+```{r}
+library(virtuoso)
+```
+
+For Mac users, `virtuoso` package includes a utility function to install and configure a local Virtuoso Open Source instance using Homebrew.  Otherwise, simply install the Virtuoso Open Source edition for your operating system. 
+
+
+```{r install}
+vos_install()
+```
+
+We can now start our Virtuoso server from R:
+
+```{r}
+vos_start()
+```
+
+
+
+ Once the server is running, we can connect to the database.
+
+```{r}
+con <- vos_connect()
+```
+
+Our connection is now live, and accepts SPARQL queries directly.  
+
+```{r}
+ex <- DBI::dbGetQuery(con, "SPARQL SELECT * WHERE { ?s ?p ?o }")
+```
+
+## DSL
+
+`virtuoso` also provides wrappers around some common queries to make it easier to work with Virtuoso and RDF.
+
+The bulk loader can be used to quickly import existing sets of triples. 
+
+```{r}
+example <- system.file("extdata", "person.nq", package = "virtuoso")
+vos_import(con, example)
+```
+
+```{r}
+vos_query(con, 
+"SELECT ?p ?o 
+ WHERE { ?s ?p ?o .
+        ?s a <http://schema.org/Person>
+       }")
+```
+
+We can clear all data in the default graph if we want a fresh start:
+
+```{r}
+vos_clear_graph(con)
+```
+
+
+
+## Server controls
+
+We can control any `virtuoso` server started with `vos_start()` using a series of helper commands.  
+
+```{r}
+vos_status()
+```
+
+Advanced usage note: `vos_start()` invisibly returns a `processx` object which we can pass to other server control functions, or access the embedded `processx` control methods directly.  The `virtuoso` package also caches this object in an environment so that it can be accessed directly without having to keep track of an object in the global environment. Use `vos_process()` to return the `processx` object.  For example:
+
+```{r}
+p <- vos_process()
+p$get_error_file()
+p$suspend()
+p$resume()
+```
+
+```{r include = FALSE}
+vos_kill()
+```
+
+---
+
+See richer examples in the package vignettes.
+
+
