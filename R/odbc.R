@@ -12,6 +12,8 @@ vos_odbcinst <- function(odbcinst = NULL){
     }
   }
   #if (!file.access(odbcinst, mode = 2))# test write access
+  ## Writing our own odbcinst always seems more robust.
+  ## including the above test seems to break travis ability to connect
   odbcinst <- "~/.odbcinst.ini"
 
   write(c("",
