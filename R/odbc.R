@@ -8,19 +8,20 @@ vos_odbcinst <- function(odbcinst = NULL){
   if (file.exists(odbcinst)) {
     if (any(grepl("\\[Local Virtuoso\\]", readLines(odbcinst))) ) {
       message("Configuration for Virtuoso found")
-      return(invisible(TRUE))
+      return(invisible(odbcinst))
     }
   }
+  if (!file.access(odbcinst, mode = 2))# test write access
+    odbcinst <- "~/.odbcinst.ini"
 
-  ## FIXME check if we can write to odbcinst from above first?
-    write(c("", "[Local Virtuoso]",
-            paste("Driver =", find_driver()),
-            ""),
-          file = "~/.odbcinst.ini",
+  write(c("",
+          "[Local Virtuoso]",
+          paste("Driver =", find_driver()),
+          ""),
+          file = odbcinst,
           append = TRUE)
 
-
-  invisible(TRUE)
+  invisible(odbcinst)
 }
 
 find_driver <- function(){
@@ -31,6 +32,9 @@ find_driver <- function(){
     "/usr/lib/x86_64-linux-gnu/odbc/virtodbc.so",
     "/usr/local/Cellar/virtuoso/7.2.5.1/lib/virtodbc.so")
   i <- vapply(lookup, file.exists, logical(1L))
+  if (!any(i))
+    warning("could not automatically locate virtodbc.so driver library")
+
   names(which(i))[[1]]
 }
 
