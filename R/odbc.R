@@ -34,6 +34,15 @@ vos_odbcinst <- function(odbcinst = NULL){
   invisible(TRUE)
 }
 
+find_driver <- function(){
+  switch(which_os(){
+    "osx" =   find_driver_osx()
+    "linux" = find_driver_linux()
+    "virtuoso.so"
+  })
+}
+find_driver_osx <- function()
+
 #' @importFrom utils read.table
 find_odbcinst <- function(){
   if (Sys.which("odbcinst") == "")
