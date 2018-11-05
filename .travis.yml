@@ -8,8 +8,9 @@ addons:
   apt:
     packages:
       - libv8-dev
-      - virtuoso-server
       - unixodbc-dev
+      - virtuoso-opensource
+      - virtuoso-server
 
 after_success:
     - Rscript -e 'covr::codecov()'
