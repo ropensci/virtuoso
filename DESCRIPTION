@@ -19,14 +19,8 @@ Imports:
     processx,
     DBI,
     utils,
-    dplyr,
-    tidyr,
     ini,
-    rappdirs,
-    jsonlite,
-    stringi,
-    stats,
-    rlang
+    rappdirs
 RoxygenNote: 6.1.0
 Suggests: 
     knitr,
@@ -34,5 +28,7 @@ Suggests:
     nycflights13,
     testthat,
     covr,
-    jsonld
+    jsonld,
+    rdftools
 VignetteBuilder: knitr
+Remotes: cboettig/rdftools

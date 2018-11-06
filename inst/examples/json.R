@@ -1,4 +1,5 @@
 library(virtuoso)
+library(rdftools) # for write_nquads
 library(dplyr)
 
 ## Transform JSON (or list data) into nquads
