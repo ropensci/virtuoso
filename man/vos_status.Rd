@@ -4,11 +4,13 @@
 \alias{vos_status}
 \title{Query the server status}
 \usage{
-vos_status(p = NA)
+vos_status(p = NA, wait = 10)
 }
 \arguments{
 \item{p}{a process object, returned by
 [`vos_process()`] or  [`vos_start()`]}
+
+\item{wait}{number of seconds to wait for server to come online}
 }
 \description{
 Query the server status

@@ -64,3 +64,9 @@ vos_count_triples <- function(con){
 }
 #q <- dplyr::sql_select(con, select = "?g", from = "<rdflib>", where = "{?s ?p ?o}", limit = 10, distinct = TRUE )
 
+
+
+
+
+
+
