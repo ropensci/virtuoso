@@ -3,14 +3,13 @@ library(dplyr)
 
 ## Transform JSON (or list data) into nquads
 x <- jsonlite::read_json("https://raw.githubusercontent.com/ropensci/roregistry/ex/codemeta.json")
-write_nquads(x, "ropensci.nq")
+virtuoso::write_nquads(x, "ropensci.nq", prefix = "http://schema.org/")
 
 
 ## And here we go
 vos_start()
 con <- vos_connect()
 vos_import(con, "ropensci.nq")
-
 
 
 ## Find all packages where Carl Boettiger is an author, and return:
@@ -30,10 +29,25 @@ SELECT DISTINCT ?package ?license ?coauthor
 }"
 vos_query(con, query) %>% as_tibble() %>% mutate(license = basename(license))
 
+virtuoso:::vos_count_triples(con)
+
+query <-
+c.op_sparql(
+        sparql_select("name", "license"),
+        sparql_filter(author.familyName == "Boettiger", author.givenName == "Carl")
+) %>% sparql_build()
+vos_query(con, query)
+
+
+
+query <-
+sparql_select(package = "name", "license", coauthor = "author.familyName") %>%
+sparql_filter(author.familyName == "Boettiger", author.givenName == "Carl") %>%
+sparql_build()
 
 
 ## FIXME: In the DSL, the above should be:
 
-# select(name, license, author.familyName) %>%
+# con %>% select(name, license, author.familyName) %>%
 #        filter(author.familyName == "Boettiger", author.givenName == "Carl") %>%
 #        distinct()
