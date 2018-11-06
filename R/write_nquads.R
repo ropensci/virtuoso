@@ -10,7 +10,6 @@
 #' tmp <- tempfile(fileext = ".nq")
 #' library(datasets)
 #' write_nquads(iris, tmp)
-#' read_nquads(tmp)
 write_nquads <- function(x, file, prefix = NULL, ...){
   UseMethod("write_nquads")
 }
