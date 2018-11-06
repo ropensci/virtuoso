@@ -11,7 +11,7 @@ test_that("we can construct some sparql select and fitler operations",{
     filter.vos(author.familyName == "Boettiger",
                author.givenName == "Carl",
                prefix = "http://schema.org/") %>%
-    sparql_build()
+    sparql_build(na.rm = FALSE)
 
   expect_is(query, "sparql")
 
@@ -27,6 +27,8 @@ test_that("we can construct some sparql select and fitler operations",{
     sparql_build()
 
   expect_is(query, "sparql")
+  expect_output(print(query), "SELECT")
 
+  predicate_filter("license", prefix = "schema:")
 
 })

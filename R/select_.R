@@ -86,7 +86,6 @@ format.sparql <- function (x, ...)
 predicate_filter <- function(predicate, subject = "s", prefix = NULL, query = NULL){
 
   p <- stringi::stri_split_fixed(predicate, pattern = ".", n = 2)[[1]]
-
   predicate <- p[[1]]
   query <- c(query,
              paste0("?", subject,
