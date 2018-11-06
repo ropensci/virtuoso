@@ -29,5 +29,6 @@ Suggests:
     rmarkdown,
     nycflights13,
     testthat,
-    covr
+    covr,
+    jsonld
 VignetteBuilder: knitr

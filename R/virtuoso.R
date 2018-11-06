@@ -45,3 +45,22 @@ vos_clear_graph <- function(con, graph = "rdflib"){
 
 }
 
+#' List graphs
+#'
+#' @export
+#' @inheritParams vos_import
+vos_list_graphs <- function(con){
+  DBI::dbGetQuery(con,
+           "SPARQL SELECT  DISTINCT ?g WHERE { GRAPH ?g {?s ?p ?o} } ORDER BY ?g"
+)
+}
+
+vos_count_triples <- function(con){
+  #DBI::dbGetQuery(con, "SPARQL SELECT COUNT(*) FROM <rdflib>")
+  #DBI::dbGetQuery(con, "SPARQL SELECT (COUNT(?s) AS ?triples) WHERE { GRAPH ?g { ?s ?p ?o } }")
+
+  df <- DBI::dbGetQuery(con, "SPARQL SELECT ?g ?s ?p ?o  WHERE { GRAPH ?g {?s ?p ?o} }")
+  dplyr::count_(df, "g")
+}
+#q <- dplyr::sql_select(con, select = "?g", from = "<rdflib>", where = "{?s ?p ?o}", limit = 10, distinct = TRUE )
+

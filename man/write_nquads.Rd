@@ -4,7 +4,7 @@
 \alias{write_nquads}
 \title{write object out as nquads}
 \usage{
-write_nquads(x, file, ...)
+write_nquads(x, file, prefix = NULL, ...)
 }
 \arguments{
 \item{x}{an object that can be represented as nquads}
@@ -15,4 +15,10 @@ write_nquads(x, file, ...)
 }
 \description{
 write object out as nquads
+}
+\examples{
+tmp <- tempfile(fileext = ".nq")
+library(datasets)
+write_nquads(iris, tmp)
+read_nquads(tmp)
 }

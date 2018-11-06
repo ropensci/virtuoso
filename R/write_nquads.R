@@ -1,5 +1,3 @@
-
-
 #' write object out as nquads
 #'
 #' @param x an object that can be represented as nquads
@@ -7,10 +5,75 @@
 #' @param ... additional parameters, see examples
 #'
 #' @export
-write_nquads <- function(x, file, ...){
-  df <- normalize_table(x, ...)
-  poor_mans_nquads(df, file, ...)
+#'
+#' @examples
+#' tmp <- tempfile(fileext = ".nq")
+#' library(datasets)
+#' write_nquads(iris, tmp)
+#' read_nquads(tmp)
+write_nquads <- function(x, file, prefix = NULL, ...){
+  UseMethod("write_nquads")
 }
+
+
+
+
+
+#' @export
+write_nquads.data.frame <- function(x, file, prefix = NULL, ...){
+
+  if (is.null(prefix)) {
+    prefix <- paste0(deparse(substitute(x)), ":")
+    warning(paste("prefix not declared, using", prefix))
+  }
+  prefix <- uri_prefix(prefix)
+
+  df <- normalize_table(x, ...)
+  poor_mans_nquads(df, file = file, prefix = prefix, ...)
+}
+
+#' @export
+#' @importFrom jsonlite toJSON
+write_nquads.list  <- function(x, file, prefix = NULL, ...){
+
+  ## Avoid a hard dependency on jsonld package
+  if (!requireNamespace("jsonld", quietly = TRUE)) {
+    stop("jsonld package required to convert to lists to nquads",
+         call. = FALSE)
+  }
+  jsonld_to_rdf <- getExportedValue("jsonld", "jsonld_to_rdf")
+
+
+  ## Handle prefix
+  if (is.null(prefix)) {
+    prefix <- paste0(deparse(substitute(x)), ":")
+    warning(paste("prefix not declared, using", prefix))
+  }
+  prefix <- uri_prefix(prefix)
+
+
+  ##
+  # if (length(x) == 1) x <- x[[1]]
+
+  json <- jsonlite::toJSON(x, auto_unbox = TRUE, force = TRUE)
+
+  ##  Use context to set a prefix and a base URI
+  prepend <- paste0('{\n"@context": {"@base": "',
+                   getOption("rdf_base_uri", "rdf://"), '", ',
+                   '"@vocab": "', prefix,
+                    '" },\n"@graph": ')
+  append <- '}'
+  jsonld <- paste(c(prepend, json, append), sep = "\n", collapse = "\n")
+
+  options <- list(base = getOption("rdf_base_uri", "rdf://"),
+                 format = "application/nquads")
+  writeLines(jsonld_to_rdf(jsonld, options = options),
+             file)
+}
+
+
+
+
 
 
 #' @importFrom tidyr gather
@@ -53,14 +116,8 @@ normalize_table <- function(df, key_column = NULL, ...){
 
 ## x is a data.frame with columns: subject, predicate, object, & datatype
 #' @importFrom utils write.table
-poor_mans_nquads <- function(x, file, prefix = NULL, ...){
+poor_mans_nquads <- function(x, file, prefix, ...){
 
-  if (is.null(prefix)) {
-    prefix <- paste0(deparse(substitute(x)), ":")
-    warning(paste("prefix not declared, using", prefix))
-  }
-
-  prefix <- uri_prefix(prefix)
   ## Currently written to be base-R compatible,
   ## but a tidyverse implementation may speed serialization.
   ## However, this seems to be fast enough that it is rarely the bottleneck
