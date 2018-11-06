@@ -63,9 +63,8 @@ vos_count_triples <- function(con){
   #DBI::dbGetQuery(con, "SPARQL SELECT (COUNT(?s) AS ?triples) WHERE { GRAPH ?g { ?s ?p ?o } }")
 
   df <- DBI::dbGetQuery(con, "SPARQL SELECT ?g ?s ?p ?o  WHERE { GRAPH ?g {?s ?p ?o} }")
-  dplyr::count_(df, "g")
+  #dplyr::count_(df, "g")
 }
-#q <- dplyr::sql_select(con, select = "?g", from = "<rdflib>", where = "{?s ?p ?o}", limit = 10, distinct = TRUE )
 
 
 
