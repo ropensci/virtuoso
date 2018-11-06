@@ -32,12 +32,17 @@ vos_query(con, query) %>% as_tibble() %>% mutate(license = basename(license))
 
 
 ## FIXME: In the DSL, the above should be:
-
 con %>%
-  select(name, license, co = author.familyName) %>%
+  select(identifier, license, co = author.familyName) %>%
   filter(author.familyName == "Boettiger",
          author.givenName == "Carl") %>%
   distinct()
+
+con %>%
+        select(identifier, license, author.familyName) %>%
+        filter(author.familyName == "Boettiger",
+               author.givenName == "Carl") %>%
+        distinct()
 
 
 

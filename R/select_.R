@@ -24,6 +24,7 @@ sparql_op <- function(select = character(), where = character(), from = characte
   structure(list(select = select, where = where, from = from), class = c("virtuoso", "sparql", "sql"))
 }
 
+#' @importFrom stats na.omit setNames
 combine_ops <- function(...){
   dots <- list(...)
   keys <- unique(unlist(lapply(dots, names)))
