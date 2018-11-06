@@ -22,7 +22,8 @@ Imports:
     dplyr,
     tidyr,
     ini,
-    rappdirs
+    rappdirs,
+    jsonlite
 RoxygenNote: 6.1.0
 Suggests: 
     knitr,

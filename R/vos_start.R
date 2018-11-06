@@ -5,8 +5,9 @@ virtuoso_cache <- new.env()
 #' @param ini path to a virtuoso.ini configuration file. If not
 #' provided, function will attempt to determine the location of the
 #' default configuration file.
+#' @param wait number of seconds to wait for server to come online
 #' @export
-vos_start <- function(ini = NULL){
+vos_start <- function(ini = NULL, wait = 10){
 
   p <- mget("virtuoso_process",
              envir = virtuoso_cache,
@@ -30,7 +31,7 @@ vos_start <- function(ini = NULL){
   assign("virtuoso_process", p, envir = virtuoso_cache)
 
   message(p$format())
-  vos_status(p)
+  vos_status(p, wait = wait)
   invisible(p)
 }
 

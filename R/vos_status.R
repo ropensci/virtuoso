@@ -2,8 +2,9 @@
 #' Query the server status
 #'
 #' @inheritParams vos_kill
+#' @inheritParams vos_start
 #' @export
-vos_status <- function(p = NA){
+vos_status <- function(p = NA, wait = 10){
 
   p <- vos_process(p)
 
@@ -17,13 +18,13 @@ vos_status <- function(p = NA){
     return(p$get_status())
 
   Sys.sleep(1)
-  log <- readLines(p$get_error_file())
+  log <- paste(readLines(p$get_error_file()), collapse = "\n")
   tries <- 0
-  up <- grepl("Server online at", log[[length(log)]])
-  while (!up && tries < 10) {
+  up <- grepl("Server online at", log)
+  while (!up && tries < wait) {
     Sys.sleep(1)
-    log <- readLines(p$get_error_file())
-    up <- grepl("Server online at", log[[length(log)]])
+    log <- paste(readLines(p$get_error_file()), collapse = "\n")
+    up <- grepl("Server online at", log)
     tries <- tries + 1
   }
   message(log[length(log)])
