@@ -11,6 +11,9 @@ write_nquads(x, file, prefix = NULL, ...)
 
 \item{file}{output filename}
 
+\item{prefix}{URI prefix that should be used to identify column names.
+Can be of the form "http://schema.org/", or "iris:".}
+
 \item{...}{additional parameters, see examples}
 }
 \description{

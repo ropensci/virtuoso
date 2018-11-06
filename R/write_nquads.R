@@ -2,6 +2,8 @@
 #'
 #' @param x an object that can be represented as nquads
 #' @param file output filename
+#' @param prefix URI prefix that should be used to identify column names.
+#' Can be of the form "http://schema.org/", or "iris:".
 #' @param ... additional parameters, see examples
 #'
 #' @export
