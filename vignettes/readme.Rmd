@@ -78,11 +78,12 @@ vos_import(con, example)
 ```
 
 ```{r}
-vos_query(con, 
-"SELECT ?p ?o 
+df <- vos_query(con, 
+"SELECT DISTINCT ?p ?o 
  WHERE { ?s ?p ?o .
         ?s a <http://schema.org/Person>
        }")
+df
 ```
 
 We can clear all data in the default graph if we want a fresh start:

@@ -25,6 +25,10 @@ test_that("We can connect, bulk load and query", {
   expect_equal(dim(df), c(5,2))
   expect_true(any(grepl("Jane Doe", df)))
 
+
+  vos_list_graphs(con)
+  vos_count_triples(con)
+
   #"We can clear all data",
   vos_clear_graph(con)
 

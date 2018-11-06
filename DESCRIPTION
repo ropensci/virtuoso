@@ -22,12 +22,17 @@ Imports:
     dplyr,
     tidyr,
     ini,
-    rappdirs
+    rappdirs,
+    jsonlite,
+    stringi,
+    stats,
+    rlang
 RoxygenNote: 6.1.0
 Suggests: 
     knitr,
     rmarkdown,
     nycflights13,
     testthat,
-    covr
+    covr,
+    jsonld
 VignetteBuilder: knitr

@@ -2,6 +2,8 @@
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Travis build
 status](https://travis-ci.org/cboettig/virtuoso.svg?branch=master)](https://travis-ci.org/cboettig/virtuoso)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/cboettig/virtuoso?branch=master&svg=true)](https://ci.appveyor.com/project/cboettig/virtuoso)
 [![Coverage
 status](https://codecov.io/gh/cboettig/virtuoso/branch/master/graph/badge.svg)](https://codecov.io/github/cboettig/virtuoso?branch=master)
 [![CRAN
@@ -35,7 +37,6 @@ operating system.
 
 ``` r
 vos_install()
-#> Configuration for Virtuoso found
 #> virtuoso already installed.
 ```
 
@@ -43,8 +44,8 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 50980.
-#> 21:01:50 Server online at 1111 (pid 50980)
+#> PROCESS 'virtuoso-t', running, pid 86609.
+#> 10:02:01 Server online at 1111 (pid 86609)
 ```
 
 Once the server is running, we can connect to the database.
@@ -99,8 +100,8 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> 21:01:51 PL LOG: No more files to load. Loader has finished,
-#> [1] "online"
+#> 10:02:02 PL LOG: No more files to load. Loader has finished,
+#> [1] "running"
 ```
 
 Advanced usage note: `vos_start()` invisibly returns a `processx` object
@@ -114,7 +115,7 @@ example:
 ``` r
 p <- vos_process()
 p$get_error_file()
-#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/RtmpPitaHN/vos_startc68640a64f02.log"
+#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/RtmpLE73hK/vos_start151b07fcc7ec6.log"
 p$suspend()
 #> NULL
 p$resume()
