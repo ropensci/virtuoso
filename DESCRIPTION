@@ -23,7 +23,8 @@ Imports:
     tidyr,
     ini,
     rappdirs,
-    jsonlite
+    jsonlite,
+    stringi
 RoxygenNote: 6.1.0
 Suggests: 
     knitr,
