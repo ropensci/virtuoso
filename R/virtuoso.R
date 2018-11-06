@@ -22,7 +22,10 @@ vos_import <- function(con, files, wd = ".", ext = "*.nq", graph = "rdflib"){
   DBI::dbGetQuery(con, "rdf_loader_run()" )
 
   ## clean up
-  unlink(file.path(wd, basename(files)))
+  lapply(files, function(f){
+    if(basename(f) != f) unlink(file.path(wd, basename(files)))
+  })
+  invisible(files)
 }
 
 

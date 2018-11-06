@@ -9,6 +9,8 @@ virtuoso::write_nquads(x, "ropensci.nq", prefix = "http://schema.org/")
 ## And here we go
 vos_start()
 con <- vos_connect()
+
+virtuoso:::vos_count_triples(con)
 vos_import(con, "ropensci.nq")
 
 
@@ -31,36 +33,31 @@ vos_query(con, query) %>% as_tibble() %>% mutate(license = basename(license))
 
 
 
-## FIXME: In the DSL, the above should be:
-con %>%
-  select(identifier, license, co = author.familyName) %>%
-  filter(author.familyName == "Boettiger",
-         author.givenName == "Carl") %>%
-  distinct()
 
-con %>%
-        select(identifier, license, author.familyName) %>%
-        filter(author.familyName == "Boettiger",
-               author.givenName == "Carl") %>%
-        distinct()
-
-
-
-
-
-virtuoso:::vos_count_triples(con)
+### DSL Proof of Principle
+source("R/select_.R")
+source("R/filter_.R")
 
 query <-
-c.op_sparql(
-        sparql_select("name", "license"),
-        sparql_filter(author.familyName == "Boettiger", author.givenName == "Carl")
-) %>% sparql_build()
+  sparql_op() %>%
+  select.vos("identifier", "license", prefix = "http://schema.org/") %>%
+  filter.vos(author.familyName == "Boettiger",
+             author.givenName == "Carl",
+             prefix = "http://schema.org/") %>%
+  sparql_build()
+
 vos_query(con, query)
 
 
 
 query <-
-sparql_select(package = "name", "license", coauthor = "author.familyName") %>%
-sparql_filter(author.familyName == "Boettiger", author.givenName == "Carl") %>%
-sparql_build()
+        sparql_op() %>%
+        select.vos(package = "name", "license", "author.familyName", "author.givenName",
+                   co = "author.familyName",
+                   prefix = "http://schema.org/") %>%
+        filter.vos( author.givenName == "Carl",
+                    author.familyName == "Boettiger",
+                   prefix = "http://schema.org/") %>%
+        sparql_build()
 
+vos_query(con, query)

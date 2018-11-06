@@ -25,7 +25,8 @@ Imports:
     rappdirs,
     jsonlite,
     stringi,
-    stats
+    stats,
+    rlang
 RoxygenNote: 6.1.0
 Suggests: 
     knitr,

@@ -1,10 +1,8 @@
 
-# sparql_select("name", "license", "author.familyName")
-#
-# rename a variable
-# sparql_select(package = "name", "license", coauthor = "author.familyName") %>%
-# sparql_filter(author.familyName == "Boettiger", author.givenName == "Carl") %>%
-# sparql_build()
+select.vos <- function(op, ..., prefix = NULL, na.rm = TRUE){
+  combine_ops(op,
+              sparql_select(..., prefix = prefix, na.rm = na.rm))
+}
 
 
 sparql_select <- function(..., prefix = NULL, na.rm = TRUE){
@@ -21,7 +19,7 @@ sparql_select <- function(..., prefix = NULL, na.rm = TRUE){
 
 
 sparql_op <- function(select = character(), where = character(), from = character()){
-  structure(list(select = select, where = where, from = from), class = c("virtuoso", "sparql", "sql"))
+  structure(list(select = select, where = where, from = from), class = c("vos"))
 }
 
 #' @importFrom stats na.omit setNames
@@ -29,7 +27,7 @@ combine_ops <- function(...){
   dots <- list(...)
   keys <- unique(unlist(lapply(dots, names)))
   out <- setNames(do.call(mapply, c(FUN = c, lapply(dots, `[`, keys))), keys)
-  structure(lapply(out, function(x) as.character(na.omit(x))),class = c("virtuoso", "sparql", "sql"))
+  structure(lapply(out, function(x) as.character(unique(na.omit(x)))),class = c("vos"))
 }
 
 
@@ -50,8 +48,13 @@ sparql_build <- function(op, na.rm = TRUE){
 
 
 uri_format <- function(string, prefix = NULL){
-  if (!is.null(prefix) & !grepl(":", string))
-    string <- paste0(prefix, ":", string)
+  if (!is.null(prefix)){
+    if(!grepl("://", prefix) && !grepl(":", string)){
+      string <- paste0(prefix, ":", string)
+    } else if (grepl(":", prefix)){
+    string <- paste0(prefix, string)
+    }
+  }
   if(!grepl("^<.*>$", string))
     string <- paste0("<", string, ">")
   string

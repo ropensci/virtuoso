@@ -16,7 +16,13 @@ write_nquads <- function(x, file, prefix = NULL, ...){
   UseMethod("write_nquads")
 }
 
+## FIXME Consider making these functions 'opt in' dependencies.
+## dplyr, tidyr could be soft dependencies, like json-ld (& jsonlite)
+## Alternately, this whole methods stack could be broken out to separate
+## utility package.
 
+## could also include a `read_nquads` that simply reverses these processes
+## manually, returning data as (long-format) data.frame or list??
 
 
 

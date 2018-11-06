@@ -1,5 +1,11 @@
 
 
+filter.vos <- function(op, ..., prefix = NULL){
+  combine_ops(op,
+              sparql_filter(..., prefix = prefix))
+}
+
+
 sparql_filter <- function(..., prefix = NULL){
   dots <- rlang::enexprs(...)
 
@@ -7,11 +13,14 @@ sparql_filter <- function(..., prefix = NULL){
   where <- as.character(unlist(lapply(dots, function(x)
     build_filter(predicate = as.character(x[[2]]),
                   object = x[[3]],
-                  fn = as.character(x[[1]])
+                  fn = as.character(x[[1]]),
+                  prefix = prefix
                   )
          )))
 
-  sparql_op(where = where)
+  input <- unlist(lapply(dots, function(x) as.character(x[[2]])))
+  select <- stringi::stri_extract_last_regex(input, pattern = "\\w+$")
+  sparql_op(select = select, where = where)
 
 }
 # sparql_filter(author.familyName == "Boettiger", author.givenName == "Carl")
