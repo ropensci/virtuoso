@@ -121,7 +121,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>vos_start</span>(<span class='kw'>ini</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>vos_start</span>(<span class='kw'>ini</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -131,6 +131,10 @@
       <td><p>path to a virtuoso.ini configuration file. If not
 provided, function will attempt to determine the location of the
 default configuration file.</p></td>
+    </tr>
+    <tr>
+      <th>wait</th>
+      <td><p>number of seconds to wait for server to come online</p></td>
     </tr>
     </table>
     

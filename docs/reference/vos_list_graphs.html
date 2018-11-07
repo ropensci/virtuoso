@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Query the server status — vos_status • virtuoso</title>
+<title>List graphs — vos_list_graphs • virtuoso</title>
 
 <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
 
@@ -32,9 +32,9 @@
 
 
 
-<meta property="og:title" content="Query the server status — vos_status" />
+<meta property="og:title" content="List graphs — vos_list_graphs" />
 
-<meta property="og:description" content="Query the server status" />
+<meta property="og:description" content="List graphs" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -110,30 +110,25 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Query the server status</h1>
+    <h1>List graphs</h1>
     
-    <div class="hidden name"><code>vos_status.Rd</code></div>
+    <div class="hidden name"><code>vos_list_graphs.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Query the server status</p>
+    <p>List graphs</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>vos_status</span>(<span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
+    <pre class="usage"><span class='fu'>vos_list_graphs</span>(<span class='no'>con</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>p</th>
-      <td><p>a process object, returned by
-[`vos_process()`] or  [`vos_start()`]</p></td>
-    </tr>
-    <tr>
-      <th>wait</th>
-      <td><p>number of seconds to wait for server to come online</p></td>
+      <th>con</th>
+      <td><p>a ODBC connection to Virtuoso, from [`vos_connect()`]</p></td>
     </tr>
     </table>
     

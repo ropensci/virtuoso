@@ -20,6 +20,8 @@ knitr::opts_chunk$set(
 
 ```{r}
 library(virtuoso)
+library(rdftools) # for write_nquads
+
 library(nycflights13)
 library(dplyr)
 
@@ -87,4 +89,11 @@ head(df)
 
 ```{r}
 myserver$kill()
+```
+
+
+```{r include=FALSE}
+unlink("flights.nq")
+unlink("planes.nq")
+unlink("airlines.nq")
 ```
