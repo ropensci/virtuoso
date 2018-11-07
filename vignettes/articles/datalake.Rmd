@@ -90,3 +90,10 @@ head(df)
 ```{r}
 myserver$kill()
 ```
+
+
+```{r include=FALSE}
+unlink("flights.nq")
+unlink("planes.nq")
+unlink("airlines.nq")
+```
