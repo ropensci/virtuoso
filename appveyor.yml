@@ -9,7 +9,7 @@ init:
 
 install:
   - ps: Bootstrap
-  - dotnet add package OpenLink.Data.Virtuoso --version 7.20.3214.1  
+  - dotnet add C:\projects\virtuoso package OpenLink.Data.Virtuoso --version 7.20.3214.1  
 
 cache:
   - C:\RLibrary
