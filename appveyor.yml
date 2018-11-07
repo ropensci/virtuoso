@@ -8,7 +8,8 @@ init:
         Import-Module '..\appveyor-tool.ps1'
 
 install:
-  ps: Bootstrap
+  - ps: Bootstrap
+  - dotnet add package OpenLink.Data.Virtuoso --version 7.20.3214.1  
 
 cache:
   - C:\RLibrary
@@ -16,7 +17,6 @@ cache:
 # Adapt as necessary starting from here
 
 build_script:
-  - dotnet add package OpenLink.Data.Virtuoso --version 7.20.3214.1
   - travis-tool.sh install_deps
 
 test_script:
