@@ -11,7 +11,7 @@ init:
 install:
   - ps: Bootstrap
   - ps: |
-        C:\Program Files\Git\mingw64\bin\curl.exe -s -o Virtuoso_OpenSource_Server_7.20.x64.exe -L https://sourceforge.net/projects/virtuoso/files/virtuoso/7.2.5/Virtuoso_OpenSource_Server_7.20.x64.exe/download
+        "C:\Program Files\Git\mingw64\bin\curl.exe" -s -o Virtuoso_OpenSource_Server_7.20.x64.exe -L https://sourceforge.net/projects/virtuoso/files/virtuoso/7.2.5/Virtuoso_OpenSource_Server_7.20.x64.exe/download
         Start-Process Virtuoso_OpenSource_Server_7.20.x64.exe  -ArgumentList "/VERYSILENT" -NoNewWindow -Wait
 
 
