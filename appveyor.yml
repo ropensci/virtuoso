@@ -5,15 +5,14 @@ init:
   - ps: |
         $ErrorActionPreference = "Stop"
         Invoke-WebRequest http://raw.github.com/krlmlr/r-appveyor/master/scripts/appveyor-tool.ps1 -OutFile "..\appveyor-tool.ps1"
-        Import-Module '..\appveyor-tool.ps1'
-  - ps: Invoke-WebRequest https://sourceforge.net/projects/virtuoso/files/virtuoso/7.2.5/Virtuoso_OpenSource_Server_7.20.x64.exe/download   -OutFile "..\Virtuoso_OpenSource_Server_7.20.x64.exe"
-  - ps: $MyProcess = Start-Process Virtuoso_OpenSource_Server_7.20.x64.exe -PassThru
-        
+        Import-Module '..\appveyor-tool.ps1'        
         
 
 install:
   - ps: Bootstrap
-  - dotnet add C:\projects\virtuoso package OpenLink.Data.Virtuoso --version 7.20.3214.1  
+  - ps: Invoke-WebRequest https://sourceforge.net/projects/virtuoso/files/virtuoso/7.2.5/Virtuoso_OpenSource_Server_7.20.x64.exe -OutFile "..\Virtuoso_OpenSource_Server_7.20.x64.exe"
+  - ps: $MyProcess = Start-Process Virtuoso_OpenSource_Server_7.20.x64.exe -PassThru
+
 
 cache:
   - C:\RLibrary
