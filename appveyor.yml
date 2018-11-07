@@ -12,7 +12,7 @@ install:
   - ps: Bootstrap
   - ps: | 
         Invoke-WebRequest https://sourceforge.net/projects/virtuoso/files/virtuoso/7.2.5/Virtuoso_OpenSource_Server_7.20.x64.exe -OutFile "..\Virtuoso_OpenSource_Server_7.20.x64.exe"
-        $MyProcess = Start-Process Virtuoso_OpenSource_Server_7.20.x64.exe -PassThru
+        $MyProcess = Start-Process '..\Virtuoso_OpenSource_Server_7.20.x64.exe' -PassThru
 
 
 cache:
