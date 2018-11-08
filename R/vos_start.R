@@ -31,6 +31,7 @@ vos_start <- function(ini = NULL, wait = 10){
   assign("virtuoso_process", p, envir = virtuoso_cache)
 
   message(p$format())
+  message("Server is now starting up, this may take a few seconds...\n")
   vos_status(p, wait = wait)
   invisible(p)
 }
