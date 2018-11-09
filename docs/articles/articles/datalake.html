@@ -56,9 +56,6 @@
 <li>
       <a href="../../articles/articles/datalake.html">The Data Lake: Schema on Read</a>
     </li>
-    <li>
-      <a href="../../articles/readme.html">A Brief Introduction to Virtuoso</a>
-    </li>
   </ul>
 </li>
       </ul>
@@ -77,7 +74,7 @@
       <h1>The Data Lake: Schema on Read</h1>
                         <h4 class="author">Carl Boettiger</h4>
             
-            <h4 class="date">2018-11-06</h4>
+            <h4 class="date">2018-11-08</h4>
       
       
       <div class="hidden name"><code>datalake.Rmd</code></div>
@@ -88,55 +85,28 @@
     
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(virtuoso)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(rdftools) <span class="co"># for write_nquads</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; Attaching package: 'rdftools'</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; The following object is masked from 'package:virtuoso':</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(nycflights13)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(dplyr)</a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt;     write_nquads</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">library</span>(nycflights13)</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; Attaching package: 'dplyr'</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; The following objects are masked from 'package:stats':</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt;     filter, lag</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; The following objects are masked from 'package:base':</span></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt;     intersect, setdiff, setequal, union</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; Attaching package: 'dplyr'</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; The following objects are masked from 'package:stats':</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt;     filter, lag</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; The following objects are masked from 'package:base':</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt;     intersect, setdiff, setequal, union</span></a></code></pre></div>
 <p>We start up our Virtuoso server, wait for it to come up, and then connect:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">myserver &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/vos_start.html">vos_start</a></span>()</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; PROCESS 'virtuoso-t', running, pid 65944.</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;      Tue Nov 06 2018</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; 14:51:35 { Loading plugin 1: Type `plain', file `wikiv' in `/usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting'</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; 14:51:35   WikiV version 0.6 from OpenLink Software</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 14:51:35   Support functions for WikiV collaboration tool</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 14:51:35   SUCCESS plugin 1: loaded from /usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting/wikiv.so }</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 14:51:35 { Loading plugin 2: Type `plain', file `mediawiki' in `/usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting'</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 14:51:35   MediaWiki version 0.1 from OpenLink Software</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 14:51:35   Support functions for MediaWiki collaboration tool</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 14:51:35   SUCCESS plugin 2: loaded from /usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting/mediawiki.so }</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; 14:51:35 { Loading plugin 3: Type `plain', file `creolewiki' in `/usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting'</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; 14:51:35   CreoleWiki version 0.1 from OpenLink Software</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; 14:51:35   Support functions for CreoleWiki collaboration tool</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; 14:51:35   SUCCESS plugin 3: loaded from /usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting/creolewiki.so }</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; 14:51:35 OpenLink Virtuoso Universal Server</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; 14:51:35 Version 07.20.3229-pthreads for Darwin as of Aug 24 2018</span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; 14:51:35 uses parts of OpenSSL, PCRE, Html Tidy</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; 14:51:35 Database version 3126</span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; 14:51:35 SQL Optimizer enabled (max 1000 layouts)</span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; 14:51:37 Compiler unit is timed at 0.000274 msec</span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; 14:51:39 Roll forward started</span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; 14:51:39     4 transactions, 399 bytes replayed (100 %)</span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; 14:51:39 Roll forward complete</span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; 14:51:40 PL LOG: Can't get list of vad packages in /usr/local/Cellar/virtuoso/7.2.5.1/share/virtuoso/vad/</span></a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; 14:51:40 Checkpoint started</span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; 14:51:40 Checkpoint finished, log reused</span></a>
-<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt; 14:51:42 HTTP/WebDAV server online at 8890</span></a>
-<a class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt; 14:51:42 Server online at 1111 (pid 65944)</span></a>
-<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="kw">Sys.sleep</span>(<span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb2-32" data-line-number="32">con &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/vos_connect.html">vos_connect</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; PROCESS 'virtuoso-t', running, pid 41600.</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; Server is now starting up, this may take a few seconds...</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; Warning in is.na(p): is.na() applied to non-(list or vector) of type</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; 'environment'</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; Warning in if (is.na(p)) p &lt;- vos_process(p): the condition has length &gt; 1</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; and only the first element will be used</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; latest log entry: 21:46:12 Server online at 1111 (pid 41600)</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="kw">Sys.sleep</span>(<span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">con &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/vos_connect.html">vos_connect</a></span>()</a></code></pre></div>
 <p>We can represent any data as RDF with a little care. For instance, consider the <code>nycflights13</code> data. First, we must represent any primary or foreign keys in any table must be as URIs and not literal integers or strings:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">uri_flights &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">tailnum =</span> <span class="kw">paste0</span>(<span class="st">"planes:"</span>, tailnum),</a>
@@ -150,7 +120,7 @@
 <a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="kw"><a href="../../reference/vos_import.html">vos_import</a></span>(con, <span class="kw">c</span>(<span class="st">"flights.nq"</span>, <span class="st">"planes.nq"</span>, <span class="st">"airlines.nq"</span>))</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">)</a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;    user  system elapsed </span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;   0.019   0.030 153.258</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;   0.018   0.029 148.845</span></a></code></pre></div>
 <p>The data from all three tables is now reduced into a single triplestore graph, one triple for each data point. Rather than joining tables, we can write SPARQL query that names the columns we want.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">query &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">'SELECT  ?carrier ?name ?manufacturer ?model ?dep_delay</span></a>
@@ -167,7 +137,7 @@
 <a class="sourceLine" id="cb6-13" data-line-number="13">df &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/vos_query.html">vos_query</a></span>(con, query)</a>
 <a class="sourceLine" id="cb6-14" data-line-number="14">)</a>
 <a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt;    user  system elapsed </span></a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt;   3.890   0.562  27.217</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt;   3.834   0.549  24.016</span></a>
 <a class="sourceLine" id="cb6-17" data-line-number="17"></a>
 <a class="sourceLine" id="cb6-18" data-line-number="18"><span class="kw">head</span>(df)</a>
 <a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt;       carrier                     name     manufacturer     model</span></a>

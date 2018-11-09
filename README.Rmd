@@ -74,11 +74,34 @@ example <- system.file("extdata", "person.nq", package = "virtuoso")
 vos_import(con, example)
 ```
 
+Can also read in compressed formats as well.  Remeber to set the pattern match appropriately.  This is convient becuase N-Quads compress particularly well, often by a factor of 20 (or rather, can be particularly large when uncompressed, owing to the repeated property and subject URIs).  
+
+```{r}
+ex <- system.file("extdata", "library.nq.gz", package = "virtuoso")
+vos_import(con, ex, ext = "*.nq.gz")
+```
+
+The import process is run by the external process, it will not throw an error if the server fails to import the file (e.g. due to formatting errors in the N-Quads file).  We can optionally check for possible error messages in the import process by scanning the full log for errors:
+
+```{r}
+vos_log(just_errors = TRUE)
+```
+
+We can now query the imported data using SPARQL.  
+
 ```{r}
 vos_query(con, 
 "SELECT ?p ?o 
  WHERE { ?s ?p ?o .
         ?s a <http://schema.org/Person>
+       }")
+```
+
+```{r}
+vos_query(con, 
+"SELECT ?p ?o 
+ WHERE { ?s ?p ?o .
+        ?s a <http://example.org/vocab#Chapter>
        }")
 ```
 
@@ -88,7 +111,7 @@ We can clear all data in the default graph if we want a fresh start:
 vos_clear_graph(con)
 ```
 
-
+(Note the default import graph is `<rdflib>`).  
 
 ## Server controls
 

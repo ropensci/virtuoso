@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Configure Virtuoso Server ini file — vos_configure • virtuoso</title>
+<title>Query the server logs — vos_log • virtuoso</title>
 
 <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
 
@@ -32,13 +32,9 @@
 
 
 
-<meta property="og:title" content="Configure Virtuoso Server ini file — vos_configure" />
+<meta property="og:title" content="Query the server logs — vos_log" />
 
-<meta property="og:description" content="Virtuoso Server configuration is determined by a virtuoso.ini file when
-server starts. This file includes both system-specific information from
-your install (location of server files, addons, etc) and user-configurable
-parameters. This helper function provides a way to create and modify an
-appropriate `virtuoso.ini` file." />
+<meta property="og:description" content="Query the server logs" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -111,57 +107,39 @@ appropriate `virtuoso.ini` file." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Configure Virtuoso Server ini file</h1>
+    <h1>Query the server logs</h1>
     
-    <div class="hidden name"><code>vos_configure.Rd</code></div>
+    <div class="hidden name"><code>vos_log.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Virtuoso Server configuration is determined by a virtuoso.ini file when
-server starts. This file includes both system-specific information from
-your install (location of server files, addons, etc) and user-configurable
-parameters. This helper function provides a way to create and modify an
-appropriate `virtuoso.ini` file.</p>
+    <p>Query the server logs</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>vos_configure</span>(<span class='kw'>DirsAllowed</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>gigs_ram</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>template</span> <span class='kw'>=</span> <span class='fu'>find_virtuoso_ini</span>(),
-  <span class='kw'>db_dir</span> <span class='kw'>=</span> <span class='kw pkg'>rappdirs</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/rappdirs/topics/user_log_dir'>user_log_dir</a></span>(<span class='st'>"Virtuoso"</span>))</pre>
+    <pre class="usage"><span class='fu'>vos_log</span>(<span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>collapse</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>just_errors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>DirsAllowed</th>
-      <td><p>Paths (relative or absolute) to directories from which
-Virtoso should have read and write access (e.g. for bulk uploading). Should
-be specificied as a single comma-separated string.  Default is the current
-working directory.</p></td>
+      <th>p</th>
+      <td><p>a process object, returned by
+[`vos_process()`] or  [`vos_start()`]</p></td>
     </tr>
     <tr>
-      <th>gigs_ram</th>
-      <td><p>Indicate approximately the maximum GB of memory Virtuoso can
-have access to.  (Used to set NumberOfBuffers &amp; MaxDirtyBuffers in config.)</p></td>
+      <th>collapse</th>
+      <td><p>an optional character string to separate the
+lines in a single character string.</p></td>
     </tr>
     <tr>
-      <th>template</th>
-      <td><p>Location of an existing virtuoso.ini file which will be used
-as a template. By default, `vos_configure()` will attempt to locate the
-appropriate template for your system.</p></td>
-    </tr>
-    <tr>
-      <th>db_dir</th>
-      <td><p>location where `virtuoso.ini` file should be written.  Other
-Virtuoso database log files will also be written here.</p></td>
+      <th>just_errors</th>
+      <td><p>logical, default FALSE. Set to true to return
+just the lines that contain the term "error", which can be useful
+in debugging or validating bulk imports.</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Writes the requested `virtuoso.ini` file to the db_dir specified
-and returns the path to this file.</p>
     
 
   </div>
@@ -169,9 +147,7 @@ and returns the path to this file.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>

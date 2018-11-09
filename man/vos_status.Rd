@@ -15,3 +15,6 @@ vos_status(p = NA, wait = 10)
 \description{
 Query the server status
 }
+\details{
+Note: Use `[vos_log()]`` to see the full log
+}

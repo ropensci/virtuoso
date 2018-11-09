@@ -56,9 +56,6 @@
 <li>
       <a href="articles/articles/datalake.html">The Data Lake: Schema on Read</a>
     </li>
-    <li>
-      <a href="articles/readme.html">A Brief Introduction to Virtuoso</a>
-    </li>
   </ul>
 </li>
       </ul>
@@ -98,35 +95,13 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; virtuoso already installed.</span></a></code></pre></div>
 <p>We can now start our Virtuoso server from R:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="reference/vos_start.html">vos_start</a></span>()</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; PROCESS 'virtuoso-t', running, pid 65745.</span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;      Tue Nov 06 2018</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; 14:51:11 { Loading plugin 1: Type `plain', file `wikiv' in `/usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting'</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; 14:51:11   WikiV version 0.6 from OpenLink Software</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; 14:51:11   Support functions for WikiV collaboration tool</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 14:51:11   SUCCESS plugin 1: loaded from /usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting/wikiv.so }</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 14:51:11 { Loading plugin 2: Type `plain', file `mediawiki' in `/usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting'</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 14:51:11   MediaWiki version 0.1 from OpenLink Software</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; 14:51:11   Support functions for MediaWiki collaboration tool</span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; 14:51:11   SUCCESS plugin 2: loaded from /usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting/mediawiki.so }</span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; 14:51:11 { Loading plugin 3: Type `plain', file `creolewiki' in `/usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting'</span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; 14:51:11   CreoleWiki version 0.1 from OpenLink Software</span></a>
-<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; 14:51:11   Support functions for CreoleWiki collaboration tool</span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; 14:51:11   SUCCESS plugin 3: loaded from /usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting/creolewiki.so }</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; 14:51:11 OpenLink Virtuoso Universal Server</span></a>
-<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; 14:51:11 Version 07.20.3229-pthreads for Darwin as of Aug 24 2018</span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; 14:51:11 uses parts of OpenSSL, PCRE, Html Tidy</span></a>
-<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; 14:51:11 Database version 3126</span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; 14:51:11 SQL Optimizer enabled (max 1000 layouts)</span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; 14:51:12 Compiler unit is timed at 0.000218 msec</span></a>
-<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; 14:51:14 Roll forward started</span></a>
-<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt; 14:51:14     4 transactions, 399 bytes replayed (100 %)</span></a>
-<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt; 14:51:14 Roll forward complete</span></a>
-<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co">#&gt; 14:51:15 PL LOG: Can't get list of vad packages in /usr/local/Cellar/virtuoso/7.2.5.1/share/virtuoso/vad/</span></a>
-<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co">#&gt; 14:51:15 Checkpoint started</span></a>
-<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">#&gt; 14:51:15 Checkpoint finished, log reused</span></a>
-<a class="sourceLine" id="cb4-29" data-line-number="29"><span class="co">#&gt; 14:51:17 HTTP/WebDAV server online at 8890</span></a>
-<a class="sourceLine" id="cb4-30" data-line-number="30"><span class="co">#&gt; 14:51:17 Server online at 1111 (pid 65745)</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; PROCESS 'virtuoso-t', running, pid 41270.</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; Server is now starting up, this may take a few seconds...</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; Warning in is.na(p): is.na() applied to non-(list or vector) of type</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; 'environment'</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; Warning in if (is.na(p)) p &lt;- vos_process(p): the condition has length &gt; 1</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; and only the first element will be used</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; latest log entry: 21:45:50 Server online at 1111 (pid 41270)</span></a></code></pre></div>
 <p>Once the server is running, we can connect to the database.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">con &lt;-<span class="st"> </span><span class="kw"><a href="reference/vos_connect.html">vos_connect</a></span>()</a></code></pre></div>
 <p>Our connection is now live, and accepts SPARQL queries directly.</p>
@@ -139,65 +114,47 @@
 <p>The bulk loader can be used to quickly import existing sets of triples.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">example &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"person.nq"</span>, <span class="dt">package =</span> <span class="st">"virtuoso"</span>)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="reference/vos_import.html">vos_import</a></span>(con, example)</a></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="reference/vos_query.html">vos_query</a></span>(con, </a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">"SELECT ?p ?o </span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st"> WHERE { ?s ?p ?o .</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">        ?s a &lt;http://schema.org/Person&gt;</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">       }"</span>)</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;                                                 p                        o</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 1 http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://schema.org/Person</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 2                      http://schema.org/jobTitle                Professor</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; 3                     http://schema.org/telephone           (425) 123-4567</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; 4                           http://schema.org/url   http://www.janedoe.com</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; 5                          http://schema.org/name                 Jane Doe</span></a></code></pre></div>
+<p>Can also read in compressed formats as well. Remeber to set the pattern match appropriately. This is convient becuase N-Quads compress particularly well, often by a factor of 20 (or rather, can be particularly large when uncompressed, owing to the repeated property and subject URIs).</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">ex &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"library.nq.gz"</span>, <span class="dt">package =</span> <span class="st">"virtuoso"</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="reference/vos_import.html">vos_import</a></span>(con, ex, <span class="dt">ext =</span> <span class="st">"*.nq.gz"</span>)</a></code></pre></div>
+<p>The import process is run by the external process, it will not throw an error if the server fails to import the file (e.g. due to formatting errors in the N-Quads file). We can optionally check for possible error messages in the import process by scanning the full log for errors:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="reference/vos_log.html">vos_log</a></span>(<span class="dt">just_errors =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; character(0)</span></a></code></pre></div>
+<p>We can now query the imported data using SPARQL.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="reference/vos_query.html">vos_query</a></span>(con, </a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">"SELECT ?p ?o </span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st"> WHERE { ?s ?p ?o .</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="st">        ?s a &lt;http://schema.org/Person&gt;</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="st">       }"</span>)</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; [1] p o</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; &lt;0 rows&gt; (or 0-length row.names)</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="reference/vos_query.html">vos_query</a></span>(con, </a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">"SELECT ?p ?o </span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st"> WHERE { ?s ?p ?o .</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">        ?s a &lt;http://example.org/vocab#Chapter&gt;</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="st">       }"</span>)</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; [1] p o</span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; &lt;0 rows&gt; (or 0-length row.names)</span></a></code></pre></div>
 <p>We can clear all data in the default graph if we want a fresh start:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="reference/vos_clear_graph.html">vos_clear_graph</a></span>(con)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; data frame with 0 columns and 0 rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="reference/vos_clear_graph.html">vos_clear_graph</a></span>(con)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; data frame with 0 columns and 0 rows</span></a></code></pre></div>
+<p>(Note the default import graph is <code>&lt;rdflib&gt;</code>).</p>
 </div>
 <div id="server-controls" class="section level2">
 <h2 class="hasAnchor">
 <a href="#server-controls" class="anchor"></a>Server controls</h2>
 <p>We can control any <code>virtuoso</code> server started with <code><a href="reference/vos_start.html">vos_start()</a></code> using a series of helper commands.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="reference/vos_status.html">vos_status</a></span>()</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt;      Tue Nov 06 2018</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; 14:51:11 { Loading plugin 1: Type `plain', file `wikiv' in `/usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting'</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; 14:51:11   WikiV version 0.6 from OpenLink Software</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; 14:51:11   Support functions for WikiV collaboration tool</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 14:51:11   SUCCESS plugin 1: loaded from /usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting/wikiv.so }</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 14:51:11 { Loading plugin 2: Type `plain', file `mediawiki' in `/usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting'</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 14:51:11   MediaWiki version 0.1 from OpenLink Software</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 14:51:11   Support functions for MediaWiki collaboration tool</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 14:51:11   SUCCESS plugin 2: loaded from /usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting/mediawiki.so }</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; 14:51:11 { Loading plugin 3: Type `plain', file `creolewiki' in `/usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting'</span></a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt; 14:51:11   CreoleWiki version 0.1 from OpenLink Software</span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt; 14:51:11   Support functions for CreoleWiki collaboration tool</span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; 14:51:11   SUCCESS plugin 3: loaded from /usr/local/Cellar/virtuoso/7.2.5.1/lib/virtuoso/hosting/creolewiki.so }</span></a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; 14:51:11 OpenLink Virtuoso Universal Server</span></a>
-<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 14:51:11 Version 07.20.3229-pthreads for Darwin as of Aug 24 2018</span></a>
-<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; 14:51:11 uses parts of OpenSSL, PCRE, Html Tidy</span></a>
-<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt; 14:51:11 Database version 3126</span></a>
-<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">#&gt; 14:51:11 SQL Optimizer enabled (max 1000 layouts)</span></a>
-<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co">#&gt; 14:51:12 Compiler unit is timed at 0.000218 msec</span></a>
-<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="co">#&gt; 14:51:14 Roll forward started</span></a>
-<a class="sourceLine" id="cb10-23" data-line-number="23"><span class="co">#&gt; 14:51:14     4 transactions, 399 bytes replayed (100 %)</span></a>
-<a class="sourceLine" id="cb10-24" data-line-number="24"><span class="co">#&gt; 14:51:14 Roll forward complete</span></a>
-<a class="sourceLine" id="cb10-25" data-line-number="25"><span class="co">#&gt; 14:51:15 PL LOG: Can't get list of vad packages in /usr/local/Cellar/virtuoso/7.2.5.1/share/virtuoso/vad/</span></a>
-<a class="sourceLine" id="cb10-26" data-line-number="26"><span class="co">#&gt; 14:51:15 Checkpoint started</span></a>
-<a class="sourceLine" id="cb10-27" data-line-number="27"><span class="co">#&gt; 14:51:15 Checkpoint finished, log reused</span></a>
-<a class="sourceLine" id="cb10-28" data-line-number="28"><span class="co">#&gt; 14:51:17 HTTP/WebDAV server online at 8890</span></a>
-<a class="sourceLine" id="cb10-29" data-line-number="29"><span class="co">#&gt; 14:51:17 Server online at 1111 (pid 65745)</span></a>
-<a class="sourceLine" id="cb10-30" data-line-number="30"><span class="co">#&gt; 14:51:18 PL LOG: Loader started</span></a>
-<a class="sourceLine" id="cb10-31" data-line-number="31"><span class="co">#&gt; 14:51:18 PL LOG: No more files to load. Loader has finished,</span></a>
-<a class="sourceLine" id="cb10-32" data-line-number="32"><span class="co">#&gt; [1] "running"</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="reference/vos_status.html">vos_status</a></span>()</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; latest log entry: 21:45:50 PL LOG: No more files to load. Loader has finished,</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt; [1] "running"</span></a></code></pre></div>
 <p>Advanced usage note: <code><a href="reference/vos_start.html">vos_start()</a></code> invisibly returns a <code>processx</code> object which we can pass to other server control functions, or access the embedded <code>processx</code> control methods directly. The <code>virtuoso</code> package also caches this object in an environment so that it can be accessed directly without having to keep track of an object in the global environment. Use <code><a href="reference/vos_process.html">vos_process()</a></code> to return the <code>processx</code> object. For example:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">p &lt;-<span class="st"> </span><span class="kw"><a href="reference/vos_process.html">vos_process</a></span>()</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">p<span class="op">$</span><span class="kw">get_error_file</span>()</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt; [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/RtmpN4PnEp/vos_start1002c66de2ee4.log"</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">p<span class="op">$</span><span class="kw">suspend</span>()</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; NULL</span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6">p<span class="op">$</span><span class="kw">resume</span>()</a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; NULL</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">p &lt;-<span class="st"> </span><span class="kw"><a href="reference/vos_process.html">vos_process</a></span>()</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">p<span class="op">$</span><span class="kw">get_error_file</span>()</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">#&gt; [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/RtmpvDq72M/vos_starta06c287e4c07.log"</span></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">p<span class="op">$</span><span class="kw">suspend</span>()</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; NULL</span></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6">p<span class="op">$</span><span class="kw">resume</span>()</a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; NULL</span></a></code></pre></div>
 <hr>
 <p>See richer examples in the package vignettes.</p>
 </div>

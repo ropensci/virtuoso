@@ -3,14 +3,15 @@
 #'
 #' @inheritParams vos_kill
 #' @inheritParams vos_start
+#' @details Note: Use `[vos_log()]`` to see the full log
 #' @export
 vos_status <- function(p = NA, wait = 10){
 
-  p <- vos_process(p)
+  if(is.na(p)) p <- vos_process(p)
 
   if (!p$is_alive()) {
     warning(paste("Server is not alive. Server log: \n\n",
-    readLines(p$get_error_file())))
+                  vos_log(p)))
     return("dead")
   }
 
@@ -18,17 +19,18 @@ vos_status <- function(p = NA, wait = 10){
     return(p$get_status())
 
   Sys.sleep(1)
-  log <- paste(readLines(p$get_error_file()), collapse = "\n")
+  log <- vos_log(p, collapse = "\n")
   tries <- 0
   up <- grepl("Server online at", log)
-  while (!up && tries < wait) {
+  while (!up && (tries < wait)) {
     Sys.sleep(1)
-    log <- paste(readLines(p$get_error_file()), collapse = "\n")
+    log <- vos_log(p, collapse = "\n")
     up <- grepl("Server online at", log)
     tries <- tries + 1
   }
-  message(log[length(log)])
+
+  log <- vos_log(p)
+  message(paste("latest log entry:", log[length(log)]))
 
   "running"
 }
-

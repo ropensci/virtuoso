@@ -44,8 +44,13 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 86609.
-#> 10:02:01 Server online at 1111 (pid 86609)
+#> PROCESS 'virtuoso-t', running, pid 40983.
+#> Server is now starting up, this may take a few seconds...
+#> Warning in is.na(p): is.na() applied to non-(list or vector) of type
+#> 'environment'
+#> Warning in if (is.na(p)) p <- vos_process(p): the condition has length > 1
+#> and only the first element will be used
+#> latest log entry: 21:45:14 Server online at 1111 (pid 40983)
 ```
 
 Once the server is running, we can connect to the database.
@@ -72,18 +77,73 @@ example <- system.file("extdata", "person.nq", package = "virtuoso")
 vos_import(con, example)
 ```
 
+Can also read in compressed formats as well. Remeber to set the pattern
+match appropriately. This is convient becuase N-Quads compress
+particularly well, often by a factor of 20 (or rather, can be
+particularly large when uncompressed, owing to the repeated property and
+subject URIs).
+
+``` r
+ex <- system.file("extdata", "library.nq.gz", package = "virtuoso")
+vos_import(con, ex, ext = "*.nq.gz")
+```
+
+The import process is run by the external process, it will not throw an
+error if the server fails to import the file (e.g. due to formatting
+errors in the N-Quads file). We can optionally check for possible error
+messages in the import process by scanning the full log for errors:
+
+``` r
+vos_log(just_errors = TRUE)
+#> character(0)
+```
+
+We can now query the imported data using SPARQL.
+
 ``` r
 vos_query(con, 
 "SELECT ?p ?o 
  WHERE { ?s ?p ?o .
         ?s a <http://schema.org/Person>
        }")
-#>                                                 p                        o
-#> 1 http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://schema.org/Person
-#> 2                      http://schema.org/jobTitle                Professor
-#> 3                          http://schema.org/name                 Jane Doe
-#> 4                     http://schema.org/telephone           (425) 123-4567
-#> 5                           http://schema.org/url   http://www.janedoe.com
+#>                                                  p
+#> 1  http://www.w3.org/1999/02/22-rdf-syntax-ns#type
+#> 2                           http://schema.org/name
+#> 3                       http://schema.org/jobTitle
+#> 4                      http://schema.org/telephone
+#> 5                            http://schema.org/url
+#> 6  http://www.w3.org/1999/02/22-rdf-syntax-ns#type
+#> 7                           http://schema.org/name
+#> 8                       http://schema.org/jobTitle
+#> 9                      http://schema.org/telephone
+#> 10                           http://schema.org/url
+#>                           o
+#> 1  http://schema.org/Person
+#> 2                  Jane Doe
+#> 3                 Professor
+#> 4            (425) 123-4567
+#> 5    http://www.janedoe.com
+#> 6  http://schema.org/Person
+#> 7                  Jane Doe
+#> 8                 Professor
+#> 9            (425) 123-4567
+#> 10   http://www.janedoe.com
+```
+
+``` r
+vos_query(con, 
+"SELECT ?p ?o 
+ WHERE { ?s ?p ?o .
+        ?s a <http://example.org/vocab#Chapter>
+       }")
+#>                                                 p
+#> 1 http://www.w3.org/1999/02/22-rdf-syntax-ns#type
+#> 2     http://purl.org/dc/elements/1.1/description
+#> 3           http://purl.org/dc/elements/1.1/title
+#>                                          o
+#> 1         http://example.org/vocab#Chapter
+#> 2 An introductory chapter on The Republic.
+#> 3                         The Introduction
 ```
 
 We can clear all data in the default graph if we want a fresh start:
@@ -93,6 +153,8 @@ vos_clear_graph(con)
 #> data frame with 0 columns and 0 rows
 ```
 
+(Note the default import graph is `<rdflib>`).
+
 ## Server controls
 
 We can control any `virtuoso` server started with `vos_start()` using a
@@ -100,7 +162,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> 10:02:02 PL LOG: No more files to load. Loader has finished,
+#> latest log entry: 21:45:15 PL LOG: No more files to load. Loader has finished,
 #> [1] "running"
 ```
 
@@ -115,7 +177,7 @@ example:
 ``` r
 p <- vos_process()
 p$get_error_file()
-#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/RtmpLE73hK/vos_start151b07fcc7ec6.log"
+#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/Rtmped31uV/vos_start9f776cdc02c8.log"
 p$suspend()
 #> NULL
 p$resume()
