@@ -12,7 +12,8 @@ vignette: >
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  cache = TRUE
 )
 ```
 
@@ -21,10 +22,14 @@ knitr::opts_chunk$set(
 ```{r}
 library(virtuoso)
 library(rdftools) # for write_nquads
-
-library(nycflights13)
 library(dplyr)
 
+```
+
+# Tabular Data
+
+```{r}
+library(nycflights13)
 ```
 
 We start up our Virtuoso server, wait for it to come up, and then connect:
@@ -85,6 +90,64 @@ head(df)
 ```
 
 
+# List Data
+
+
+
+
+Transform JSON (or list data) into triples.  In this case, we have a large JSON blob (or R list)
+containing metadata on all rOpenSci packages:
+
+```{r}
+x <- jsonlite::read_json("https://raw.githubusercontent.com/ropensci/roregistry/ex/codemeta.json")
+write_nquads(x, "ropensci.nq", prefix = "http://schema.org/")
+```
+
+
+And bulk-import
+
+```{r}
+vos_import(con, "ropensci.nq")
+```
+
+Find all packages where "Carl Boettiger" is an "author", and return:
+package name, license, and co-author surnames: 
+
+```{r}
+query <-
+"PREFIX schema: <http://schema.org/>
+SELECT DISTINCT ?package ?license ?coauthor
+ WHERE {
+ ?s schema:identifier ?package ;
+    schema:author ?author ;
+    schema:license ?license ;
+    schema:name ?name ;
+    schema:author ?coauth .
+ ?author schema:givenName 'Carl' .
+ ?author schema:familyName 'Boettiger' .
+ ?coauth schema:familyName ?coauthor
+}"
+
+vos_query(con, query) %>% 
+as_tibble() %>% 
+mutate(license = basename(license)) # Tidy up URIs into names
+```
+
+
+```{r}
+query <-
+  rdftools:::sparql_op() %>%
+  rdftools:::select("identifier", "license", prefix = "http://schema.org/") %>%
+  rdftools:::filter(author.familyName == "Boettiger",
+         author.givenName == "Carl",
+        prefix = "http://schema.org/") %>%
+  rdftools:::sparql_build()
+
+vos_query(con, query)
+
+```
+
+
 
 
 ```{r}
@@ -96,4 +159,5 @@ myserver$kill()
 unlink("flights.nq")
 unlink("planes.nq")
 unlink("airlines.nq")
+unlink("ropensci.nq")
 ```
