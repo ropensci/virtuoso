@@ -44,13 +44,13 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 40983.
+#> PROCESS 'virtuoso-t', running, pid 85747.
 #> Server is now starting up, this may take a few seconds...
 #> Warning in is.na(p): is.na() applied to non-(list or vector) of type
 #> 'environment'
 #> Warning in if (is.na(p)) p <- vos_process(p): the condition has length > 1
 #> and only the first element will be used
-#> latest log entry: 21:45:14 Server online at 1111 (pid 40983)
+#> latest log entry: 11:36:57 Server online at 1111 (pid 85747)
 ```
 
 Once the server is running, we can connect to the database.
@@ -62,7 +62,22 @@ con <- vos_connect()
 Our connection is now live, and accepts SPARQL queries directly.
 
 ``` r
-ex <- DBI::dbGetQuery(con, "SPARQL SELECT * WHERE { ?s ?p ?o }")
+DBI::dbGetQuery(con, "SPARQL SELECT * WHERE { ?s ?p ?o } LIMIT 4")
+#>                                                                              s
+#> 1                   http://www.openlinksw.com/virtrdf-data-formats#default-iid
+#> 2          http://www.openlinksw.com/virtrdf-data-formats#default-iid-nullable
+#> 3          http://www.openlinksw.com/virtrdf-data-formats#default-iid-nonblank
+#> 4 http://www.openlinksw.com/virtrdf-data-formats#default-iid-nonblank-nullable
+#>                                                 p
+#> 1 http://www.w3.org/1999/02/22-rdf-syntax-ns#type
+#> 2 http://www.w3.org/1999/02/22-rdf-syntax-ns#type
+#> 3 http://www.w3.org/1999/02/22-rdf-syntax-ns#type
+#> 4 http://www.w3.org/1999/02/22-rdf-syntax-ns#type
+#>                                                         o
+#> 1 http://www.openlinksw.com/schemas/virtrdf#QuadMapFormat
+#> 2 http://www.openlinksw.com/schemas/virtrdf#QuadMapFormat
+#> 3 http://www.openlinksw.com/schemas/virtrdf#QuadMapFormat
+#> 4 http://www.openlinksw.com/schemas/virtrdf#QuadMapFormat
 ```
 
 ## DSL
@@ -106,28 +121,12 @@ vos_query(con,
  WHERE { ?s ?p ?o .
         ?s a <http://schema.org/Person>
        }")
-#>                                                  p
-#> 1  http://www.w3.org/1999/02/22-rdf-syntax-ns#type
-#> 2                           http://schema.org/name
-#> 3                       http://schema.org/jobTitle
-#> 4                      http://schema.org/telephone
-#> 5                            http://schema.org/url
-#> 6  http://www.w3.org/1999/02/22-rdf-syntax-ns#type
-#> 7                           http://schema.org/name
-#> 8                       http://schema.org/jobTitle
-#> 9                      http://schema.org/telephone
-#> 10                           http://schema.org/url
-#>                           o
-#> 1  http://schema.org/Person
-#> 2                  Jane Doe
-#> 3                 Professor
-#> 4            (425) 123-4567
-#> 5    http://www.janedoe.com
-#> 6  http://schema.org/Person
-#> 7                  Jane Doe
-#> 8                 Professor
-#> 9            (425) 123-4567
-#> 10   http://www.janedoe.com
+#>                                                 p                        o
+#> 1 http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://schema.org/Person
+#> 2                          http://schema.org/name                 Jane Doe
+#> 3                      http://schema.org/jobTitle                Professor
+#> 4                     http://schema.org/telephone           (425) 123-4567
+#> 5                           http://schema.org/url   http://www.janedoe.com
 ```
 
 ``` r
@@ -162,7 +161,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 21:45:15 PL LOG: No more files to load. Loader has finished,
+#> latest log entry: 11:36:58 PL LOG: No more files to load. Loader has finished,
 #> [1] "running"
 ```
 
@@ -177,7 +176,7 @@ example:
 ``` r
 p <- vos_process()
 p$get_error_file()
-#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/Rtmped31uV/vos_start9f776cdc02c8.log"
+#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/RtmpsuQnMn/vos_start14e52674df231.log"
 p$suspend()
 #> NULL
 p$resume()
