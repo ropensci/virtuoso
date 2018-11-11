@@ -60,7 +60,7 @@ con <- vos_connect()
 Our connection is now live, and accepts SPARQL queries directly.  
 
 ```{r}
-ex <- DBI::dbGetQuery(con, "SPARQL SELECT * WHERE { ?s ?p ?o }")
+DBI::dbGetQuery(con, "SPARQL SELECT * WHERE { ?s ?p ?o } LIMIT 4")
 ```
 
 ## DSL

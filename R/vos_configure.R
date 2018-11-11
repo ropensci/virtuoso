@@ -71,12 +71,12 @@ find_virtuoso_ini <- function(){
          osx = find_virtuoso_ini_osx(),
          windows = find_virtuoso_ini_windows(),
          linux = "/etc/virtuoso-opensource-6.1/virtuoso.ini",
+         NULL
   )
 }
 
 find_virtuoso_ini_windows <- function(){
-  virtuoso_home <- Sys.getenv("VIRTUOSO_HOME", windows_virtuoso_home)
-  normalizePath(file.path(virtuoso_home, "database", "virtuoso.ini"))
+  normalizePath(file.path(virtuoso_home_windows(), "database", "virtuoso.ini"))
 }
 
 
@@ -86,10 +86,13 @@ find_virtuoso_ini_osx <- function(){
 }
 
 
+
 find_virtuoso_binary_windows <- function(){
-  virtuoso_home <- Sys.getenv("VIRTUOSO_HOME", windows_virtuoso_home)
-  normalizePath(file.path(virtuoso_home, "bin", "virtuoso-t"),
+  normalizePath(file.path(virtuoso_home_windows(), "bin", "virtuoso-t"),
                 mustWork = FALSE)
 
 }
 
+virtuoso_home_windows <- function(){
+  Sys.getenv("VIRTUOSO_HOME", windows_virtuoso_home)
+}
