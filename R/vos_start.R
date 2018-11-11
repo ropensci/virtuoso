@@ -7,7 +7,7 @@ virtuoso_cache <- new.env()
 #' default configuration file.
 #' @param wait number of seconds to wait for server to come online
 #' @export
-vos_start <- function(ini = NULL, wait = 10){
+vos_start <- function(ini = NULL, wait = 5){
 
   p <- mget("virtuoso_process",
              envir = virtuoso_cache,
@@ -32,6 +32,7 @@ vos_start <- function(ini = NULL, wait = 10){
 
   message(p$format())
   message("Server is now starting up, this may take a few seconds...\n")
+  Sys.sleep(wait)
   vos_status(p, wait = wait)
   invisible(p)
 }

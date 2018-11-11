@@ -129,6 +129,6 @@ vos_kill()
 
 ---
 
-See richer examples in the package vignettes.
+See richer examples in the [package vignettes](https://cboettig.github.io/virtuoso/articles).
 
 

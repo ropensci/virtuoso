@@ -44,9 +44,9 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 87722.
+#> PROCESS 'virtuoso-t', running, pid 89612.
 #> Server is now starting up, this may take a few seconds...
-#> latest log entry: 11:42:57 Server online at 1111 (pid 87722)
+#> latest log entry: 11:53:05 Server online at 1111 (pid 89612)
 ```
 
 Once the server is running, we can connect to the database.
@@ -148,7 +148,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 11:42:59 PL LOG: No more files to load. Loader has finished,
+#> latest log entry: 11:53:06 PL LOG: No more files to load. Loader has finished,
 #> [1] "running"
 ```
 
@@ -163,7 +163,7 @@ example:
 ``` r
 p <- vos_process()
 p$get_error_file()
-#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/Rtmp8zaQKD/vos_start1560b2296487.log"
+#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/RtmpG6Br7f/vos_start15d6b4f139ab8.log"
 p$suspend()
 #> NULL
 p$resume()
@@ -172,4 +172,5 @@ p$resume()
 
 -----
 
-See richer examples in the package vignettes.
+See richer examples in the [package
+vignettes](https://cboettig.github.io/virtuoso/articles).
