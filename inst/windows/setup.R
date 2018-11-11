@@ -2,35 +2,18 @@ library(processx)
 
 virtuoso_home <- "C:/Program\ Files/OpenLink\ Software/Virtuoso OpenSource 7.20"
 ini <- normalizePath(file.path(virtuoso_home, "database", "virtuoso.ini"))
-bin <- file.path(virtuoso_home, "bin", "virtuoso-t"), mustWork = FALSE)
+bin_cmd <- normalizePath(file.path(virtuoso_home, "bin", "virtuoso-t"), mustWork = FALSE)
+bin_dir <- normalizePath(file.path(virtuoso_home, "bin"))
 
-setwd(virtuoso_home)
-setwd("bin")
-getwd()
-
-file.copy(ini, "virtuoso.ini")
-p <- run("cat", ini)
-cat(p$stdout)
-
-
-system(paste("virtuoso-t", "-?"))
-run(normalizePath()
-
-
-
-safe_ini <- gsub(" ", "\\\\ ", ini)
-system(paste("virtuoso-t", "-f", "-c", safe_ini))
-
-run("virtuoso-t", c("-f", "-c", ini))
-
-
+file.copy(ini, "inst/windows/virtuoso.ini")
 err <- tempfile("vos_start", fileext = ".log")
 
-p <- processx::process$new("virtuoso-t", c("-f", "-c", ini),
+local_ini <- normalizePath("inst/windows/virtuoso.ini")
+
+p <- processx::process$new(bin_cmd, c("-f", "-c", local_ini),
                            stderr = err, stdout = "|",
                            cleanup = TRUE)
 
 
-run("virtuoso-t", "-?")
-system2("virtuoso-t", )
-system("virtuoso-t -?")
+# Test (unrecognized arg causes help to print, also throws an error status)
+run(bin_cmd, "-H", error_on_status = FALSE)
