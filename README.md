@@ -44,13 +44,9 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 85747.
+#> PROCESS 'virtuoso-t', running, pid 89612.
 #> Server is now starting up, this may take a few seconds...
-#> Warning in is.na(p): is.na() applied to non-(list or vector) of type
-#> 'environment'
-#> Warning in if (is.na(p)) p <- vos_process(p): the condition has length > 1
-#> and only the first element will be used
-#> latest log entry: 11:36:57 Server online at 1111 (pid 85747)
+#> latest log entry: 11:53:05 Server online at 1111 (pid 89612)
 ```
 
 Once the server is running, we can connect to the database.
@@ -145,15 +141,6 @@ vos_query(con,
 #> 3                         The Introduction
 ```
 
-We can clear all data in the default graph if we want a fresh start:
-
-``` r
-vos_clear_graph(con)
-#> data frame with 0 columns and 0 rows
-```
-
-(Note the default import graph is `<rdflib>`).
-
 ## Server controls
 
 We can control any `virtuoso` server started with `vos_start()` using a
@@ -161,7 +148,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 11:36:58 PL LOG: No more files to load. Loader has finished,
+#> latest log entry: 11:53:06 PL LOG: No more files to load. Loader has finished,
 #> [1] "running"
 ```
 
@@ -176,7 +163,7 @@ example:
 ``` r
 p <- vos_process()
 p$get_error_file()
-#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/RtmpsuQnMn/vos_start14e52674df231.log"
+#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/RtmpG6Br7f/vos_start15d6b4f139ab8.log"
 p$suspend()
 #> NULL
 p$resume()
@@ -185,4 +172,5 @@ p$resume()
 
 -----
 
-See richer examples in the package vignettes.
+See richer examples in the [package
+vignettes](https://cboettig.github.io/virtuoso/articles).

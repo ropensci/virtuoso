@@ -1,3 +1,6 @@
+## GLOBAL DEFAULT VARS
+windows_virtuoso_home <- "C:/Program\ Files/OpenLink\ Software/Virtuoso OpenSource 7.20"
+
 #' Configure Virtuoso Server ini file
 #'
 #' Virtuoso Server configuration is determined by a virtuoso.ini file when
@@ -66,12 +69,30 @@ vos_configure <- function(DirsAllowed = ".",
 find_virtuoso_ini <- function(){
   switch(which_os(),
          osx = find_virtuoso_ini_osx(),
+         windows = find_virtuoso_ini_windows(),
          linux = "/etc/virtuoso-opensource-6.1/virtuoso.ini",
+         NULL
   )
 }
+
+find_virtuoso_ini_windows <- function(){
+  normalizePath(file.path(virtuoso_home_windows(), "database", "virtuoso.ini"))
+}
+
 
 find_virtuoso_ini_osx <- function(){
   cmd <- processx::run("brew", c("--prefix", "virtuoso"))
   paste0(gsub("\\n$", "", cmd$stdout), "/var/lib/virtuoso/db/virtuoso.ini")
 }
 
+
+
+find_virtuoso_binary_windows <- function(){
+  normalizePath(file.path(virtuoso_home_windows(), "bin", "virtuoso-t"),
+                mustWork = FALSE)
+
+}
+
+virtuoso_home_windows <- function(){
+  Sys.getenv("VIRTUOSO_HOME", windows_virtuoso_home)
+}

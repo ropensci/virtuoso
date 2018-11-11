@@ -7,7 +7,7 @@
 #' @export
 vos_status <- function(p = NA, wait = 10){
 
-  if(is.na(p)) p <- vos_process(p)
+  if(!inherits(p, "process")) if(is.na(p)) p <- vos_process(p)
 
   if (!p$is_alive()) {
     warning(paste("Server is not alive. Server log: \n\n",

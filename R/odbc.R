@@ -27,12 +27,19 @@ vos_odbcinst <- function(odbcinst = NULL){
 }
 
 find_driver <- function(){
+  if(is_osx() | is_linux())
   lookup <- c(
     "/usr/lib/virtodbc.so",
     "/usr/local/lib/virtodbc.so", # Mac Homebrew link
     "/usr/lib/odbc/virtodbc.so",  # Typical Ubuntu virutoso-opensource loc
     "/usr/lib/x86_64-linux-gnu/odbc/virtodbc.so",
     "/usr/local/Cellar/virtuoso/7.2.5.1/lib/virtodbc.so")
+  else if( is_windows())
+    lookup <- normalizePath(file.path(
+      virtuoso_home_windows(), "bin", "virtodbc.dll"))
+  else
+    stop("OS not recognized or not supported")
+
   i <- vapply(lookup, file.exists, logical(1L))
   if (!any(i))
     warning("could not automatically locate virtodbc.so driver library")

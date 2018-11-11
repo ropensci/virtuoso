@@ -11,11 +11,17 @@
 #' @export
 #' @importFrom DBI dbConnect
 #' @importFrom odbc odbc
-vos_connect <- function(driver = "Local Virtuoso",
+vos_connect <- function(driver = NULL,
                         uid = "dba",
                         pwd = "dba",
                         host = "localhost",
                         port = "1111"){
+  if(is.null(driver)){
+    driver <- switch(which_os(),
+           "linux" = "Local Virtuoso",
+           "osx" = "Local Virtuoso",
+           "windows" = "Virtuoso (Open Source)")
+  }
   DBI::dbConnect(odbc::odbc(),
                  driver = driver,
                  uid = uid,
