@@ -14,3 +14,7 @@ vos_clear_graph(con, graph = "rdflib")
 \description{
 Clear all triples from a graph
 }
+\details{
+NOTE: after clearing a graph, re-running the bulk importer may not
+re-import triples, at least until virtuoso-server is restarted.
+}
