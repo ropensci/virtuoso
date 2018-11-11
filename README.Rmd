@@ -105,13 +105,6 @@ vos_query(con,
        }")
 ```
 
-We can clear all data in the default graph if we want a fresh start:
-
-```{r}
-vos_clear_graph(con)
-```
-
-(Note the default import graph is `<rdflib>`).  
 
 ## Server controls
 
