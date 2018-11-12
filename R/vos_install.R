@@ -38,7 +38,7 @@ vos_install_windows <- function(interactive = interactive()){
 
   if(interactive){
     message("When asked to create DB and start it, uncheck this option.")
-    processx::run("Virtuoso_OpenSource_Server_7.20.x64.exe") #, c("-NoNewWindow", "-Wait"))
+    processx::run(installer)
   } else {
     message("Attempting unsupervised installation of Virtuoso Open Source")
     processx::run(installer,
