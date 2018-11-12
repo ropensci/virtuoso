@@ -27,17 +27,24 @@ vos_install <- function(){
 }
 
 #' @importFrom curl curl_download
-vos_install_windows <- function(){
-  installer <- normalizePath(file.path(tempdir(), "Virtuoso_OpenSource_Server_7.20.x64.exe"))
+vos_install_windows <- function(interactive = interactive()){
+  installer <- normalizePath(file.path(
+    tempdir(),
+    "Virtuoso_OpenSource_Server_7.20.x64.exe"),
+    mustWork = FALSE)
+  message("downloading...")
   curl::curl_download("https://sourceforge.net/projects/virtuoso/files/virtuoso/7.2.5/Virtuoso_OpenSource_Server_7.20.x64.exe",
-                     "Virtuoso_OpenSource_Server_7.20.x64.exe")
+                     installer)
 
-  if(interactive()){
+  if(interactive){
     message("When asked to create DB and start it, uncheck this option.")
     processx::run("Virtuoso_OpenSource_Server_7.20.x64.exe") #, c("-NoNewWindow", "-Wait"))
   } else {
     message("Attempting unsupervised installation of Virtuoso Open Source")
-    processx::run("Virtuoso_OpenSource_Server_7.20.x64.exe", c("-NoNewWindow", "-Wait"))
+    processx::run(installer,
+                  c("/SP-", "/VERYSILENT", "/SUPPRESSMSGBOXES", '/TASKS=""'))
+                  #c("/silent", "/passive"))
+                  #c("/quiet", "/silent", "/passive",  "-NoNewWindow", "-Wait"))
   }
 }
 
@@ -52,6 +59,13 @@ vos_set_path_windows <- function(vos_home = virtuoso_home_windows()){
 }
 
 
+vos_uninstall_windows <- function(vos_home = virtuoso_home_windows()){
+  run(file.path(vos_home, "unins000.exe"))
+}
+
+
+
+
 vos_install_linux <- function(){
   stop(paste(
     "Package does not support direct install of virtuoso",
@@ -59,6 +73,11 @@ vos_install_linux <- function(){
     "for your distribution. e.g. on Debian/Ubuntu systems, run",
     "sudo apt-get -y install virtuoso-opensource"))
 }
+
+
+
+
+
 
 osx_installer <- "https://sourceforge.net/projects/virtuoso/files/virtuoso/7.2.5/virtuoso-opensource-7.2.5-macosx-app.dmg"
 
