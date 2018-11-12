@@ -21,6 +21,7 @@ test_that("we can start a vos server and check status",{
   p$suspend()
   expect_equal(vos_status(p), "stopped")
 
+  expect_length(vos_log(just_errors = TRUE), 0)
 
   vos_kill(p)
   expect_warning(status <- vos_status(p),
