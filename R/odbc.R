@@ -1,13 +1,13 @@
 
 # Rename as vos_odbc_driver ?
-vos_odbcinst <- function(odbcinst = NULL){
+vos_odbcinst <- function(odbcinst = NULL, verbose = TRUE){
 
   if (is.null(odbcinst))
     odbcinst <- find_odbcinst()
 
   if (file.exists(odbcinst)) {
     if (any(grepl("\\[Local Virtuoso\\]", readLines(odbcinst))) ) {
-      message("Configuration for Virtuoso found")
+      if(verbose) message("Configuration for Virtuoso found")
       return(invisible(odbcinst))
     }
   }

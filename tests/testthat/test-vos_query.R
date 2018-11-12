@@ -16,7 +16,11 @@ test_that("We can connect, bulk load and query", {
   expect_equal(dim(ex)[1], 10)
 
   example <- system.file("extdata", "person.nq", package = "virtuoso")
+  # Tests with alternative temp location:
+  #vos_import(con, example, wd = rappdirs::user_cache_dir("Virtuoso"))
   vos_import(con, example)
+
+  Sys.sleep(5)
   query <- "SELECT ?p ?o
      WHERE { ?s ?p ?o .
              ?s a <http://schema.org/Person>
@@ -29,9 +33,9 @@ test_that("We can connect, bulk load and query", {
   vos_list_graphs(con)
   vos_count_triples(con)
 
-  #"We can clear all data",
+### After data is cleared, cannot re-load it w/o restarting server first...
+### "We can clear all data",
   vos_clear_graph(con)
-
   df2 <- vos_query(con, query)
   expect_equal(dim(df2), c(0,2))
 

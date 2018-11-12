@@ -1,5 +1,4 @@
 ## GLOBAL DEFAULT VARS
-windows_virtuoso_home <- "C:/Program\ Files/OpenLink\ Software/Virtuoso OpenSource 7.20"
 
 #' Configure Virtuoso Server ini file
 #'
@@ -35,7 +34,9 @@ vos_configure <- function(DirsAllowed = ".",
   dir.create(db_dir, FALSE)
 
   V <- ini::read.ini(template)
-  V$Parameters$DirsAllowed <- DirsAllowed
+  V$Parameters$DirsAllowed <-  paste(DirsAllowed,
+                                 normalizePath(DirsAllowed),
+                                 rappdirs::user_cache_dir("Virtuoso"), sep=",")
   V$Parameters$NumberOfBuffers <- 85000 * gigs_ram
   V$Parameters$MaxDirtyBuffers <- 65000 * gigs_ram
 
@@ -56,6 +57,16 @@ vos_configure <- function(DirsAllowed = ".",
     file.path(db_dir, basename(V$TempDatabase$DatabaseFile))
   V$TempDatabase$TransactionFile <-
     file.path(db_dir, basename(V$TempDatabase$TransactionFile))
+
+  ## Fix relative paths to absolute ones
+  if(is_windows()){
+    base <- dirname(template)
+    V$Plugins$LoadPath <- normalizePath(file.path(base, V$Plugins$LoadPath))
+    V$HTTPServer$ServerRoot <- normalizePath(file.path(base, V$HTTPServer$ServerRoot))
+    V$Parameters$VADInstallDir <- normalizePath(file.path(base, V$Parameters$VADInstallDir))
+
+
+  }
 
 
   output <- file.path(db_dir, "virtuoso.ini")
@@ -94,5 +105,6 @@ find_virtuoso_binary_windows <- function(){
 }
 
 virtuoso_home_windows <- function(){
-  Sys.getenv("VIRTUOSO_HOME", windows_virtuoso_home)
+  system_home <- "C:/Program\ Files/OpenLink\ Software/Virtuoso OpenSource 7.20"
+  Sys.getenv("VIRTUOSO_HOME", system_home)
 }
