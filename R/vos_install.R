@@ -17,7 +17,8 @@ vos_install <- function(){
   switch (which_os(),
     "osx" = vos_install_osx(),
     "linux" = vos_install_linux(),
-    "windows" = vos_install_windows()
+    "windows" = vos_install_windows(),
+    NULL
   )
 
 
@@ -26,30 +27,64 @@ vos_install <- function(){
 
 }
 
-#' @importFrom curl curl_download
-vos_install_windows <- function(){
-  installer <- normalizePath(file.path(tempdir(), "Virtuoso_OpenSource_Server_7.20.x64.exe"))
-  curl::curl_download("https://sourceforge.net/projects/virtuoso/files/virtuoso/7.2.5/Virtuoso_OpenSource_Server_7.20.x64.exe",
-                     "Virtuoso_OpenSource_Server_7.20.x64.exe")
 
-  if(interactive()){
+download_windows_installer <- function(){
+  exe <- "Virtuoso_OpenSource_Server_7.20.x64.exe"
+  download_url <- paste0("https://sourceforge.net/projects/virtuoso/",
+                         "files/virtuoso/7.2.5/",
+                         "Virtuoso_OpenSource_Server_7.20.x64.exe")
+  installer <- normalizePath(file.path(
+    tempdir(),
+    exe),
+    mustWork = FALSE)
+  message(paste("downloading", exe,  "..."))
+  curl::curl_download(download_url,
+                      installer)
+  installer
+}
+
+
+#' @importFrom curl curl_download
+vos_install_windows <- function(is_interactive = interactive()){
+
+  installer <- system.file("windows",
+                           "Virtuoso_OpenSource_Server_7.20.x64.exe",
+                           package = "virtuoso")
+  if(installer == "") # not packaged
+    installer <- download_windows_installer()
+
+  if(is_interactive){
     message("When asked to create DB and start it, uncheck this option.")
-    processx::run("Virtuoso_OpenSource_Server_7.20.x64.exe") #, c("-NoNewWindow", "-Wait"))
+    processx::run(installer)
   } else {
     message("Attempting unsupervised installation of Virtuoso Open Source")
-    processx::run("Virtuoso_OpenSource_Server_7.20.x64.exe", c("-NoNewWindow", "-Wait"))
+    processx::run(installer,
+                  c("/SP-", "/VERYSILENT", "/SUPPRESSMSGBOXES", '/TASKS=""'))
+    ## Use installer.exe "/?" to see list of options in cmd
+
   }
 }
 
 
 vos_set_path_windows <- function(vos_home = virtuoso_home_windows()){
   ## Update path
-  bin_dir <- normalizePath(file.path(virtuoso_home_windows(), "bin"), mustWork = FALSE)
-  lib_dir <- normalizePath(file.path(virtuoso_home_windows(), "lib"), mustWork = FALSE)
+  bin_dir <- normalizePath(file.path(virtuoso_home_windows(), "bin"),
+                           mustWork = FALSE)
+  lib_dir <- normalizePath(file.path(virtuoso_home_windows(), "lib"),
+                           mustWork = FALSE)
   path <- Sys.getenv("PATH")
   if(!grepl("Virtuoso", path))
     Sys.setenv("PATH" = paste(path, bin_dir, lib_dir, sep=";"))
 }
+
+#' Uninstall Virutoso using Windows Uninstaller
+#' @param vos_home Home directory for Virtuoso
+#' @export
+vos_uninstall_windows <- function(vos_home = virtuoso_home_windows()){
+  run(file.path(vos_home, "unins000.exe"))
+}
+
+
 
 
 vos_install_linux <- function(){
@@ -59,6 +94,11 @@ vos_install_linux <- function(){
     "for your distribution. e.g. on Debian/Ubuntu systems, run",
     "sudo apt-get -y install virtuoso-opensource"))
 }
+
+
+
+
+
 
 osx_installer <- "https://sourceforge.net/projects/virtuoso/files/virtuoso/7.2.5/virtuoso-opensource-7.2.5-macosx-app.dmg"
 
