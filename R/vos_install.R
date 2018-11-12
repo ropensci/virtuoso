@@ -43,8 +43,8 @@ vos_install_windows <- function(interactive = interactive()){
     message("Attempting unsupervised installation of Virtuoso Open Source")
     processx::run(installer,
                   c("/SP-", "/VERYSILENT", "/SUPPRESSMSGBOXES", '/TASKS=""'))
-                  #c("/silent", "/passive"))
-                  #c("/quiet", "/silent", "/passive",  "-NoNewWindow", "-Wait"))
+    ## Use installer.exe "/?" to see list of options in cmd
+
   }
 }
 
