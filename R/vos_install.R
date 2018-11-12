@@ -4,9 +4,12 @@
 #' @importFrom processx run process
 vos_install <- function(){
 
+  ## Windows installation does not persist path currently
+  if(is_windows()) vos_set_path_windows()
+
   # Check if already installed
   if (Sys.which('virtuoso-t') != '') {
-    vos_odbcinst()
+    vos_odbcinst(verbose = FALSE)
     return(message(paste("virtuoso already installed.\n")))
   }
 
@@ -23,14 +26,31 @@ vos_install <- function(){
 
 }
 
+#' @importFrom curl curl_download
 vos_install_windows <- function(){
+  installer <- normalizePath(file.path(tempdir(), "Virtuoso_OpenSource_Server_7.20.x64.exe"))
+  curl::curl_download("https://sourceforge.net/projects/virtuoso/files/virtuoso/7.2.5/Virtuoso_OpenSource_Server_7.20.x64.exe",
+                     "Virtuoso_OpenSource_Server_7.20.x64.exe")
+
+  if(interactive()){
+    message("When asked to create DB and start it, uncheck this option.")
+    processx::run("Virtuoso_OpenSource_Server_7.20.x64.exe") #, c("-NoNewWindow", "-Wait"))
+  } else {
+    message("Attempting unsupervised installation of Virtuoso Open Source")
+    processx::run("Virtuoso_OpenSource_Server_7.20.x64.exe", c("-NoNewWindow", "-Wait"))
+  }
+}
+
+
+vos_set_path_windows <- function(vos_home = virtuoso_home_windows()){
   ## Update path
-  bin_dir <- normalizePath(file.path(virtuoso_home_windows(), "bin"))
-  lib_dir <- normalizePath(file.path(virtuoso_home_windows(), "lib"))
+  bin_dir <- normalizePath(file.path(virtuoso_home_windows(), "bin"), mustWork = FALSE)
+  lib_dir <- normalizePath(file.path(virtuoso_home_windows(), "lib"), mustWork = FALSE)
   path <- Sys.getenv("PATH")
   if(!grepl("Virtuoso", path))
-  Sys.setenv("PATH" = paste(path, bin_dir, lib_dir, sep=";"))
+    Sys.setenv("PATH" = paste(path, bin_dir, lib_dir, sep=";"))
 }
+
 
 vos_install_linux <- function(){
   stop(paste(
@@ -40,7 +60,7 @@ vos_install_linux <- function(){
     "sudo apt-get -y install virtuoso-opensource"))
 }
 
-
+osx_installer <- "https://sourceforge.net/projects/virtuoso/files/virtuoso/7.2.5/virtuoso-opensource-7.2.5-macosx-app.dmg"
 
 vos_install_osx <- function(  has_unixodbc = FALSE){
   install_brew()

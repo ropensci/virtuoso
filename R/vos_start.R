@@ -7,7 +7,7 @@ virtuoso_cache <- new.env()
 #' default configuration file.
 #' @param wait number of seconds to wait for server to come online
 #' @export
-vos_start <- function(ini = NULL, wait = 5){
+vos_start <- function(ini = NULL, wait = 10){
 
   p <- mget("virtuoso_process",
              envir = virtuoso_cache,
@@ -17,6 +17,9 @@ vos_start <- function(ini = NULL, wait = 5){
                   p$format()))
     return(p)
   }
+
+  ## Windows installation does not persist path currently
+  if(is_windows()) vos_set_path_windows()
 
 
   if (is.null(ini)) {

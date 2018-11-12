@@ -4,7 +4,7 @@
 \alias{vos_start}
 \title{Start a Virtuoso Server}
 \usage{
-vos_start(ini = NULL, wait = 5)
+vos_start(ini = NULL, wait = 10)
 }
 \arguments{
 \item{ini}{path to a virtuoso.ini configuration file. If not
