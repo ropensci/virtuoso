@@ -22,7 +22,7 @@ test_that("We can generate an odbcinst file", {
   expect_is(path, "character")
   expect_gt(length(path), 0)
   expect_true(file.exists(path))
-
-  expect_message(virtuoso:::vos_odbcinst())
+  expect_message(virtuoso:::vos_odbcinst(path))
 
 })
+

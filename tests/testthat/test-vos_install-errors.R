@@ -36,7 +36,7 @@ test_that("We get errors running windows installer on non-windows",
 test_that("We get errors running mac installer on non-mac",
           {
             skip_on_cran()
-            skip_on_os("osx")
+            skip_on_os("mac")
             expect_error(virtuoso:::vos_install_osx())
             expect_error(virtuoso:::vos_install_osx(TRUE))
             expect_error(virtuoso:::install_brew())
