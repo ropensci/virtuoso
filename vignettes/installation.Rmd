@@ -1,10 +1,10 @@
 ---
-title: "Virtuoso Installation and Configuration"
+title: "Introduction: Virtuoso Installation and Configuration"
 author: "Carl Boettiger"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{installation}
+  %\VignetteIndexEntry{Introduction}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,4 +16,33 @@ knitr::opts_chunk$set(
 )
 ```
 
-http://docs.openlinksw.com/virtuoso/virtdsnsetup/
+
+[Virtuoso](https://en.wikipedia.org/wiki/Virtuoso_Universal_Server) is a high-performance "universal server" that can act as both a relational database (supporting standard SQL queries) and an RDF triplestore, (supporting SPARQL queries).  
+Virtuoso supports communication over the standard ODBC interface, and so R users can potentially connect to Virtuoso merely by installing the server and using the `odbc` R package.  However, installation can present a few gotchas to users unfamiliar with Virtuoso.  This package seeks to streamline the process of installing, managing, and querying a Virtuoso server.  While the package can be also be used merely to provide a standard `DBI` connection to an RDBS, e.g. as a `dplyr` back-end, Virtuoso's popularity and performance is particularly notable with respect to RDF data and SPARQL queries, so most examples focus on those use cases.
+
+## Installation
+
+The `virtuoso` package provides installation helpers for both Mac OSX and Windows users through the function `vos_install()`.  At the time of writing, the Mac OS X installer uses Homebrew to install the Virtuoso Open Source server (similar to the `hugo` installer in RStudio's `blogdown`).  On Windows, `vos_install()` downloads and executes the Windows self-extracting archive (`.exe` file), which will open a standard installation dialog in interactive mode, or be run automatically if not run in an interactive session.  No automated installer is provided for Linux systems; Linux users are encouraged to simply install the appropriate binaries for their distribution (e.g. `apt-get install -y virtuoso-opensource` on Debian/Ubuntu systems). 
+
+## Configuration
+
+Virtuoso Open Source configuration is controlled by a `virtouso.ini` file, which sets, among other things, which directories can be accessed for tasks such as bulk import, as well as performance tweaks such as available memory.  Unfortunately, the Virtuoso server process (`virtuoso-t` application) cannot start without a path to an appropriate config file, and the installers (e.g. on both Windows and Linux) frequently install an example `virtuoso.ini` to a location which can be hard to find and for which users do not have permission to edit directly. Moreover, the file format is not always intuitive to edit.  The `virtuoso` package thus helps locate this file and provides a helper function, `vos_configure()`, to create and modify this configuration file.  Because reasonable defaults are also provided by this function, users should usually not need to call this function manually.  `vos_configure()` is called automatically from `vos_start()` if the path to a `virtuoso.ini` file is not passed to `vos_start()`.  
+
+In addition to configuring Virtuoso's settings through a `virtuoso.ini` file, the other common barrier is setting up the driver for the ODBC connection.  Some installers (Mac, Linux) do not automatically add the appropriate driver to an active `odbcinst.ini` file with a predictable Driver Server Name, which we need to know to initiate the ODBC connection.  An internal helper function handles identifying drivers and establishing the appropriate `odcinst.ini` automatically when necessary. 
+
+## Server management
+
+Lastly, Virtuoso Open Source is often run as a system service, starting when the operating system starts.  This is often undesirable, as the casual laptop user does not want the service running all the time, and can be difficult to control for users unfamiliar with managing such background services on their operating systems.  Instead of this behavior, the `virtuoso` package provides an explicit interface to control the external server. The server only starts when created by `vos_start()`, and ends automatically when the R process ends, or can be killed, paused, or resumed at any time from R (e.g. via `vos_kill()`).  Helper utilities can also query the status and logs of the server from R.  As with most database servers, data persists to disk, at an appropriate location for the OS determined by `rappdirs` package, and a helper utility, `vos_delete_db()` can remove this persistent storage location.  
+
+Users can also connect directly to any existing (local or remote) Virtuoso instance by passing the appropriate information to `vos_connect()`, which can be convenient for queries.  
+
+
+Note that he Virtuoso back-end provided by the R package `rdflib` can also connect to any Virtuoso server created by the `virtuoso` R package, though queries loading and queries through the `redland` libraries used by `rdflib` will generally be slower than direct calls over ODBC via the `virtuoso` package functions, often dramatically so for large triplestores. 
+
+
+
+
+
+
+
+
