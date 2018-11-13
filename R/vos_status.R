@@ -15,7 +15,7 @@ vos_status <- function(p = NA, wait = 10){
     return("dead")
   }
 
-  if (p$get_status() != "running") # stopped,
+  if (!(p$get_status() %in% c("running", "sleeping"))) # stopped,
     return(p$get_status())
 
   Sys.sleep(1)
@@ -32,5 +32,5 @@ vos_status <- function(p = NA, wait = 10){
   log <- vos_log(p)
   message(paste("latest log entry:", log[length(log)]))
 
-  "running"
+  p$get_status()
 }
