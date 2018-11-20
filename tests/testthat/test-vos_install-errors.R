@@ -18,7 +18,7 @@ test_that("We can set the correct paths on windows", {
 
   skip_on_cran()
 
-  virtuoso:::vos_set_path_windows()
+  virtuoso:::vos_set_path()
   expect_true(grepl("Virtuoso", Sys.getenv("PATH")))
 
 })

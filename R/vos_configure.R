@@ -64,10 +64,7 @@ vos_configure <- function(DirsAllowed = ".",
     V$Plugins$LoadPath <- normalizePath(file.path(base, V$Plugins$LoadPath))
     V$HTTPServer$ServerRoot <- normalizePath(file.path(base, V$HTTPServer$ServerRoot))
     V$Parameters$VADInstallDir <- normalizePath(file.path(base, V$Parameters$VADInstallDir))
-
-
   }
-
 
   output <- file.path(db_dir, "virtuoso.ini")
   dir.create(db_dir, FALSE, recursive = TRUE)
@@ -75,36 +72,32 @@ vos_configure <- function(DirsAllowed = ".",
   output
 }
 
-
 ## FIXME ick don't hardwire Linux path
 find_virtuoso_ini <- function(){
   switch(which_os(),
          osx = find_virtuoso_ini_osx(),
          windows = find_virtuoso_ini_windows(),
-         linux = "/etc/virtuoso-opensource-6.1/virtuoso.ini",
+         linux = find_virtuoso_ini_linux(),
          NULL
   )
+}
+
+find_virtuoso_ini_linux <- function(){
+  "/etc/virtuoso-opensource-6.1/virtuoso.ini"
 }
 
 find_virtuoso_ini_windows <- function(){
   normalizePath(file.path(virtuoso_home_windows(), "database", "virtuoso.ini"))
 }
 
-
 find_virtuoso_ini_osx <- function(){
-  cmd <- processx::run("brew", c("--prefix", "virtuoso"))
-  paste0(gsub("\\n$", "", cmd$stdout), "/var/lib/virtuoso/db/virtuoso.ini")
-}
 
-
-
-find_virtuoso_binary_windows <- function(){
-  normalizePath(file.path(virtuoso_home_windows(), "bin", "virtuoso-t"),
-                mustWork = FALSE)
+  path_lookup(c(
+    file.path(virtuoso_home_osx(), "db", "virtuoso.ini"),
+    file.path(virtuoso_home_osx(), "database", "virtuoso.ini"),
+    paste0(gsub("\\n$", "", brew_home()), "/var/lib/virtuoso/db/virtuoso.ini")
+    ))
 
 }
 
-virtuoso_home_windows <- function(){
-  system_home <- "C:/Program\ Files/OpenLink\ Software/Virtuoso OpenSource 7.20"
-  Sys.getenv("VIRTUOSO_HOME", system_home)
-}
+

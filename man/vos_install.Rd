@@ -4,7 +4,10 @@
 \alias{vos_install}
 \title{Helper method for installing Virtuoso Server on Mac OSX}
 \usage{
-vos_install()
+vos_install(use_brew = has_homebrew())
+}
+\arguments{
+\item{use_brew}{Should we use homebrew to install? (Mac OSX only)}
 }
 \description{
 Helper method for installing Virtuoso Server on Mac OSX
