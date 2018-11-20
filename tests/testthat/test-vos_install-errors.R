@@ -14,12 +14,14 @@ test_that("We can download the windows installer", {
   })
 
 
-test_that("We can set the correct paths on windows", {
+test_that("We can set the correct paths", {
 
   skip_on_cran()
+  #skip_on_os("linux")
+  #skip_on_os("mac")
 
   virtuoso:::vos_set_path()
-  expect_true(grepl("Virtuoso", Sys.getenv("PATH")))
+  expect_true(has_virtuoso())
 
 })
 
