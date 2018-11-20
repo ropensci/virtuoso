@@ -37,21 +37,27 @@ assert_unset <- function(odbcinst){
 
 
 find_odbc_driver <- function(){
-  if(is_osx() | is_linux())
-  lookup <- c(
-    "/usr/lib/virtodbc.so",
-    "/usr/local/lib/virtodbc.so", # Mac Homebrew symlink
-    "/usr/lib/odbc/virtodbc.so",  # Typical Ubuntu virutoso-opensource location
-    "/usr/lib/x86_64-linux-gnu/odbc/virtodbc.so", # Debian location
-    "/usr/local/Cellar/virtuoso/7.2.5.1/lib/virtodbc.so", # Homebrew unlinked location
-    file.path(virtuoso_home_osx(), "lib", "virtodbc.so")
+  if(is_osx()){
+    lookup <- c(
+      "/usr/lib/virtodbc.so",
+      "/usr/local/lib/virtodbc.so", # Mac Homebrew symlink
+      "/usr/lib/odbc/virtodbc.so",  # Typical Ubuntu virutoso-opensource location
+      "/usr/lib/x86_64-linux-gnu/odbc/virtodbc.so", # Debian location
+      "/usr/local/Cellar/virtuoso/7.2.5.1/lib/virtodbc.so", # Homebrew unlinked location
+      file.path(virtuoso_home_osx(), "lib", "virtodbc.so")
     )
-  else if( is_windows())
+  } else if (is_linux()){
+    lookup <- c(
+      "/usr/lib/virtodbc.so",
+      "/usr/local/lib/virtodbc.so",
+      "/usr/lib/odbc/virtodbc.so",
+      "/usr/lib/x86_64-linux-gnu/odbc/virtodbc.so")
+  } else if( is_windows()) {
     lookup <- normalizePath(file.path(
       virtuoso_home_windows(), "bin", "virtodbc.dll"))
-  else
+  } else {
     stop("OS not recognized or not supported")
-
+  }
   path_lookup(lookup)
 }
 

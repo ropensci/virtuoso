@@ -14,7 +14,7 @@ vos_install <- function(use_brew = FALSE, prompt = is_interactive()){
     switch (which_os(),
       "osx" = vos_install_osx(use_brew = use_brew, prompt = prompt),
       "linux" = vos_install_linux(),
-      "windows" = vos_install_windows(promt = prompt),
+      "windows" = vos_install_windows(prompt = prompt),
       NULL
     )
   }
