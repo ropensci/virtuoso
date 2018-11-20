@@ -1,3 +1,4 @@
+#' @importFrom utils askYesNo
 vos_install_osx <-
   function(use_brew = has_homebrew(),
            prompt = is_interactive()){
