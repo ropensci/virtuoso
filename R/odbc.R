@@ -28,7 +28,7 @@ vos_odbcinst <- function(odbcinst = NULL, verbose = TRUE){
 assert_unset <- function(odbcinst){
   if (file.exists(odbcinst)) {
     if (any(grepl("\\[Local Virtuoso\\]", readLines(odbcinst))) ) {
-      message("Configuration for Virtuoso found")
+      #message("Configuration for Virtuoso found")
       return(FALSE)
     }
   }

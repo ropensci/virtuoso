@@ -1,7 +1,7 @@
 context("Detecting ODBC Drivers")
 
 test_that("We can detect ODBC drivers", {
-  path <- virtuoso:::find_driver()
+  path <- virtuoso:::find_odbc_driver()
   expect_is(path, "character")
   expect_true(file.exists(path))
 
