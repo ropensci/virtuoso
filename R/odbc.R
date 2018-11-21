@@ -24,15 +24,18 @@ vos_odbcinst <-
            local_odbcinst = odbcsysini()){
 
   ## NOTE: This applies to and is used only by on MacOS / Linux
-  Sys.setenv(ODBCSYSINI=local_odbcinst)
+  # Sys.setenv(ODBCSYSINI=local_odbcinst)
 
   ## Use local odbcinst if already configured
-  if (already_set(local_odbcinst))
+  if (already_set(local_odbcinst)){
     return(invisible(local_odbcinst))
+  }
 
   ## Then use system odbcinst if that is configured
-  if (already_set(system_odbcinst))
+  if (already_set(system_odbcinst)){
+    # Sys.setenv(ODBCSYSINI=system_odbcinst)
     return(invisible(system_odbcinst))
+  }
 
   write(c("",
           "[Local Virtuoso]",

@@ -14,7 +14,7 @@ virtuoso_home <- function(){
 
 
 brew_home <- function(){
-  if(!has_homebrew()) return(NULL)
+  if(!has_homebrew()) return("")
   cmd <- processx::run("brew", c("--prefix", "virtuoso"))
   cmd$stdout
 }

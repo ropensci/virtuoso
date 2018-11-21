@@ -8,7 +8,7 @@ test_that("Virtuoso is installed", {
 })
 
 test_that("We can download installers", {
-
+  skip_on_os("mac") # slow download, annoying for local testing.
   skip_on_cran() ## slow download
   dmg <- download_osx_installer()
   expect_true(file.exists(dmg))

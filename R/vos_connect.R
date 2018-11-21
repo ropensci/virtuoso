@@ -21,7 +21,6 @@ vos_connect <- function(driver = NULL,
            "linux" = "Local Virtuoso",
            "osx" = "Local Virtuoso",
            "windows" = "Virtuoso (Open Source)")
-    vos_odbcinst()
   }
   DBI::dbConnect(odbc::odbc(),
                  driver = driver,

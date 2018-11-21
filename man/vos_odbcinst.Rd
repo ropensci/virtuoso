@@ -5,7 +5,7 @@
 \title{Configure the ODBC Driver for Virtuoso}
 \usage{
 vos_odbcinst(system_odbcinst = find_odbcinst(),
-  local_odbcinst = odbcsysini)
+  local_odbcinst = odbcsysini())
 }
 \arguments{
 \item{system_odbcinst}{Path to the system odbcinst.ini file. (Does not
