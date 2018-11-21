@@ -22,13 +22,16 @@
 #' @return Writes the requested `virtuoso.ini` file to the db_dir specified
 #' and returns the path to this file.
 #' @importFrom ini read.ini write.ini
-#' @importFrom rappdirs user_log_dir
 #' @export
 vos_configure <- function(DirsAllowed = ".",
                           gigs_ram = 2,
                           template = find_virtuoso_ini(),
-                          db_dir = rappdirs::user_log_dir("Virtuoso")
+                          db_dir = virtuoso_app$log()
                           ){
+
+  ## NOTE: virtuoso_app$data() might make more sense, but Virtuoso
+  ## Seems to struggle with paths that have spaces in the name, as
+  ## is the case for on Mac OSX rappdirs::user_data_dir()
 
   ## dbdir cannot have spaces in path(?)
   dir.create(db_dir, FALSE)
@@ -36,7 +39,8 @@ vos_configure <- function(DirsAllowed = ".",
   V <- ini::read.ini(template)
   V$Parameters$DirsAllowed <-  paste(DirsAllowed,
                                  normalizePath(DirsAllowed),
-                                 rappdirs::user_cache_dir("Virtuoso"), sep=",")
+                                 virtuoso_app$cache(),
+                                 sep=",")
   V$Parameters$NumberOfBuffers <- 85000 * gigs_ram
   V$Parameters$MaxDirtyBuffers <- 65000 * gigs_ram
 
@@ -64,10 +68,7 @@ vos_configure <- function(DirsAllowed = ".",
     V$Plugins$LoadPath <- normalizePath(file.path(base, V$Plugins$LoadPath))
     V$HTTPServer$ServerRoot <- normalizePath(file.path(base, V$HTTPServer$ServerRoot))
     V$Parameters$VADInstallDir <- normalizePath(file.path(base, V$Parameters$VADInstallDir))
-
-
   }
-
 
   output <- file.path(db_dir, "virtuoso.ini")
   dir.create(db_dir, FALSE, recursive = TRUE)
@@ -75,36 +76,33 @@ vos_configure <- function(DirsAllowed = ".",
   output
 }
 
-
 ## FIXME ick don't hardwire Linux path
 find_virtuoso_ini <- function(){
   switch(which_os(),
          osx = find_virtuoso_ini_osx(),
          windows = find_virtuoso_ini_windows(),
-         linux = "/etc/virtuoso-opensource-6.1/virtuoso.ini",
+         linux = find_virtuoso_ini_linux(),
          NULL
   )
 }
 
+find_virtuoso_ini_linux <- function(){
+  "/etc/virtuoso-opensource-6.1/virtuoso.ini"
+}
+
+## Note: normalizePath fails to simplify /my/path/to/../..
 find_virtuoso_ini_windows <- function(){
   normalizePath(file.path(virtuoso_home_windows(), "database", "virtuoso.ini"))
 }
 
-
 find_virtuoso_ini_osx <- function(){
-  cmd <- processx::run("brew", c("--prefix", "virtuoso"))
-  paste0(gsub("\\n$", "", cmd$stdout), "/var/lib/virtuoso/db/virtuoso.ini")
-}
 
-
-
-find_virtuoso_binary_windows <- function(){
-  normalizePath(file.path(virtuoso_home_windows(), "bin", "virtuoso-t"),
-                mustWork = FALSE)
+  path_lookup(c(
+    file.path(virtuoso_home_osx(), "db", "virtuoso.ini"),
+    file.path(virtuoso_home_osx(), "database", "virtuoso.ini"),
+    paste0(gsub("\\n$", "", brew_home()), "/var/lib/virtuoso/db/virtuoso.ini")
+    ))
 
 }
 
-virtuoso_home_windows <- function(){
-  system_home <- "C:/Program\ Files/OpenLink\ Software/Virtuoso OpenSource 7.20"
-  Sys.getenv("VIRTUOSO_HOME", system_home)
-}
+

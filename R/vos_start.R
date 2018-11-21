@@ -9,22 +9,26 @@ virtuoso_cache <- new.env()
 #' @export
 vos_start <- function(ini = NULL, wait = 10){
 
-  p <- mget("virtuoso_process",
-             envir = virtuoso_cache,
-             ifnotfound = NA)[[1]]
+  if(!has_virtuoso())
+    stop(paste("Virtuoso installation not detected.  See vos_install()"))
+
+
+  ## Check for cached process
+  p <- mget("virtuoso_process", envir = virtuoso_cache, ifnotfound = NA)[[1]]
   if (inherits(p, "process")) {
-    message(paste("Found existing process:",
-                  p$format()))
+    message(paste("Found existing process:", p$format()))
     return(p)
   }
 
-  ## Windows installation does not persist path currently
-  if(is_windows()) vos_set_path_windows()
+  ## Some installers (windows, dmg) do not set a persistent path.
+  vos_set_path()
 
-
+  ## Prepare a virtuoso.ini configuration file if one is not provided.
   if (is.null(ini)) {
     ini <- vos_configure()
   }
+
+  ## Here we go time to start the process
   err <- tempfile("vos_start", fileext = ".log")
   p <- processx::process$new("virtuoso-t", c("-f", "-c", ini),
                              stderr = err, stdout = "|",
@@ -33,10 +37,14 @@ vos_start <- function(ini = NULL, wait = 10){
   ## Cache the process so we can control it later.
   assign("virtuoso_process", p, envir = virtuoso_cache)
 
+  ## Wait for status
   message(p$format())
   message("Server is now starting up, this may take a few seconds...\n")
   Sys.sleep(wait)
   vos_status(p, wait = wait)
+
+
+  ##
   invisible(p)
 }
 

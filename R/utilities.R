@@ -9,6 +9,6 @@ which_os <- function(){
   if (is_osx()) return("osx")
   if (is_linux()) return("linux")
   if (is_windows()) return("windows")
-  warning("OS could not be determined")
+  warning("OS could not be determined", call. = FALSE)
   NULL
 }

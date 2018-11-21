@@ -5,8 +5,7 @@
 \title{Configure Virtuoso Server ini file}
 \usage{
 vos_configure(DirsAllowed = ".", gigs_ram = 2,
-  template = find_virtuoso_ini(),
-  db_dir = rappdirs::user_log_dir("Virtuoso"))
+  template = find_virtuoso_ini(), db_dir = virtuoso_app$log())
 }
 \arguments{
 \item{DirsAllowed}{Paths (relative or absolute) to directories from which
