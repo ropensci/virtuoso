@@ -31,7 +31,7 @@ vos_configure <- function(DirsAllowed = ".",
 
   ## NOTE: virtuoso_app$data() might make more sense, but Virtuoso
   ## Seems to struggle with paths that have spaces in the name, as
-  ## is the case for on Mac OSX rappdirs::user_data_dir()
+  ## is the case for on Mac OSX data() from rappdirs
 
   ## dbdir cannot have spaces in path(?)
   dir.create(db_dir, FALSE)
