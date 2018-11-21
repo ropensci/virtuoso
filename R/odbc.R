@@ -21,7 +21,7 @@
 #' @export
 vos_odbcinst <-
   function(system_odbcinst = find_odbcinst(),
-           local_odbcinst = odbcsysini){
+           local_odbcinst = odbcsysini()){
 
   ## NOTE: This applies to and is used only by on MacOS / Linux
   Sys.setenv(ODBCSYSINI=local_odbcinst)
