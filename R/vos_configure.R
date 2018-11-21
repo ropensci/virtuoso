@@ -22,7 +22,6 @@
 #' @return Writes the requested `virtuoso.ini` file to the db_dir specified
 #' and returns the path to this file.
 #' @importFrom ini read.ini write.ini
-#' @importFrom rappdirs user_log_dir
 #' @export
 vos_configure <- function(DirsAllowed = ".",
                           gigs_ram = 2,
