@@ -73,13 +73,12 @@ vos_install_formulae <- function(has_unixodbc = FALSE){
 }
 
 has_homebrew <- function() !(Sys.which('brew') == '')
+
 install_brew <- function() {
   if (!has_homebrew()) {
-    processx::run(
-      '/usr/bin/ruby',
-      paste('-e "$(curl -fsSL',
-            'https://raw.githubusercontent.com/Homebrew/install/master/install)"')
-    )
+    processx::run('/usr/bin/ruby', paste('-e "$(curl -fsSL',
+                  paste0('https://raw.githubusercontent.com/',
+                         'Homebrew/install/master/install)"')))
   }
 }
 

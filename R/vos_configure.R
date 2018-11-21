@@ -27,8 +27,12 @@
 vos_configure <- function(DirsAllowed = ".",
                           gigs_ram = 2,
                           template = find_virtuoso_ini(),
-                          db_dir = rappdirs::user_log_dir("Virtuoso")
+                          db_dir = virtuoso_app$log()
                           ){
+
+  ## NOTE: virtuoso_app$data() might make more sense, but Virtuoso
+  ## Seems to struggle with paths that have spaces in the name, as
+  ## is the case for on Mac OSX rappdirs::user_data_dir()
 
   ## dbdir cannot have spaces in path(?)
   dir.create(db_dir, FALSE)
@@ -36,7 +40,8 @@ vos_configure <- function(DirsAllowed = ".",
   V <- ini::read.ini(template)
   V$Parameters$DirsAllowed <-  paste(DirsAllowed,
                                  normalizePath(DirsAllowed),
-                                 rappdirs::user_cache_dir("Virtuoso"), sep=",")
+                                 virtuoso_app$cache(),
+                                 sep=",")
   V$Parameters$NumberOfBuffers <- 85000 * gigs_ram
   V$Parameters$MaxDirtyBuffers <- 65000 * gigs_ram
 
@@ -86,6 +91,7 @@ find_virtuoso_ini_linux <- function(){
   "/etc/virtuoso-opensource-6.1/virtuoso.ini"
 }
 
+## Note: normalizePath fails to simplify /my/path/to/../..
 find_virtuoso_ini_windows <- function(){
   normalizePath(file.path(virtuoso_home_windows(), "database", "virtuoso.ini"))
 }

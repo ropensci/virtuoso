@@ -1,4 +1,8 @@
 
+#' @importFrom rappdirs app_dir
+virtuoso_app <- rappdirs::app_dir("Virtuoso")
+
+
 virtuoso_home <- function(){
   switch(which_os(),
          osx = virtuoso_home_osx(),

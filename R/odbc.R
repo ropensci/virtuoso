@@ -1,71 +1,97 @@
 
-# Rename as vos_odbc_driver ?
-vos_odbcinst <- function(odbcinst = NULL, verbose = TRUE){
+# Rename? Maybe vos_odbc_configure?
 
-  if (is.null(odbcinst))
-    odbcinst <- find_odbcinst()
 
-  if (!assert_unset(odbcinst)) return(invisible(odbcinst))
+#' Configure the ODBC Driver for Virtuoso
+#'
+#' @param system_odbcinst Path to the system odbcinst.ini file. (Does not
+#' require write access.) Default will attempt to find the file for your system.
+#' @param local_odbcinst Path to the local odbcinst we should use.
+#'
+#' @details This function is called automatically by [`vos_install()`] and thus
+#' does not usally need to be called by the user.  Users can also manually configure
+#' ODBC as outlined in <https://github.com/r-dbi/odbc#dsn-configuration-files>.
+#' This is merely a convenience function automating that process on most systems.
+#'
+#' ODBC Uses a odbcinst.ini file to point ODBC at the library required
+#' to drive any given database.  This function helps us automatically
+#' locate the driver library on different operating systems and configure
+#' the odbcinst appropriately for each OS.
+#'
+#' @export
+#' @importFrom rappdirs user_config_dir
+vos_odbcinst <-
+  function(system_odbcinst = find_odbcinst(),
+           local_odbcinst = odbcsysini()){
 
-  #if (!file.access(odbcinst, mode = 2))# test write access
-  ## Writing our own odbcinst always seems more robust.
-  ## including the above test seems to break travis ability to connect
+  ## NOTE: This applies to and is used only by on MacOS / Linux
+  Sys.setenv(ODBCSYSINI=local_odbcinst)
 
-  ## Make sure we have not already set this
-  odbcinst <- "~/.odbcinst.ini"
-  if (!assert_unset(odbcinst)) return(invisible(odbcinst))
+  ## Use local odbcinst if already configured
+  if (already_set(local_odbcinst))
+    return(invisible(local_odbcinst))
+
+  ## Then use system odbcinst if that is configured
+  if (already_set(system_odbcinst))
+    return(invisible(system_odbcinst))
 
   write(c("",
           "[Local Virtuoso]",
           paste("Driver =", find_odbc_driver()),
           ""),
-          file = odbcinst,
+          file = local_odbcinst,
           append = TRUE)
 
-  invisible(odbcinst)
+  invisible(local_odbcinst)
+  }
+
+## Seems to be a problem with ODBC being able to read from file locations
+## that have spaces in the names.  (as in rappdirs config() and data() in MacOS)
+odbcsysini <- function(){
+  normalizePath(file.path(virtuoso_app$log(),
+          "odbcinst.ini"))
 }
 
-assert_unset <- function(odbcinst){
+already_set <- function(odbcinst){
+  if(is.null(odbcinst))
+    return(FALSE)
   if (file.exists(odbcinst)) {
     if (any(grepl("\\[Local Virtuoso\\]", readLines(odbcinst))) ) {
       #message("Configuration for Virtuoso found")
-      return(FALSE)
+      return(TRUE)
     }
   }
-  TRUE
+  FALSE
 }
 
 
-find_odbc_driver <- function(){
-  if(is_osx()){
-    lookup <- c(
-      "/usr/lib/virtodbc.so",
-      "/usr/local/lib/virtodbc.so", # Mac Homebrew symlink
-      "/usr/lib/odbc/virtodbc.so",  # Typical Ubuntu virutoso-opensource location
-      "/usr/lib/x86_64-linux-gnu/odbc/virtodbc.so", # Debian location
-      "/usr/local/Cellar/virtuoso/7.2.5.1/lib/virtodbc.so", # Homebrew unlinked location
-      file.path(virtuoso_home_osx(), "lib", "virtodbc.so")
-    )
-  } else if (is_linux()){
-    lookup <- c(
-      "/usr/lib/virtodbc.so",
-      "/usr/local/lib/virtodbc.so",
-      "/usr/lib/odbc/virtodbc.so",
-      "/usr/lib/x86_64-linux-gnu/odbc/virtodbc.so")
-  } else if( is_windows()) {
-    lookup <- normalizePath(file.path(
-      virtuoso_home_windows(), "bin", "virtodbc.dll"))
-  } else {
-    stop("OS not recognized or not supported")
-  }
+find_odbc_driver <- function(os = which_os()){
+  lookup <- switch(os,
+    osx   = c("/usr/lib/virtodbc.so",
+              "/usr/local/lib/virtodbc.so", # Mac Homebrew symlink
+              file.path(virtuoso_home_osx(), "lib", "virtodbc.so")
+             ),
+    linux = c(
+              "/usr/lib/virtodbc.so",
+              "/usr/local/lib/virtodbc.so",
+              "/usr/lib/odbc/virtodbc.so",
+              "/usr/lib/x86_64-linux-gnu/odbc/virtodbc.so"
+              ),
+    windows = normalizePath(file.path(virtuoso_home_windows(),
+                                      "bin", "virtodbc.dll"),
+                            mustWork = FALSE),
+    "OS not recognized or not supported"
+  )
   path_lookup(lookup)
 }
 
 path_lookup <- function(paths, target_name = basename(paths[[1]])){
   i <- vapply(paths, file.exists, logical(1L))
-  if (!any(i))
+  if (sum(i) < 1){
     warning(paste("could not automatically locate", target_name),
             call. = FALSE)
+    return(target_name)
+  }
 
   names(which(i))[[1]]
 }

@@ -31,7 +31,9 @@ has_virtuoso <- function(){
 
 vos_set_path <- function(vos_home = NULL){
   ## Virtuoso already detected in PATH
-  if (has_virtuoso()) return(NULL)
+  if (has_virtuoso()){
+    return(message("Virtuoso already installed"))
+  }
 
   if (is.null(vos_home)){
     vos_home <- switch (which_os(),
