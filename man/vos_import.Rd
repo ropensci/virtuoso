@@ -4,7 +4,7 @@
 \alias{vos_import}
 \title{vos_import}
 \usage{
-vos_import(con, files, wd = ".", ext = "*.nq", graph = "rdflib")
+vos_import(con, files, wd = ".", ext = NULL, graph = "rdflib")
 }
 \arguments{
 \item{con}{a ODBC connection to Virtuoso, from [`vos_connect()`]}
@@ -15,7 +15,7 @@ vos_import(con, files, wd = ".", ext = "*.nq", graph = "rdflib")
 NOTE: This directory must match or be in the directory from which you ran vos_start().
 This is the default behavior and probably best not altered.}
 
-\item{ext}{glob and extension to match file types. Defaults to match any nquads.}
+\item{ext}{glob and extension to match file types. Will guess based on files specified}
 
 \item{graph}{Name (technically URI) for a graph in the database.  Can leave as default.}
 }
