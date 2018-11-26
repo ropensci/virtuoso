@@ -19,7 +19,7 @@ vos_clear_graph <- function(con, graph = "rdflib"){
   DBI::dbGetQuery(con, paste0("SPARQL CLEAR GRAPH <", graph, ">"))
 }
 
-vos_delete_db <- function(db_dir = virtuoso_app$log()){
+vos_delete_db <- function(db_dir = vos_db()){
   unlink(db_dir, recursive = TRUE)
 }
 

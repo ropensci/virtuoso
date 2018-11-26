@@ -47,8 +47,6 @@ We can now start our Virtuoso server from R:
 
 ```{r}
 vos_start()
-Sys.sleep(10)
-
 ```
 
 

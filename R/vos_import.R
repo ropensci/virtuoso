@@ -7,11 +7,18 @@
 #' @param wd The directory from which we can search the files.
 #' NOTE: This directory must match or be in the directory from which you ran vos_start().
 #' This is the default behavior and probably best not altered.
-#' @param ext glob and extension to match file types. Will guess based on files specified
+#' @param glob A wildcard aka globbing pattern (e.g. *.nq).
 #' @param graph Name (technically URI) for a graph in the database.  Can leave as default.
+#' If a graph is already specified by the import file (e.g. in nquads), that will be used
+#' instead.
 #'
+#' @references http://vos.openlinksw.com/owiki/wiki/VOS/VirtBulkRDFLoader
 #' @export
-vos_import <- function(con, files, wd = ".", ext = NULL, graph = "rdflib"){
+vos_import <- function(con, files = NULL, wd = ".", glob = "*", graph = "rdflib"){
+
+  assert_allowedDirs(wd)
+
+  ## If given a list of specific files
 
   stopifnot(all(assert_extensions(files))) # could be more helpful error
   if (is.null(ext)) ext <- guess_ext(files)
@@ -62,4 +69,28 @@ guess_ext <- function(files){
                   ".gz")
   }
   ext
+}
+
+
+#' @importFrom fs path_tidy
+assert_allowedDirs <- function(wd, db_dir = vos_db()){
+
+  ## In case user connects to external virtuoso
+  status <- tryCatch(vos_status(),
+                     error = function(e) "not connected",
+                     finally = NULL)
+  if(status == "not connected"){
+    warning(paste("Could not access virtuoso.ini configuration.",
+               "If you are using an external virtuoso server,",
+               "ensure working directory is in allowedDirs"))
+    return(as.character(NA))
+  }
+
+  V <- ini::read.ini(file.path(db_dir, "virtuoso.ini"))
+  allowed <- strsplit(V$Parameters$DirsAllowed, ",")[[1]]
+
+  fs::path_tidy(wd) %in% fs::path_tidy(allowed)
+
+
+
 }

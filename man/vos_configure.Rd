@@ -4,14 +4,13 @@
 \alias{vos_configure}
 \title{Configure Virtuoso Server ini file}
 \usage{
-vos_configure(DirsAllowed = ".", gigs_ram = 2,
-  template = find_virtuoso_ini(), db_dir = virtuoso_app$log())
+vos_configure(dirs_allowed = getwd(), gigs_ram = 2,
+  template = find_virtuoso_ini(), db_dir = vos_db())
 }
 \arguments{
-\item{DirsAllowed}{Paths (relative or absolute) to directories from which
+\item{dirs_allowed}{Paths (relative or absolute) to directories from which
 Virtoso should have read and write access (e.g. for bulk uploading). Should
-be specificied as a single comma-separated string.  Default is the current
-working directory.}
+be specificied as a single comma-separated string.}
 
 \item{gigs_ram}{Indicate approximately the maximum GB of memory Virtuoso can
 have access to.  (Used to set NumberOfBuffers & MaxDirtyBuffers in config.)}
@@ -33,4 +32,7 @@ server starts. This file includes both system-specific information from
 your install (location of server files, addons, etc) and user-configurable
 parameters. This helper function provides a way to create and modify an
 appropriate `virtuoso.ini` file.
+}
+\references{
+<http://docs.openlinksw.com/virtuoso/dbadm/>
 }

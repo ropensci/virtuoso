@@ -11,7 +11,9 @@ vos_query(con, query, graph = "rdflib")
 
 \item{query}{a SPARQL query statement}
 
-\item{graph}{Name (technically URI) for a graph in the database.  Can leave as default.}
+\item{graph}{Name (technically URI) for a graph in the database.  Can leave as default.
+If a graph is already specified by the import file (e.g. in nquads), that will be used
+instead.}
 }
 \description{
 Run SPARQL query
