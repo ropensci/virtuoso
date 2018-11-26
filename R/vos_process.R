@@ -9,11 +9,10 @@ vos_process <- function(p = NA){
               ifnotfound = NA)[[1]]
   }
   if (!inherits(p, "process")) {
-    stop(paste("No virtouso process found.",
+    warning(paste("No virtouso process found.",
                "Try starting one with vos_start()"
     ),
-    call. = FALSE
-    )
+    call. = FALSE)
   }
   p
 }

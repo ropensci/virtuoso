@@ -71,13 +71,13 @@ guess_ext <- function(files){
 
 
 #' @importFrom fs path_tidy
-assert_allowedDirs <- function(wd, db_dir = vos_db()){
+assert_allowedDirs <- function(wd = ".", db_dir = vos_db()){
 
   ## In case user connects to external virtuoso
   status <- tryCatch(vos_status(),
-                     error = function(e) "not connected",
+                     error = function(e) "not detected",
                      finally = NULL)
-  if(status == "not connected"){
+  if(status == "not detected"){
     warning(paste("Could not access virtuoso.ini configuration.",
                "If you are using an external virtuoso server,",
                "ensure working directory is in allowedDirs"))
@@ -86,7 +86,6 @@ assert_allowedDirs <- function(wd, db_dir = vos_db()){
 
   V <- ini::read.ini(file.path(db_dir, "virtuoso.ini"))
   allowed <- strsplit(V$Parameters$DirsAllowed, ",")[[1]]
-
   fs::path_tidy(wd) %in% fs::path_tidy(allowed)
 
 

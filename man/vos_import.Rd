@@ -16,7 +16,7 @@ vos_import(con, files = NULL, wd = ".", glob = "*",
 NOTE: This directory must match or be in the directory from which you ran vos_start().
 This is the default behavior and probably best not altered.}
 
-\item{glob}{A wildcard aka globbing pattern (e.g. *.nq).}
+\item{glob}{A wildcard aka globbing pattern (e.g. "*.nq").}
 
 \item{graph}{Name (technically URI) for a graph in the database.  Can leave as default.
 If a graph is already specified by the import file (e.g. in nquads), that will be used
