@@ -5,6 +5,9 @@
 #' @importFrom processx run process
 vos_install <- function(use_brew = FALSE, prompt = is_interactive()){
 
+  if(has_virtuoso())
+    return(message("Virtuoso installation found."))
+
   ## Windows & DMG installers do not persist path
   ## Need path set so we can check if virtuoso is already installed
   vos_set_path()
@@ -25,14 +28,13 @@ vos_install <- function(use_brew = FALSE, prompt = is_interactive()){
 }
 
 has_virtuoso <- function(){
-  #vos_set_path()
   unname(Sys.which('virtuoso-t') != '')
 }
 
 vos_set_path <- function(vos_home = NULL){
   ## Virtuoso already detected in PATH
   if (has_virtuoso()){
-    return(message("Virtuoso already installed"))
+    return(NULL)
   }
 
   if (is.null(vos_home)){

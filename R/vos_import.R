@@ -12,7 +12,11 @@
 #' If a graph is already specified by the import file (e.g. in nquads), that will be used
 #' instead.
 #'
+#' @details the bulk importer technically imports all files matching a pattern in a given
+#' directory.  If given a list of files
+#'
 #' @references http://vos.openlinksw.com/owiki/wiki/VOS/VirtBulkRDFLoader
+#' @importFrom digest digest
 #' @export
 vos_import <- function(con, files = NULL, wd = ".", glob = "*", graph = "rdflib"){
 
@@ -23,25 +27,38 @@ vos_import <- function(con, files = NULL, wd = ".", glob = "*", graph = "rdflib"
   stopifnot(all(assert_extensions(files))) # could be more helpful error
 
 
-  ## We have to copy files into the directory Virtuoso can access.
-  ## This is the directory where virtuoso.ini is located.
-  if(!dir.exists(wd)) dir.create(wd)
-  ## Can we use file.symlink instead of copy?
-  lapply(files, function(from) file.symlink(from, file.path(wd, basename(from))))
+  ## We have to copy (link) files into the directory Virtuoso can access.
+  if(!is.null(files)){
+    wd = file.path(vos_cache(), digest::digest(files))
+    dir.create(wd, FALSE)
+    lapply(files, function(from) file.symlink(from, file.path(wd, basename(from))))
+  }
 
   ## Even on Windows, ld_dir wants a Unix-style path-slash
   if(is_windows()) wd <- normalizePath(wd, winslash = "/")
-
   DBI::dbGetQuery(con, paste0("ld_dir('", wd, "', '", glob, "', '", graph, "')") )
 
   ## Can call loader multiple times on multicore to load multiple files...
   DBI::dbGetQuery(con, "rdf_loader_run()" )
 
-  ## clean up
-  lapply(files, function(f){
-    if(basename(f) != f) unlink(file.path(wd, basename(files)))
-  })
-  invisible(files)
+  ## clean up cache
+  if(!is.null(files)){
+    lapply(files, function(f){
+      if(basename(f) != f) unlink(file.path(wd, basename(files)))
+    })
+  }
+
+  ## Check status
+  status <- DBI::dbGetQuery(con, paste0("SELECT * FROM DB.DBA.LOAD_LIST"))
+
+  import_errors <-  any(!is.na(status$ll_error))
+  if(import_errors){
+    stop(paste("Error importing",
+               status$ll_file[!is.na(status$ll_error)]),
+         call. = FALSE)
+  }
+
+  invisible(status)
 }
 
 assert_extensions <- function(files){
@@ -80,7 +97,8 @@ assert_allowedDirs <- function(wd = ".", db_dir = vos_db()){
   if(status == "not detected"){
     warning(paste("Could not access virtuoso.ini configuration.",
                "If you are using an external virtuoso server,",
-               "ensure working directory is in allowedDirs"))
+               "ensure working directory is in allowedDirs"),
+            call. = FALSE)
     return(as.character(NA))
   }
 

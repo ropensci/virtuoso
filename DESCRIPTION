@@ -22,7 +22,8 @@ Imports:
     ini,
     rappdirs,
     curl,
-    fs
+    fs,
+    digest
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,

@@ -25,6 +25,10 @@ instead.}
 \description{
 vos_import
 }
+\details{
+the bulk importer technically imports all files matching a pattern in a given
+directory.  If given a list of files
+}
 \references{
 http://vos.openlinksw.com/owiki/wiki/VOS/VirtBulkRDFLoader
 }
