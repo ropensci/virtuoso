@@ -20,6 +20,9 @@
 #' @export
 vos_import <- function(con, files = NULL, wd = ".", glob = "*", graph = "rdflib"){
 
+  #from <- vos_cache()
+  from <- wd
+
   assert_allowedDirs(wd)
 
   ## If given a list of specific files
@@ -29,7 +32,8 @@ vos_import <- function(con, files = NULL, wd = ".", glob = "*", graph = "rdflib"
 
   ## We have to copy (link) files into the directory Virtuoso can access.
   if(!is.null(files)){
-    wd = file.path(vos_cache(), digest::digest(files))
+    subdir <- digest::digest(files)
+    wd = file.path(from, subdir)
     dir.create(wd, FALSE)
     lapply(files, function(from) file.symlink(from, file.path(wd, basename(from))))
   }
@@ -46,6 +50,7 @@ vos_import <- function(con, files = NULL, wd = ".", glob = "*", graph = "rdflib"
     lapply(files, function(f){
       if(basename(f) != f) unlink(file.path(wd, basename(files)))
     })
+    unlink(subdir)
   }
 
   ## Check status
