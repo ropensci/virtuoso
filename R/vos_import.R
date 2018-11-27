@@ -1,42 +1,111 @@
 
 
-#' vos_import
+#' Bulk import of nquads
 #'
 #' @param con a ODBC connection to Virtuoso, from [`vos_connect()`]
 #' @param files paths to files to be imported
-#' @param wd The directory from which we can search the files.
-#' NOTE: This directory must match or be in the directory from which you ran vos_start().
-#' This is the default behavior and probably best not altered.
-#' @param ext glob and extension to match file types. Will guess based on files specified
-#' @param graph Name (technically URI) for a graph in the database.  Can leave as default.
+#' @param wd Alternatively, can specify directory and globbing pattern
+#'  to import. Note that in this case, wd must be in (or a subdir of)
+#'  the `AllowedDirs` list of `virtuoso.ini` file created by
+#'  [`vos_configure()`]. By default, this includes the working directory
+#'  where you called [`vos_start()`] or [`vos_configure()`].
+#' @param glob A wildcard aka globbing pattern (e.g. `"*.nq"``).
+#' @param graph Name (technically URI) for a graph in the database.
+#'  Can leave as default. If a graph is already specified by the
+#'  import file (e.g. in nquads), that will be used instead.
+#' @param n_cores specify the number of available cores for parallel loading.
+#' Particularly useful when importing large numbers of bulk files.
+#' @return (Invisibly) returns the status table of the bulk loader,
+#'  indicating file loading time or errors.
+#' @details the bulk importer imports all files matching a pattern
+#'  in a given directory.  If given a list of files, these are
+#'  temporarily symlinked (or copied on Windows machines) to
+#'  the Virtuoso app cache dir in a subdirectory, and the entire
+#'  subdirectory is loaded (filtered by the globbing pattern).
+#'  If files are not specified, load is called directly on the specified
+#'  directory and pattern.  This is particularly useful for loading large
+#'  numbers of files.
 #'
+#'  Note that Virtuoso recommends breaking large files into multiple smaller ones,
+#'  which can improve loading time (particularly if using multiple cores.)
+#'
+#'  Virtuoso Bulk Importer recognizes the following file formats:
+#'  - `.grdf`
+#'  - `.nq`
+#'  - `.owl`
+#'  - `.nt`
+#'  - `.rdf`
+#'  - `.trig`
+#'  - `.ttl`
+#'  - `.xml`
+#'  Any of these can optionally be gzipped (with a `.gz` extension).
+#' @references <http://vos.openlinksw.com/owiki/wiki/VOS/VirtBulkRDFLoader>
+#' @importFrom digest digest
+#' @importFrom fs path_abs
 #' @export
-vos_import <- function(con, files, wd = ".", ext = NULL, graph = "rdflib"){
+vos_import <- function(con,
+                       files = NULL,
+                       wd = ".",
+                       glob = "*",
+                       graph = "rdflib",
+                       n_cores = 1L){
+
+  cache <- vos_cache()
+
+
+  ## If given a list of specific files
 
   stopifnot(all(assert_extensions(files))) # could be more helpful error
-  if (is.null(ext)) ext <- guess_ext(files)
 
 
+  ## We have to copy (link) files into the directory Virtuoso can access.
+  if(!is.null(files)){
+    subdir <- digest::digest(files)
+    wd <- file.path(cache, subdir)
+    dir.create(wd, showWarnings = FALSE, recursive = TRUE)
+    if(is_windows()){
+      lapply(files, function(from)
+        file.copy(from, file.path(wd, basename(from))))
+    } else {
+      lapply(files, function(from)
+        file.symlink(from, file.path(wd, basename(from))))
+    }
 
-  ## We have to copy files into the directory Virtuoso can access.
-  ## This is the directory where virtuoso.ini is located.
-  if(!dir.exists(wd)) dir.create(wd)
-  ## Can we use file.symlink instead of copy?
-  lapply(files, function(from) file.copy(from, file.path(wd, basename(from))))
+  }
 
   ## Even on Windows, ld_dir wants a Unix-style path-slash
-  if(is_windows()) wd <- normalizePath(wd, winslash = "/")
-
-  DBI::dbGetQuery(con, paste0("ld_dir('", wd, "', '", ext, "', '", graph, "')") )
+  wd <- fs::path_abs(fs::path_tidy(wd))
+  DBI::dbGetQuery(con,
+                  paste0("ld_dir('",
+                         wd,
+                         "', '",
+                         glob,
+                         "', '",
+                         graph,
+                         "')") )
 
   ## Can call loader multiple times on multicore to load multiple files...
-  DBI::dbGetQuery(con, "rdf_loader_run()" )
+  replicate(n_cores, DBI::dbGetQuery(con, "rdf_loader_run()" ))
 
-  ## clean up
-  lapply(files, function(f){
-    if(basename(f) != f) unlink(file.path(wd, basename(files)))
-  })
-  invisible(files)
+  ## clean up cache
+  if(!is.null(files)){
+    lapply(files, function(f){
+      if(basename(f) != f) unlink(file.path(wd, basename(files)))
+    })
+    unlink(subdir)
+  }
+
+  ## Check status
+  status <- DBI::dbGetQuery(con, paste0("SELECT * FROM DB.DBA.LOAD_LIST"))
+
+  import_errors <-  any(!is.na(status$ll_error))
+  if(import_errors){
+    stop(paste("Error importing",
+               status$ll_file[!is.na(status$ll_error)]),
+         call. = FALSE)
+  }
+
+  invisible(status)
 }
 
 assert_extensions <- function(files){
@@ -62,4 +131,29 @@ guess_ext <- function(files){
                   ".gz")
   }
   ext
+}
+
+
+#' @importFrom fs path_tidy
+assert_allowedDirs <- function(wd = ".", db_dir = vos_db()){
+
+  ## In case user connects to external virtuoso
+  status <- tryCatch(vos_status(),
+                     error = function(e) "not detected",
+                     finally = NULL)
+  if(status == "not detected"){
+    warning(paste("Could not access virtuoso.ini configuration.",
+               "If you are using an external virtuoso server,",
+               "ensure working directory is in allowedDirs"),
+            call. = FALSE)
+    return(as.character(NA))
+  }
+
+  V <- ini::read.ini(file.path(db_dir, "virtuoso.ini"))
+  allowed <- strsplit(V$Parameters$DirsAllowed, ",")[[1]]
+  ## FIXME Should also be TRUE if wd is a subdir of an allowed dir
+  fs::path_tidy(wd) %in% fs::path_tidy(allowed)
+
+
+
 }

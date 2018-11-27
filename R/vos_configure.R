@@ -8,10 +8,9 @@
 #' parameters. This helper function provides a way to create and modify an
 #' appropriate `virtuoso.ini` file.
 #'
-#' @param DirsAllowed Paths (relative or absolute) to directories from which
-#' Virtoso should have read and write access (e.g. for bulk uploading). Should
-#' be specificied as a single comma-separated string.  Default is the current
-#' working directory.
+#' @param dirs_allowed Paths (relative or absolute) to directories from which
+#' Virtuoso should have read and write access (e.g. for bulk uploading). Should
+#' be specified as a single comma-separated string.
 #' @param gigs_ram Indicate approximately the maximum GB of memory Virtuoso can
 #' have access to.  (Used to set NumberOfBuffers & MaxDirtyBuffers in config.)
 #' @param template Location of an existing virtuoso.ini file which will be used
@@ -22,25 +21,29 @@
 #' @return Writes the requested `virtuoso.ini` file to the db_dir specified
 #' and returns the path to this file.
 #' @importFrom ini read.ini write.ini
+#' @references <http://docs.openlinksw.com/virtuoso/dbadm/>
 #' @export
-vos_configure <- function(DirsAllowed = ".",
+vos_configure <- function(dirs_allowed = getwd(),
                           gigs_ram = 2,
                           template = find_virtuoso_ini(),
-                          db_dir = virtuoso_app$log()
+                          db_dir = vos_db()
                           ){
 
-  ## NOTE: virtuoso_app$data() might make more sense, but Virtuoso
-  ## Seems to struggle with paths that have spaces in the name, as
-  ## is the case for on Mac OSX data() from rappdirs
-
-  ## dbdir cannot have spaces in path(?)
   dir.create(db_dir, FALSE)
 
+  DirsAllowed <- paste(unique(
+    c(dirs_allowed,       # user-supplied
+      ".",                # required (refers to ini file, e.g. db_dir())
+      vos_cache()         # app's cache dir
+      )),
+    sep="", collapse=",")
+
+  ## Escape spaces in directory names
+  gsub( " ", "\\ ", DirsAllowed)
+  ## Consider normalizePaths with winslash="/"
+
   V <- ini::read.ini(template)
-  V$Parameters$DirsAllowed <-  paste(DirsAllowed,
-                                 normalizePath(DirsAllowed),
-                                 virtuoso_app$cache(),
-                                 sep=",")
+  V$Parameters$DirsAllowed <- DirsAllowed
   V$Parameters$NumberOfBuffers <- 85000 * gigs_ram
   V$Parameters$MaxDirtyBuffers <- 65000 * gigs_ram
 
@@ -65,9 +68,12 @@ vos_configure <- function(DirsAllowed = ".",
   ## Fix relative paths to absolute ones
   if(is_windows()){
     base <- dirname(template)
-    V$Plugins$LoadPath <- normalizePath(file.path(base, V$Plugins$LoadPath))
-    V$HTTPServer$ServerRoot <- normalizePath(file.path(base, V$HTTPServer$ServerRoot))
-    V$Parameters$VADInstallDir <- normalizePath(file.path(base, V$Parameters$VADInstallDir))
+    V$Plugins$LoadPath <-
+      normalizePath(file.path(base, V$Plugins$LoadPath))
+    V$HTTPServer$ServerRoot <-
+      normalizePath(file.path(base, V$HTTPServer$ServerRoot))
+    V$Parameters$VADInstallDir <-
+      normalizePath(file.path(base, V$Parameters$VADInstallDir))
   }
 
   output <- file.path(db_dir, "virtuoso.ini")

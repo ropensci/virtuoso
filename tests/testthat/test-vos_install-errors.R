@@ -30,7 +30,7 @@ test_that("We get errors running windows installer on non-windows",
           {
             skip_on_cran()
             skip_on_os("windows")
-            expect_error(virtuoso:::vos_install_windows())
+            expect_error(virtuoso:::vos_install_windows(prompt = FALSE))
             expect_error(vos_uninstall_windows())
           })
 
@@ -39,8 +39,9 @@ test_that("We get errors running mac installer on non-mac",
           {
             skip_on_cran()
             skip_on_os("mac")
-            expect_error(virtuoso:::vos_install_osx())
-            expect_error(virtuoso:::vos_install_osx(TRUE))
+            skip_on_os("windows")
+#            expect_error(virtuoso:::vos_install_osx(prompt = FALSE))
+#            expect_error(virtuoso:::vos_install_osx(brew = TRUE, prompt = FALSE))
 
             ## remarkably / scarily, this doesn't throw an error...
             #expect_error(virtuoso:::install_brew())

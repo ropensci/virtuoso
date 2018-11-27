@@ -2,7 +2,18 @@
 #' @importFrom rappdirs app_dir
 virtuoso_app <- rappdirs::app_dir("Virtuoso")
 
+vos_db <- function(db_dir = virtuoso_app$log()){
+  ## NOTE: virtuoso_app$data() might make more sense, but Virtuoso
+  ## Seems to struggle with paths that have spaces in the name, as
+  ## is the case for on Mac OSX data() from rappdirs
+  db_dir
+}
 
+vos_cache <- function(cache_dir = virtuoso_app$cache()){
+  cache_dir
+}
+
+## The system home location
 virtuoso_home <- function(){
   switch(which_os(),
          osx = virtuoso_home_osx(),

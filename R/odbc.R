@@ -9,7 +9,7 @@
 #' @param local_odbcinst Path to the local odbcinst we should use.
 #'
 #' @details This function is called automatically by [`vos_install()`] and thus
-#' does not usally need to be called by the user.  Users can also manually configure
+#' does not usually need to be called by the user.  Users can also manually configure
 #' ODBC as outlined in <https://github.com/r-dbi/odbc#dsn-configuration-files>.
 #' This is merely a convenience function automating that process on most systems.
 #'
@@ -21,7 +21,7 @@
 #' @export
 vos_odbcinst <-
   function(system_odbcinst = find_odbcinst(),
-           local_odbcinst = odbcsysini()){
+           local_odbcinst = odbcinst_path()){
 
   ## NOTE: This applies to and is used only by on MacOS / Linux
   # Sys.setenv(ODBCSYSINI=local_odbcinst)
@@ -49,8 +49,8 @@ vos_odbcinst <-
 
 ## Seems to be a problem with ODBC being able to read from file locations
 ## that have spaces in the names.  (as in rappdirs config() and data() in MacOS)
-odbcsysini <- function(){
-  #normalizePath(file.path(virtuoso_app$log(), "odbcinst.ini"))
+odbcinst_path <- function(){
+  #normalizePath(file.path(vos_db(), "odbcinst.ini"))
   path.expand("~/.odbcinst.ini")
 }
 

@@ -21,7 +21,9 @@ Imports:
     utils,
     ini,
     rappdirs,
-    curl
+    curl,
+    fs,
+    digest
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,
@@ -31,6 +33,8 @@ Suggests:
     covr,
     jsonld,
     rdftools,
-    dplyr
+    dplyr,
+    spelling
 VignetteBuilder: knitr
 Remotes: cboettig/rdftools
+Language: en-US

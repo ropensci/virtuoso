@@ -5,7 +5,7 @@
 \title{Configure the ODBC Driver for Virtuoso}
 \usage{
 vos_odbcinst(system_odbcinst = find_odbcinst(),
-  local_odbcinst = odbcsysini())
+  local_odbcinst = odbcinst_path())
 }
 \arguments{
 \item{system_odbcinst}{Path to the system odbcinst.ini file. (Does not
@@ -18,7 +18,7 @@ Configure the ODBC Driver for Virtuoso
 }
 \details{
 This function is called automatically by [`vos_install()`] and thus
-does not usally need to be called by the user.  Users can also manually configure
+does not usually need to be called by the user.  Users can also manually configure
 ODBC as outlined in <https://github.com/r-dbi/odbc#dsn-configuration-files>.
 This is merely a convenience function automating that process on most systems.
 

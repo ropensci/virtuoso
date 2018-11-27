@@ -19,8 +19,17 @@ vos_clear_graph <- function(con, graph = "rdflib"){
   DBI::dbGetQuery(con, paste0("SPARQL CLEAR GRAPH <", graph, ">"))
 }
 
-vos_delete_db <- function(db_dir = virtuoso_app$log()){
-  unlink(db_dir, recursive = TRUE)
+#' Delete Virtuoso Database
+#'
+#' delete the entire Virtuoso database for a fresh start.
+#' @param ask prompt before deleting?
+#' @param db_dir location of the directory to delete
+#' @export
+vos_delete_db <- function(ask = interactive(), db_dir = vos_db()){
+  if(ask)
+    continue <- utils::askYesNo("Are you sure?")
+  if(continue)
+    unlink(db_dir, recursive = TRUE)
 }
 
 
