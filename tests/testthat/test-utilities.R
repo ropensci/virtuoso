@@ -14,7 +14,7 @@ test_that("we can guess extension", {
 })
 
 test_that("assert allowed dirs exits if server not connected ", {
-  skip_if(vos_status())
+  skip_if(suppressWarnings(vos_status()))
 
   expect_warning(assert_allowedDirs())
 

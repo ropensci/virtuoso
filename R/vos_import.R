@@ -17,11 +17,12 @@
 #'
 #' @references http://vos.openlinksw.com/owiki/wiki/VOS/VirtBulkRDFLoader
 #' @importFrom digest digest
+#' @importFrom fs path_abs
 #' @export
 vos_import <- function(con, files = NULL, wd = ".", glob = "*", graph = "rdflib"){
 
-  from <- vos_cache()
-  #from <- wd
+ # cache <- vos_cache()
+  cache <- wd
 
   assert_allowedDirs(wd)
 
@@ -33,13 +34,22 @@ vos_import <- function(con, files = NULL, wd = ".", glob = "*", graph = "rdflib"
   ## We have to copy (link) files into the directory Virtuoso can access.
   if(!is.null(files)){
     subdir <- digest::digest(files)
-    wd = file.path(from, subdir)
+    wd = file.path(cache, subdir)
     dir.create(wd, FALSE)
-    lapply(files, function(from) file.symlink(from, file.path(wd, basename(from))))
+    if(is_windows()){
+      lapply(files, function(from)
+        file.copy(from, file.path(wd, basename(from))))
+    } else {
+      lapply(files, function(from)
+        file.symlink(from, file.path(wd, basename(from))))
+    }
+
+
   }
 
   ## Even on Windows, ld_dir wants a Unix-style path-slash
   wd <- fs::path_tidy(wd)
+  if(is_windows()) wd <- fs::path_abs(wd)
   DBI::dbGetQuery(con, paste0("ld_dir('", wd, "', '", glob, "', '", graph, "')") )
 
   ## Can call loader multiple times on multicore to load multiple files...
