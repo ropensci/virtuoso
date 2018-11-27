@@ -9,7 +9,7 @@
 #' @param local_odbcinst Path to the local odbcinst we should use.
 #'
 #' @details This function is called automatically by [`vos_install()`] and thus
-#' does not usally need to be called by the user.  Users can also manually configure
+#' does not usually need to be called by the user.  Users can also manually configure
 #' ODBC as outlined in <https://github.com/r-dbi/odbc#dsn-configuration-files>.
 #' This is merely a convenience function automating that process on most systems.
 #'

@@ -2,33 +2,62 @@
 % Please edit documentation in R/vos_import.R
 \name{vos_import}
 \alias{vos_import}
-\title{vos_import}
+\title{Bulk import of nquads}
 \usage{
 vos_import(con, files = NULL, wd = ".", glob = "*",
-  graph = "rdflib")
+  graph = "rdflib", n_cores = 1L)
 }
 \arguments{
 \item{con}{a ODBC connection to Virtuoso, from [`vos_connect()`]}
 
 \item{files}{paths to files to be imported}
 
-\item{wd}{The directory from which we can search the files.
-NOTE: This directory must match or be in the directory from which you ran vos_start().
-This is the default behavior and probably best not altered.}
+\item{wd}{Alternatively, can specify directory and globbing pattern
+to import. Note that in this case, wd must be in (or a subdir of)
+the `AllowedDirs` list of `virtuoso.ini` file created by
+[`vos_configure()`]. By default, this includes the working directory
+where you called [`vos_start()`] or [`vos_configure()`].}
 
-\item{glob}{A wildcard aka globbing pattern (e.g. "*.nq").}
+\item{glob}{A wildcard aka globbing pattern (e.g. `"*.nq"``).}
 
-\item{graph}{Name (technically URI) for a graph in the database.  Can leave as default.
-If a graph is already specified by the import file (e.g. in nquads), that will be used
-instead.}
+\item{graph}{Name (technically URI) for a graph in the database.
+Can leave as default. If a graph is already specified by the
+import file (e.g. in nquads), that will be used instead.}
+
+\item{n_cores}{specify the number of available cores for parallel loading.
+Particularly useful when importing large numbers of bulk files.}
+}
+\value{
+(Invisibly) returns the status table of the bulk loader,
+ indicating file loading time or errors.
 }
 \description{
-vos_import
+Bulk import of nquads
 }
 \details{
-the bulk importer technically imports all files matching a pattern in a given
-directory.  If given a list of files
+the bulk importer imports all files matching a pattern
+ in a given directory.  If given a list of files, these are
+ temporarily symlinked (or copied on Windows machines) to
+ the Virtuoso app cache dir in a subdirectory, and the entire
+ subdirectory is loaded (filtered by the globbing pattern).
+ If files are not specified, load is called directly on the specified
+ directory and pattern.  This is particularly useful for loading large
+ numbers of files.
+
+ Note that Virtuoso recommends breaking large files into multiple smaller ones,
+ which can improve loading time (particularly if using multiple cores.)
+
+ Virtuoso Bulk Importer recognizes the following file formats:
+ - `.grdf`
+ - `.nq`
+ - `.owl`
+ - `.nt`
+ - `.rdf`
+ - `.trig`
+ - `.ttl`
+ - `.xml`
+ Any of these can optionally be gzipped (with a `.gz` extension).
 }
 \references{
-http://vos.openlinksw.com/owiki/wiki/VOS/VirtBulkRDFLoader
+<http://vos.openlinksw.com/owiki/wiki/VOS/VirtBulkRDFLoader>
 }

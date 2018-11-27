@@ -9,9 +9,9 @@ vos_clear_graph(con, graph = "rdflib")
 \arguments{
 \item{con}{a ODBC connection to Virtuoso, from [`vos_connect()`]}
 
-\item{graph}{Name (technically URI) for a graph in the database.  Can leave as default.
-If a graph is already specified by the import file (e.g. in nquads), that will be used
-instead.}
+\item{graph}{Name (technically URI) for a graph in the database.
+Can leave as default. If a graph is already specified by the
+import file (e.g. in nquads), that will be used instead.}
 }
 \description{
 Clear all triples from a graph

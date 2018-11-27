@@ -9,8 +9,8 @@ vos_configure(dirs_allowed = getwd(), gigs_ram = 2,
 }
 \arguments{
 \item{dirs_allowed}{Paths (relative or absolute) to directories from which
-Virtoso should have read and write access (e.g. for bulk uploading). Should
-be specificied as a single comma-separated string.}
+Virtuoso should have read and write access (e.g. for bulk uploading). Should
+be specified as a single comma-separated string.}
 
 \item{gigs_ram}{Indicate approximately the maximum GB of memory Virtuoso can
 have access to.  (Used to set NumberOfBuffers & MaxDirtyBuffers in config.)}
