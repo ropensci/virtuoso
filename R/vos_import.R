@@ -74,7 +74,8 @@ vos_import <- function(con,
   }
 
   ## Even on Windows, ld_dir wants a Unix-style path-slash
-  wd <- fs::path_abs(fs::path_tidy(wd))
+  wd <- fs::path_tidy(wd)
+  if(is_windows()) wd <- fs::path_abs(wd)
   DBI::dbGetQuery(con,
                   paste0("ld_dir('",
                          wd,
@@ -89,9 +90,7 @@ vos_import <- function(con,
 
   ## clean up cache
   if(!is.null(files)){
-    lapply(files, function(f){
-      if(basename(f) != f) unlink(file.path(wd, basename(files)))
-    })
+    lapply(files, function(f) unlink(file.path(wd, basename(files))))
     unlink(subdir)
   }
 
