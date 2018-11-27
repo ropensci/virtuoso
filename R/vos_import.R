@@ -20,8 +20,8 @@
 #' @export
 vos_import <- function(con, files = NULL, wd = ".", glob = "*", graph = "rdflib"){
 
-  #from <- vos_cache()
-  from <- wd
+  from <- vos_cache()
+  #from <- wd
 
   assert_allowedDirs(wd)
 
@@ -39,7 +39,7 @@ vos_import <- function(con, files = NULL, wd = ".", glob = "*", graph = "rdflib"
   }
 
   ## Even on Windows, ld_dir wants a Unix-style path-slash
-  if(is_windows()) wd <- normalizePath(wd, winslash = "/")
+  wd <- fs::path_tidy(wd)
   DBI::dbGetQuery(con, paste0("ld_dir('", wd, "', '", glob, "', '", graph, "')") )
 
   ## Can call loader multiple times on multicore to load multiple files...
