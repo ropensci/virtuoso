@@ -28,11 +28,12 @@ vos_install <- function(use_brew = FALSE, prompt = is_interactive()){
 }
 
 has_virtuoso <- function(){
-  unname(Sys.which('virtuoso-t') != '')
+  file.exists(unname(Sys.which('virtuoso-t')))
 }
 
 vos_set_path <- function(vos_home = NULL){
   ## Virtuoso already detected in PATH
+
   if (has_virtuoso()){
     return(NULL)
   }
@@ -58,6 +59,8 @@ vos_set_path <- function(vos_home = NULL){
   bin_dir <- normalizePath(bin_dir)
   path <- Sys.getenv("PATH")
   Sys.setenv("PATH" = paste(path, bin_dir, sep = sep))
+
+  invisible(path)
 }
 
 

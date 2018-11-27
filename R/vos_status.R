@@ -12,7 +12,7 @@ vos_status <- function(p = NA, wait = 10){
 
   if (!p$is_alive()) {
     warning(paste("Server is not alive, please restart. Server log: \n\n",
-                  vos_log(p)), call. = FALSE)
+                  vos_log(p, collapse = "\n")), call. = FALSE)
     return("dead")
   }
 
