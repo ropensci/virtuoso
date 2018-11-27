@@ -78,7 +78,7 @@ Can also read in compressed formats as well.  Remeber to set the pattern match a
 
 ```{r}
 ex <- system.file("extdata", "library.nq.gz", package = "virtuoso")
-vos_import(con, ex, ext = "*.nq.gz")
+vos_import(con, ex)
 ```
 
 The import process is run by the external process, it will not throw an error if the server fails to import the file (e.g. due to formatting errors in the N-Quads file).  We can optionally check for possible error messages in the import process by scanning the full log for errors:

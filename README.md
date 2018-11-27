@@ -37,16 +37,15 @@ operating system.
 
 ``` r
 vos_install()
-#> virtuoso already installed.
 ```
 
 We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 89612.
+#> PROCESS 'virtuoso-t', running, pid 39981.
 #> Server is now starting up, this may take a few seconds...
-#> latest log entry: 11:53:05 Server online at 1111 (pid 89612)
+#> latest log entry: 22:36:36 Server online at 1111 (pid 39981)
 ```
 
 Once the server is running, we can connect to the database.
@@ -96,7 +95,7 @@ subject URIs).
 
 ``` r
 ex <- system.file("extdata", "library.nq.gz", package = "virtuoso")
-vos_import(con, ex, ext = "*.nq.gz")
+vos_import(con, ex)
 ```
 
 The import process is run by the external process, it will not throw an
@@ -148,7 +147,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 11:53:06 PL LOG: No more files to load. Loader has finished,
+#> latest log entry: 22:36:42 PL LOG: No more files to load. Loader has finished,
 #> [1] "running"
 ```
 
@@ -163,7 +162,7 @@ example:
 ``` r
 p <- vos_process()
 p$get_error_file()
-#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/RtmpG6Br7f/vos_start15d6b4f139ab8.log"
+#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/RtmprWGF3p/vos_start99bdfff46c2.log"
 p$suspend()
 #> NULL
 p$resume()
