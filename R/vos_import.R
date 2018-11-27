@@ -21,9 +21,7 @@
 #' @export
 vos_import <- function(con, files = NULL, wd = ".", glob = "*", graph = "rdflib"){
 
- # cache <- vos_cache()
-  cache <- wd
-
+  cache <- vos_cache()
   assert_allowedDirs(wd)
 
   ## If given a list of specific files
@@ -35,7 +33,7 @@ vos_import <- function(con, files = NULL, wd = ".", glob = "*", graph = "rdflib"
   if(!is.null(files)){
     subdir <- digest::digest(files)
     wd = file.path(cache, subdir)
-    dir.create(wd, FALSE)
+    dir.create(wd, showWarnings = FALSE, recursive = TRUE)
     if(is_windows()){
       lapply(files, function(from)
         file.copy(from, file.path(wd, basename(from))))
@@ -48,9 +46,15 @@ vos_import <- function(con, files = NULL, wd = ".", glob = "*", graph = "rdflib"
   }
 
   ## Even on Windows, ld_dir wants a Unix-style path-slash
-  wd <- fs::path_tidy(wd)
-  if(is_windows()) wd <- fs::path_abs(wd)
-  DBI::dbGetQuery(con, paste0("ld_dir('", wd, "', '", glob, "', '", graph, "')") )
+  wd <- fs::path_abs(fs::path_tidy(wd))
+  DBI::dbGetQuery(con,
+                  paste0("ld_dir('",
+                         wd,
+                         "', '",
+                         glob,
+                         "', '",
+                         graph,
+                         "')") )
 
   ## Can call loader multiple times on multicore to load multiple files...
   DBI::dbGetQuery(con, "rdf_loader_run()" )
