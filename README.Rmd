@@ -81,12 +81,14 @@ ex <- system.file("extdata", "library.nq.gz", package = "virtuoso")
 vos_import(con, ex)
 ```
 
-The import process is run by the external process, it will not throw an error if the server fails to import the file (e.g. due to formatting errors in the N-Quads file).  We can optionally check for possible error messages in the import process by scanning the full log for errors:
+`vos_import` invisibly returns a table of the loaded files, with error message and loading times.  If a file cannot be imported, an error message is returned:
 
-```{r}
-vos_log(just_errors = TRUE)
+```{r error = TRUE}
+bad_file <- system.file("extdata", "bad_quads.nq", package = "virtuoso")
+vos_import(con, bad_file)
 ```
 
+ 
 We can now query the imported data using SPARQL.  
 
 ```{r}

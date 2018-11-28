@@ -7,7 +7,7 @@ virtuoso_cache <- new.env()
 #' default configuration file.
 #' @param wait number of seconds to wait for server to come online
 #' @export
-vos_start <- function(ini = NULL, wait = 10){
+vos_start <- function(ini = NULL, wait = 30){
 
   if(!has_virtuoso())
     stop(paste("Virtuoso installation not detected.  See vos_install()"))
@@ -40,7 +40,7 @@ vos_start <- function(ini = NULL, wait = 10){
   ## Wait for status
   message(p$format())
   message("Server is now starting up, this may take a few seconds...\n")
-  Sys.sleep(wait)
+  Sys.sleep(2)
   vos_status(p, wait = wait)
 
 

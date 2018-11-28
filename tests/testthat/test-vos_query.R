@@ -30,6 +30,9 @@ test_that("We can connect, bulk load and query", {
   expect_true(any(grepl("Jane Doe", df)))
 
 
+  bad_file <- system.file("extdata", "bad_quads.nq", package = "virtuoso")
+  expect_error(vos_import(con, bad_file))
+
   vos_list_graphs(con)
   vos_count_triples(con)
 

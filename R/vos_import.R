@@ -63,12 +63,13 @@ vos_import <- function(con,
     subdir <- digest::digest(files)
     wd <- file.path(cache, subdir)
     dir.create(wd, showWarnings = FALSE, recursive = TRUE)
+    ## NOTE we need abs paths of files for this to work (at least with symlinks)
     if(is_windows()){
       lapply(files, function(from)
-        file.copy(from, file.path(wd, basename(from))))
+        file.copy(fs::path_abs(from), file.path(wd, basename(from))))
     } else {
       lapply(files, function(from)
-        file.symlink(from, file.path(wd, basename(from))))
+        file.symlink(fs::path_abs(from), file.path(wd, basename(from))))
     }
 
   }
@@ -85,6 +86,8 @@ vos_import <- function(con,
                          graph,
                          "')") )
 
+  importing_files <- fs::dir_ls(wd, glob = glob)
+
   ## Can call loader multiple times on multicore to load multiple files...
   replicate(n_cores, DBI::dbGetQuery(con, "rdf_loader_run()" ))
 
@@ -94,13 +97,16 @@ vos_import <- function(con,
     unlink(subdir)
   }
 
-  ## Check status
+  ## Check status. This includes all fils ever imported
+  ## Select only those on current import list.
   status <- DBI::dbGetQuery(con, paste0("SELECT * FROM DB.DBA.LOAD_LIST"))
+  current <- status$ll_file %in% importing_files
+  status <- status[current,]
 
   import_errors <-  any(!is.na(status$ll_error))
   if(import_errors){
-    stop(paste("Error importing",
-               status$ll_file[!is.na(status$ll_error)]),
+    err <- status[!is.na(status$ll_error), c("ll_file", "ll_error")]
+    stop(paste("Error importing:", paste(basename(err$ll_file), err$ll_error)),
          call. = FALSE)
   }
 

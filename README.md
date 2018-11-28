@@ -43,9 +43,9 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 39981.
+#> PROCESS 'virtuoso-t', running, pid 19207.
 #> Server is now starting up, this may take a few seconds...
-#> latest log entry: 22:36:36 Server online at 1111 (pid 39981)
+#> latest log entry: 17:33:43 Server online at 1111 (pid 19207)
 ```
 
 Once the server is running, we can connect to the database.
@@ -98,14 +98,14 @@ ex <- system.file("extdata", "library.nq.gz", package = "virtuoso")
 vos_import(con, ex)
 ```
 
-The import process is run by the external process, it will not throw an
-error if the server fails to import the file (e.g. due to formatting
-errors in the N-Quads file). We can optionally check for possible error
-messages in the import process by scanning the full log for errors:
+`vos_import` invisibly returns a table of the loaded files, with error
+message and loading times. If a file cannot be imported, an error
+message is returned:
 
 ``` r
-vos_log(just_errors = TRUE)
-#> character(0)
+bad_file <- system.file("extdata", "bad_quads.nq", package = "virtuoso")
+vos_import(con, bad_file)
+#> Error: Error importing: bad_quads.nq 37000 [Vectorized Turtle loader] SP029: NQuads RDF loader, line 2: Undefined namespace prefix at ITIS:1000000
 ```
 
 We can now query the imported data using SPARQL.
@@ -147,7 +147,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 22:36:42 PL LOG: No more files to load. Loader has finished,
+#> latest log entry: 17:33:44 PL LOG: No more files to load. Loader has finished,
 #> [1] "running"
 ```
 
@@ -162,7 +162,7 @@ example:
 ``` r
 p <- vos_process()
 p$get_error_file()
-#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/RtmprWGF3p/vos_start99bdfff46c2.log"
+#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/RtmpnZAugC/vos_start48ac30820364.log"
 p$suspend()
 #> NULL
 p$resume()
