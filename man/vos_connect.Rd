@@ -5,7 +5,8 @@
 \title{Connect to a Virtuoso Server over ODBC}
 \usage{
 vos_connect(driver = NULL, uid = "dba", pwd = "dba",
-  host = "localhost", port = "1111")
+  host = "localhost", port = "1111",
+  system_odbcinst = find_odbcinst(), local_odbcinst = odbcinst_path())
 }
 \arguments{
 \item{driver}{Name of the Driver line in the ODBC configuration}
@@ -18,6 +19,11 @@ vos_connect(driver = NULL, uid = "dba", pwd = "dba",
 
 \item{port}{Port used by Virtuoso. Defaults to
 the Virtuoso standard port, 1111}
+
+\item{system_odbcinst}{Path to the system odbcinst.ini file. (Does not
+require write access.) Default will attempt to find the file for your system.}
+
+\item{local_odbcinst}{Path to the local odbcinst we should use.}
 }
 \description{
 Connect to a Virtuoso Server over ODBC

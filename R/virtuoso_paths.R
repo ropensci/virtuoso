@@ -2,7 +2,16 @@
 #' @importFrom rappdirs app_dir
 virtuoso_app <- rappdirs::app_dir("Virtuoso")
 
-vos_db <- function(db_dir = virtuoso_app$log()){
+vos_db <- function(db_dir = virtuoso_app$data()){
+  ## NOTE: virtuoso_app$data() might make more sense, but Virtuoso
+  ## Seems to struggle with paths that have spaces in the name, as
+  ## is the case for on Mac OSX data() from rappdirs
+  db_dir
+}
+
+
+
+vos_config <- function(db_dir = virtuoso_app$config()){
   ## NOTE: virtuoso_app$data() might make more sense, but Virtuoso
   ## Seems to struggle with paths that have spaces in the name, as
   ## is the case for on Mac OSX data() from rappdirs
@@ -11,6 +20,12 @@ vos_db <- function(db_dir = virtuoso_app$log()){
 
 vos_cache <- function(cache_dir = virtuoso_app$cache()){
   cache_dir
+}
+
+
+#' @importFrom fs path_norm
+odbcinst_path <- function(){
+  fs::path_norm(file.path(vos_config(), "odbcinst.ini"))
 }
 
 ## The system home location
