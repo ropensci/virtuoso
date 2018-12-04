@@ -35,6 +35,7 @@ test_that("We can connect, bulk load and query", {
 
   vos_list_graphs(con)
   vos_count_triples(con)
+  vos_count_triples(con, "rdflib")
 
 ### After data is cleared, cannot re-load it w/o restarting server first...
 ### "We can clear all data",

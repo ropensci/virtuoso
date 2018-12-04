@@ -24,7 +24,7 @@ vos_odbcinst <-
            local_odbcinst = odbcinst_path()){
 
   ## NOTE: This applies to and is used only by on MacOS / Linux
-  # Sys.setenv(ODBCSYSINI=local_odbcinst)
+  Sys.setenv(ODBCSYSINI=dirname(local_odbcinst))
 
   ## Use local odbcinst if already configured
   if (already_set(local_odbcinst)){
@@ -32,10 +32,11 @@ vos_odbcinst <-
   }
 
   ## Then use system odbcinst if that is configured
-  if (already_set(system_odbcinst)){
-    # Sys.setenv(ODBCSYSINI=system_odbcinst)
-    return(invisible(system_odbcinst))
-  }
+  ## NO -- don't trust system odbcinst to be already set
+  #if (already_set(system_odbcinst)){
+  #  # Sys.setenv(ODBCSYSINI=system_odbcinst)
+  #  return(invisible(system_odbcinst))
+  #}
 
   write(c("",
           "[Local Virtuoso]",
@@ -47,12 +48,7 @@ vos_odbcinst <-
   invisible(local_odbcinst)
   }
 
-## Seems to be a problem with ODBC being able to read from file locations
-## that have spaces in the names.  (as in rappdirs config() and data() in MacOS)
-odbcinst_path <- function(){
-  #normalizePath(file.path(vos_db(), "odbcinst.ini"))
-  path.expand("~/.odbcinst.ini")
-}
+
 
 already_set <- function(odbcinst){
   if(is.null(odbcinst))
