@@ -129,8 +129,13 @@ p$resume()
 vos_kill()
 ```
 
+## Going further
+
+Please see the package vignettes for more information:
+
+- [details on Virtuoso Installation & configuration](https://cboettig.github.io/virtuoso/articles/installation.html)
+- [The Data Lake: richer examples of RDF use](https://cboettig.github.io/virtuoso/articles/articles/datalake.html)
+
 ---
 
-See richer examples in the [package vignettes](https://cboettig.github.io/virtuoso/articles).
-
-
+Please note that the 'virtuoso' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.

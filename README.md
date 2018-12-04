@@ -43,9 +43,9 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 19207.
+#> PROCESS 'virtuoso-t', running, pid 41323.
 #> Server is now starting up, this may take a few seconds...
-#> latest log entry: 17:33:43 Server online at 1111 (pid 19207)
+#> latest log entry: 23:36:14 Server online at 1111 (pid 41323)
 ```
 
 Once the server is running, we can connect to the database.
@@ -147,7 +147,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 17:33:44 PL LOG: No more files to load. Loader has finished,
+#> latest log entry: 23:36:16 PL LOG: No more files to load. Loader has finished,
 #> [1] "running"
 ```
 
@@ -162,14 +162,24 @@ example:
 ``` r
 p <- vos_process()
 p$get_error_file()
-#> [1] "/var/folders/y8/0wn724zs10jd79_srhxvy49r0000gn/T/RtmpnZAugC/vos_start48ac30820364.log"
+#> [1] "/Users/cboettig/Library/Logs/Virtuoso/virtuoso.log"
 p$suspend()
 #> NULL
 p$resume()
 #> NULL
 ```
 
+## Going further
+
+Please see the package vignettes for more information:
+
+  - [details on Virtuoso Installation &
+    configuration](https://cboettig.github.io/virtuoso/articles/installation.html)
+  - [The Data Lake: richer examples of RDF
+    use](https://cboettig.github.io/virtuoso/articles/articles/datalake.html)
+
 -----
 
-See richer examples in the [package
-vignettes](https://cboettig.github.io/virtuoso/articles).
+Please note that the ‘virtuoso’ project is released with a [Contributor
+Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
+you agree to abide by its terms.
