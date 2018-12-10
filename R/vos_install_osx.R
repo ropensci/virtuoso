@@ -1,4 +1,4 @@
-#' @importFrom utils askYesNo
+#  @importFrom utils askYesNo  ## Do not import, breaks in R 3.4
 vos_install_osx <-
   function(use_brew = has_homebrew(),
            prompt = is_interactive()){

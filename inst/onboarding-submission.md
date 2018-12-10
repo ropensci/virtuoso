@@ -1,6 +1,6 @@
 Submitting Author: Carl Boettiger (@cboettig)
 Repository: <https://github.com/cboettig/virtuoso>
-Version submitted: 0.1.0 (tagged)
+Version submitted: 0.1.1 (tagged)
 Editor: TBD
 Reviewer 1: TBD
 Reviewer 2: TBD

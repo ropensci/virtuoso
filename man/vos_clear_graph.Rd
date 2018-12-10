@@ -17,6 +17,6 @@ import file (e.g. in nquads), that will be used instead.}
 Clear all triples from a graph
 }
 \details{
-NOTE: after clearing a graph, re-running the bulk importer may not
-re-import triples, at least until virtuoso-server is restarted.
+NOTE: after clearing a graph, re-running the bulk
+importer may not re-import triples.
 }
