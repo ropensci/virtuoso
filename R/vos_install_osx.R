@@ -66,8 +66,10 @@ vos_install_formulae <- function(has_unixodbc = FALSE){
   ## Here, we force the install to avoid unlinking all of unixodbc
   ## We then link odbc with overwrite over `isql`.  Sadly, `link` also
   ## lacks the compliment of `overwrite` to skip already-installed binaries.
-  processx::run("brew", c("install", "--force", "virtuoso"), error_on_status = FALSE)
-  processx::run("brew", c("link", "--overwrite", "virtuoso"), error_on_status = FALSE)
+  processx::run("brew", c("install", "--force", "virtuoso"),
+                error_on_status = FALSE)
+  processx::run("brew", c("link", "--overwrite", "virtuoso"),
+                error_on_status = FALSE)
 
 
 }

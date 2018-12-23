@@ -38,7 +38,3 @@ vos_connect <- function(driver = NULL,
 
 }
 
-
-
-#library(rdflib)
-#triplestore  <- rdf(storage = "virtuoso", user = "dba", password = "dba", host="localhost:1111")
