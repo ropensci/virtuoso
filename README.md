@@ -1,4 +1,6 @@
 
+# virtuoso <img src="man/figures/logo.svg" align="right" alt="" width="120" />
+
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Travis build
 status](https://travis-ci.org/cboettig/virtuoso.svg?branch=master)](https://travis-ci.org/cboettig/virtuoso)
@@ -10,8 +12,6 @@ status](https://codecov.io/gh/cboettig/virtuoso/branch/master/graph/badge.svg)](
 status](https://www.r-pkg.org/badges/version/virtuoso)](https://cran.r-project.org/package=virtuoso)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# virtuoso
 
 The goal of virtuoso is to provide an easy interface to Virtuoso RDF
 database from R.
@@ -43,9 +43,9 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 41323.
+#> PROCESS 'virtuoso-t', running, pid 64040.
 #> Server is now starting up, this may take a few seconds...
-#> latest log entry: 23:36:14 Server online at 1111 (pid 41323)
+#> latest log entry: 22:23:15 Server online at 1111 (pid 64040)
 ```
 
 Once the server is running, we can connect to the database.
@@ -147,7 +147,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 23:36:16 PL LOG: No more files to load. Loader has finished,
+#> latest log entry: 22:23:16 PL LOG: No more files to load. Loader has finished,
 #> [1] "running"
 ```
 

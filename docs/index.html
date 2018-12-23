@@ -77,7 +77,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/cboettig/virtuoso">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -92,11 +99,12 @@
 
     
     
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="virtuoso" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#virtuoso" class="anchor"></a>virtuoso</h1></div>
+<a href="#virtuoso" class="anchor"></a>virtuoso <img src="reference/figures/logo.svg" align="right" alt="" width="120">
+</h1></div>
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 <p>The goal of virtuoso is to provide an easy interface to Virtuoso RDF database from R.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -112,9 +120,9 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="reference/vos_install.html">vos_install</a></span>()</a></code></pre></div>
 <p>We can now start our Virtuoso server from R:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="reference/vos_start.html">vos_start</a></span>()</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; PROCESS 'virtuoso-t', running, pid 42083.</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; PROCESS 'virtuoso-t', running, pid 62011.</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; Server is now starting up, this may take a few seconds...</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; latest log entry: 23:37:03 Server online at 1111 (pid 42083)</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; latest log entry: 22:19:47 Server online at 1111 (pid 62011)</span></a></code></pre></div>
 <p>Once the server is running, we can connect to the database.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">con &lt;-<span class="st"> </span><span class="kw"><a href="reference/vos_connect.html">vos_connect</a></span>()</a></code></pre></div>
 <p>Our connection is now live, and accepts SPARQL queries directly.</p>
@@ -180,7 +188,7 @@
 <a href="#server-controls" class="anchor"></a>Server controls</h2>
 <p>We can control any <code>virtuoso</code> server started with <code><a href="reference/vos_start.html">vos_start()</a></code> using a series of helper commands.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="reference/vos_status.html">vos_status</a></span>()</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; latest log entry: 23:37:05 PL LOG: No more files to load. Loader has finished,</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; latest log entry: 22:19:48 PL LOG: No more files to load. Loader has finished,</span></a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt; [1] "running"</span></a></code></pre></div>
 <p>Advanced usage note: <code><a href="reference/vos_start.html">vos_start()</a></code> invisibly returns a <code>processx</code> object which we can pass to other server control functions, or access the embedded <code>processx</code> control methods directly. The <code>virtuoso</code> package also caches this object in an environment so that it can be accessed directly without having to keep track of an object in the global environment. Use <code><a href="reference/vos_process.html">vos_process()</a></code> to return the <code>processx</code> object. For example:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">p &lt;-<span class="st"> </span><span class="kw"><a href="reference/vos_process.html">vos_process</a></span>()</a>
@@ -209,7 +217,9 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Report a bug at <br><a href="NA">NA</a>
+<li>Browse source code at <br><a href="https://github.com/cboettig/virtuoso">https://​github.com/​cboettig/​virtuoso</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/cboettig/virtuoso/issues">https://​github.com/​cboettig/​virtuoso/​issues</a>
 </li>
 </ul>
 </div>
