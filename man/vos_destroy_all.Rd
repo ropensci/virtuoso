@@ -10,7 +10,8 @@ vos_destroy_all(force = FALSE)
 \item{force}{should permissions be changed (if possible) to allow deletion?}
 }
 \value{
-TRUE if entirely successful in removing all files, FALSE otherwise (invisibly).
+TRUE if entirely successful in removing all files,
+ FALSE otherwise (invisibly).
 }
 \description{
 for a clean reset of the system that purges all

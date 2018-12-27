@@ -50,7 +50,8 @@ vos_logdir <- function(log_dir =
 #' data files, config files, cache and log files created
 #' by virtuoso R package.
 #' @param force should permissions be changed (if possible) to allow deletion?
-#' @return TRUE if entirely successful in removing all files, FALSE otherwise (invisibly).
+#' @return TRUE if entirely successful in removing all files,
+#'  FALSE otherwise (invisibly).
 #' @export
 vos_destroy_all <- function(force = FALSE){
   s1 <- unlink(vos_db(), recursive = TRUE, force = force)

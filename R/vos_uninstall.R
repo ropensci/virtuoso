@@ -10,7 +10,8 @@ vos_uninstall <- function(){
   ## Call the appropriate installer
   switch (which_os(),
           "osx" = vos_uninstall_osx(),
-          "linux" = "Cannot automatically uninstall on Linux, use system tools.",
+          "linux" = paste("Cannot automatically uninstall",
+                          "on Linux, use system tools."),
           "windows" = vos_uninstall_windows(),
           NULL
   )
