@@ -49,9 +49,7 @@ Suggests:
     testthat,
     covr,
     jsonld,
-    rdftools,
     dplyr,
     spelling
 VignetteBuilder: knitr
-Remotes: cboettig/rdftools
 Language: en-US
