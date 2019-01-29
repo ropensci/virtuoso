@@ -83,6 +83,6 @@ virtuoso_home_osx <- function(app = FALSE, use_brew = FALSE){
 }
 
 virtuoso_home_windows <- function(){
-  system_home <- "C:/Program\ Files/OpenLink\ Software/Virtuoso OpenSource 7.20"
+  system_home <- "C:/Program\ Files/OpenLink\ Software/Virtuoso OpenSource 7.2"
   Sys.getenv("VIRTUOSO_HOME", system_home)
 }
