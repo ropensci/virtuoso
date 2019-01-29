@@ -27,8 +27,9 @@ vos_install_windows <- function(prompt = is_interactive()){
 
   if(prompt){
     proceed <- askYesNo(paste(
-      "R will open the Windows Installer in another window.",
-      "When asked to 'Create DB and start Virtuoso', UNCHECK this option.",
+      "R will open the Windows Installer in another window.\n",
+      "When asked to 'Create DB and start Virtuoso',\n",
+      "PLEASE UNCHECK this option!\n",
       "Ready to proceed?\n"))
     if(!proceed) return(message("Install cancelled"))
     processx::run(installer)
