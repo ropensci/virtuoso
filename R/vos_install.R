@@ -20,12 +20,13 @@
 #' }
 vos_install <- function(prompt = is_interactive(), use_brew = FALSE){
 
-  if(has_virtuoso())
-    return(message("Virtuoso installation found."))
-
   ## Windows & DMG installers do not persist path
   ## Need path set so we can check if virtuoso is already installed
   vos_set_path()
+
+  if(has_virtuoso())
+    return(message("Virtuoso is already installed."))
+
 
   # Install Virtuoso if not already installed
   if (!has_virtuoso()) {

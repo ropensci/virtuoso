@@ -82,4 +82,4 @@ vos_start <- function(ini = NULL, wait = 30){
   invisible(p)
 }
 
-
+# FIXME check if virtuoso process is already running independently?

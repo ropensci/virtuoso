@@ -24,7 +24,7 @@ test_that("we can start a vos server and check status",{
   expect_length(vos_log(just_errors = TRUE), 0)
 
   vos_kill(p)
-  expect_warning(status <- vos_status(p),
+  expect_message(status <- vos_status(p),
                  "Server is not alive")
   expect_equal(status, "dead")
 

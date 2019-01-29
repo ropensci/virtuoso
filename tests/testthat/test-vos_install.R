@@ -4,7 +4,7 @@ test_that("Virtuoso is installed", {
 
   virtuoso:::vos_set_path()
   expect_message(vos_install(prompt = FALSE),
-                 "Virtuoso installation found.")
+                 "Virtuoso is already installed.")
 
 })
 
