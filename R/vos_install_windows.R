@@ -4,7 +4,8 @@ download_windows_installer <- function(version = "7.2.5"){
   exe <- "Virtuoso_OpenSource_Server_7.20.x64.exe"
   download_url <- paste0("https://sourceforge.net/projects/virtuoso/",
                          "files/virtuoso/7.2.5/",
-                         "2018_08_28_Virtuoso_OpenSource_Server_7.2.x64.exe/download")
+                         "2018_08_28_",
+                         "Virtuoso_OpenSource_Server_7.2.x64.exe/download")
   installer <- normalizePath(file.path(
     tempdir(),
     exe),
