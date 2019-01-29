@@ -1,9 +1,10 @@
 
-download_windows_installer <- function(){
+# FIXME support version number, add HTML munging to guess correct download URL from base URL?
+download_windows_installer <- function(version = "7.2.5"){
   exe <- "Virtuoso_OpenSource_Server_7.20.x64.exe"
   download_url <- paste0("https://sourceforge.net/projects/virtuoso/",
                          "files/virtuoso/7.2.5/",
-                         "Virtuoso_OpenSource_Server_7.20.x64.exe")
+                         "2018_08_28_Virtuoso_OpenSource_Server_7.20.x64.exe")
   installer <- normalizePath(file.path(
     tempdir(),
     exe),
