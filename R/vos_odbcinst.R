@@ -1,24 +1,33 @@
-
 # Rename? Maybe vos_odbc_configure?
 
 
 #' Configure the ODBC Driver for Virtuoso
 #'
-#' @param system_odbcinst Path to the system odbcinst.ini file. (Does not
+#' ODBC uses an `odbcinst.ini` file to point ODBC at the library required
+#' to drive any given database.  This function helps us automatically
+#' locate the driver library on different operating systems and configure
+#' the odbcinst appropriately for each OS.
+#'
+#' @param system_odbcinst Path to the system `odbcinst.ini` file. (Does not
 #' require write access.) Default will attempt to find the file for your system.
 #' @param local_odbcinst Path to the local odbcinst we should use.
+#' @return the path to the odbcinst file that is created or modified.
 #'
-#' @details This function is called automatically by [`vos_install()`] and thus
+#' @details This function is called automatically by [vos_install()] and thus
 #' does not usually need to be called by the user.  Users can also manually
 #' configure ODBC as outlined in
 #' <https://github.com/r-dbi/odbc#dsn-configuration-files>.
 #' This is merely a convenience function automating that process on most
 #' systems.
 #'
-#' ODBC Uses a odbcinst.ini file to point ODBC at the library required
-#' to drive any given database.  This function helps us automatically
-#' locate the driver library on different operating systems and configure
-#' the odbcinst appropriately for each OS.
+#' @examples
+#' ## Configures ODBC and returns silently on success.
+#' vos_odbcinst()
+#'
+#' ## see where the inst file is located:
+#' inst <- vos_odbcinst()
+#' inst
+#'
 #'
 #' @export
 vos_odbcinst <-

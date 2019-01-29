@@ -2,15 +2,40 @@
 % Please edit documentation in R/vos_query.R
 \name{vos_query}
 \alias{vos_query}
-\title{Run SPARQL query}
+\title{Run a SPARQL query}
 \usage{
 vos_query(con, query)
 }
 \arguments{
-\item{con}{a ODBC connection to Virtuoso, from [`vos_connect()`]}
+\item{con}{a ODBC connection to Virtuoso, from \code{\link[=vos_connect]{vos_connect()}}}
 
 \item{query}{a SPARQL query statement}
 }
+\value{
+a \code{data.frame} containing the results of the query
+}
 \description{
-Run SPARQL query
+Run a SPARQL query
+}
+\details{
+SPARQL is a graph query language similar in syntax SQL,
+but allows the use of variables to walk through graph nodes.
+}
+\examples{
+\dontrun{
+vos_start()
+con <- vos_connect()
+
+# show first 4 triples in the database
+DBI::dbGetQuery(con, "SPARQL SELECT * WHERE { ?s ?p ?o } LIMIT 4")
+}
+}
+\references{
+\itemize{
+\item \url{https://www.wikipedia.org/SPARQL}
+\item \url{https://ropensci.github.io/rdflib/articles/rdf_intro.html}
+}
+}
+\seealso{
+\code{\link[=vos_start]{vos_start()}}, \code{\link[=vos_connect]{vos_connect()}}
 }

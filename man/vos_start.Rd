@@ -13,6 +13,44 @@ default configuration file.}
 
 \item{wait}{number of seconds to wait for server to come online}
 }
+\value{
+invisibly returns the \code{\link[processx:process]{processx::process()}} object which can be used
+to control the external process from R.  It is not necessary for a user
+to store this return object, as \code{\link[=vos_start]{vos_start()}} caches the process object so
+it can be automatically accessed by other functions without needing to store
+and pass the return object.
+}
 \description{
-Start a Virtuoso Server
+This function will attempt to start a virtuoso server
+instance that can be managed completely from R.  This allows
+the user to easily start, stop, and access server logs and functions
+from the R command line.  This server will be automatically shut
+down when R exits or restarts, or can be explicitly controlled using
+\code{\link[=vos_kill]{vos_kill()}}, \code{\link[=vos_log]{vos_log()}}, and \code{\link[=vos_status]{vos_status()}}.
+}
+\details{
+It can take some time for the server to come up before it is ready to
+accept queries.  \code{\link[=vos_start]{vos_start()}} will return as soon as the server is active,
+which typically takes about 10 seconds on tested systems. \code{\link[=vos_start]{vos_start()}} monitors
+the Virtuoso logs every one second for a maximum time of \code{wait} seconds
+(default 30 seconds) to see if the server is ready.  If \code{wait} time is exceeded,
+\code{\link[=vos_start]{vos_start()}} will simply return the current server status.  This does not mean
+that starting has failed, it may simply need longer before the server is active.
+Use \code{\link[=vos_status]{vos_status()}} to continue to monitor the server status manually.
+
+If no \code{virtuoso.ini} configuration file is provided, \code{\link[=vos_start]{vos_start()}} will
+automatically attempt to configure one.  For more control over this,
+use \code{\link[=vos_configure]{vos_configure()}}, see examples.
+}
+\examples{
+\dontrun{
+
+vos_start()
+## or with custom config:
+vos_start(vos_configure(gigs_ram = 3))
+
+}
+}
+\seealso{
+\code{\link[=vos_install]{vos_install()}}
 }

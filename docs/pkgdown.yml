@@ -4,4 +4,5 @@ pkgdown_sha: fa9b7502e80401db4b410086b0a8f6ab444f0c66
 articles:
   datalake: articles/datalake.html
   installation: installation.html
+  virtuoso: virtuoso.html
 

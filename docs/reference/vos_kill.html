@@ -39,7 +39,7 @@
 
 <meta property="og:title" content="Stop (kill) the Virtuoso server — vos_kill" />
 
-<meta property="og:description" content="Kill ends the process started by [`vos_start()`]" />
+<meta property="og:description" content="Kill ends the process started by vos_start()" />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -83,6 +83,9 @@
     <span class="fa fa-home fa-lg"></span>
      
   </a>
+</li>
+<li>
+  <a href="../articles/virtuoso.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -130,7 +133,7 @@
 
     <div class="ref-description">
     
-    <p>Kill ends the process started by [`vos_start()`]</p>
+    <p>Kill ends the process started by <code><a href='vos_start.html'>vos_start()</a></code></p>
     
     </div>
 
@@ -142,17 +145,40 @@
     <tr>
       <th>p</th>
       <td><p>a process object, returned by
-[`vos_process()`] or  [`vos_start()`]</p></td>
+<code><a href='vos_process.html'>vos_process()</a></code> or  <code><a href='vos_start.html'>vos_start()</a></code>.
+(will be restored from cache if not provided)</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>vos_kill simply shuts down the local Virtuoso server,
+it does not remove any data stored in the database system.
+<code>vos_kill()</code> terminates the process, removing the
+process id from the process table.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='vos_start.html'>vos_start()</a></code></p></div>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'><a href='vos_start.html'>vos_start</a></span>()
+<span class='fu'>vos_kill</span>()
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

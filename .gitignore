@@ -5,3 +5,6 @@ inst/doc
 .Ruserdata
 *_cache
 .DS_Store
+vignettes/articles/*.nq
+vignettes/articles/*.nq.gz
+

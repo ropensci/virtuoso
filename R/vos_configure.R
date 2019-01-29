@@ -23,6 +23,11 @@
 #' @importFrom ini read.ini write.ini
 #' @references <http://docs.openlinksw.com/virtuoso/dbadm/>
 #' @export
+#' @examples
+#'  ## configure with typical defaults:
+#'  vos_configure()
+#'  ## Increase or decrease RAM available to virtuoso:
+#'  vos_configure(gigs_ram = 1)
 vos_configure <- function(dirs_allowed = getwd(),
                           gigs_ram = 2,
                           template = find_virtuoso_ini(),

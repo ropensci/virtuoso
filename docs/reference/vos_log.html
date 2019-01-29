@@ -85,6 +85,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/virtuoso.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -142,7 +145,8 @@
     <tr>
       <th>p</th>
       <td><p>a process object, returned by
-[`vos_process()`] or  [`vos_start()`]</p></td>
+<code><a href='vos_process.html'>vos_process()</a></code> or  <code><a href='vos_start.html'>vos_start()</a></code>.
+(will be restored from cache if not provided)</p></td>
     </tr>
     <tr>
       <th>collapse</th>
@@ -151,19 +155,41 @@ lines in a single character string.</p></td>
     </tr>
     <tr>
       <th>just_errors</th>
-      <td><p>logical, default FALSE. Set to true to return
+      <td><p>logical, default <a href='https://www.rdocumentation.org/packages/base/topics/logical'>FALSE</a>. Set to <a href='https://www.rdocumentation.org/packages/base/topics/logical'>TRUE</a> to return
 just the lines that contain the term "error", which can be useful
 in debugging or validating bulk imports.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>Virtuoso logs as a character vector.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='vos_start.html'>vos_start()</a></code></p></div>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'><a href='vos_start.html'>vos_start</a></span>()
+<span class='fu'>vos_log</span>()
+
+<span class='co'>## look only for any error messages:</span>
+<span class='fu'>vos_log</span>(<span class='kw'>just_errors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

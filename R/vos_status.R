@@ -3,15 +3,25 @@
 #'
 #' @inheritParams vos_kill
 #' @inheritParams vos_start
-#' @details Note: Use `[vos_log()]`` to see the full log
+#' @details Note: Use [vos_log()] to see the full log
+#' @return a character string indicating the state of the server:
+#'  - "not detected" if no process can be found
+#'  - "dead" process exists but reports that server is not alive.  Server may fail
+#'   to come online due to errors in configuration file. see [vos_configure()]
+#'  - "running" Server is up and accepting queries.
+#'  - "sleeping" Server is up and accepting queries.
+#'
 #' @export
+#' @examples \dontrun{
+#' vos_status()
+#' }
 vos_status <- function(p = NA, wait = 10){
 
   p <- vos_process(p)
   if(!inherits(p, "process")) return("not detected")
 
   if (!p$is_alive()) {
-    warning(paste("Server is not alive, please restart. Server log: \n\n",
+    message(paste("Server is not alive, please restart. Server log: \n\n",
                   vos_log(p, collapse = "\n")), call. = FALSE)
     return("dead")
   }

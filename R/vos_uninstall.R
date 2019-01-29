@@ -3,7 +3,12 @@
 #'
 #' Automatic uninstaller for Mac OSX and Windows clients.
 #' @export
+#' @examples \dontrun{
+#' vos_uninstall()
+#' }
+#'
 vos_uninstall <- function(){
+  vos_set_path()
   if(!has_virtuoso())
     return(warning("Virtuoso installation not found", call. = FALSE))
 

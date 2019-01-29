@@ -16,14 +16,14 @@ be specified as a single comma-separated string.}
 have access to.  (Used to set NumberOfBuffers & MaxDirtyBuffers in config.)}
 
 \item{template}{Location of an existing virtuoso.ini file which will be used
-as a template. By default, `vos_configure()` will attempt to locate the
+as a template. By default, \code{vos_configure()} will attempt to locate the
 appropriate template for your system.}
 
-\item{db_dir}{location where `virtuoso.ini` file should be written.  Other
+\item{db_dir}{location where \code{virtuoso.ini} file should be written.  Other
 Virtuoso database log files will also be written here.}
 }
 \value{
-Writes the requested `virtuoso.ini` file to the db_dir specified
+Writes the requested \code{virtuoso.ini} file to the db_dir specified
 and returns the path to this file.
 }
 \description{
@@ -31,8 +31,14 @@ Virtuoso Server configuration is determined by a virtuoso.ini file when
 server starts. This file includes both system-specific information from
 your install (location of server files, addons, etc) and user-configurable
 parameters. This helper function provides a way to create and modify an
-appropriate `virtuoso.ini` file.
+appropriate \code{virtuoso.ini} file.
+}
+\examples{
+ ## configure with typical defaults:
+ vos_configure()
+ ## Increase or decrease RAM available to virtuoso:
+ vos_configure(gigs_ram = 1)
 }
 \references{
-<http://docs.openlinksw.com/virtuoso/dbadm/>
+\url{http://docs.openlinksw.com/virtuoso/dbadm/}
 }

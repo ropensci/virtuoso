@@ -39,7 +39,12 @@
 
 <meta property="og:title" content="Start a Virtuoso Server — vos_start" />
 
-<meta property="og:description" content="Start a Virtuoso Server" />
+<meta property="og:description" content="This function will attempt to start a virtuoso server
+instance that can be managed completely from R.  This allows
+the user to easily start, stop, and access server logs and functions
+from the R command line.  This server will be automatically shut
+down when R exits or restarts, or can be explicitly controlled using
+vos_kill(), vos_log(), and vos_status()." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -83,6 +88,9 @@
     <span class="fa fa-home fa-lg"></span>
      
   </a>
+</li>
+<li>
+  <a href="../articles/virtuoso.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -130,7 +138,12 @@
 
     <div class="ref-description">
     
-    <p>Start a Virtuoso Server</p>
+    <p>This function will attempt to start a virtuoso server
+instance that can be managed completely from R.  This allows
+the user to easily start, stop, and access server logs and functions
+from the R command line.  This server will be automatically shut
+down when R exits or restarts, or can be explicitly controlled using
+<code><a href='vos_kill.html'>vos_kill()</a></code>, <code><a href='vos_log.html'>vos_log()</a></code>, and <code><a href='vos_status.html'>vos_status()</a></code>.</p>
     
     </div>
 
@@ -151,13 +164,54 @@ default configuration file.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>invisibly returns the <code><a href='https://www.rdocumentation.org/packages/processx/topics/process'>processx::process()</a></code> object which can be used
+to control the external process from R.  It is not necessary for a user
+to store this return object, as <code>vos_start()</code> caches the process object so
+it can be automatically accessed by other functions without needing to store
+and pass the return object.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>It can take some time for the server to come up before it is ready to
+accept queries.  <code>vos_start()</code> will return as soon as the server is active,
+which typically takes about 10 seconds on tested systems. <code>vos_start()</code> monitors
+the Virtuoso logs every one second for a maximum time of <code>wait</code> seconds
+(default 30 seconds) to see if the server is ready.  If <code>wait</code> time is exceeded,
+<code>vos_start()</code> will simply return the current server status.  This does not mean
+that starting has failed, it may simply need longer before the server is active.
+Use <code><a href='vos_status.html'>vos_status()</a></code> to continue to monitor the server status manually.</p>
+<p>If no <code>virtuoso.ini</code> configuration file is provided, <code>vos_start()</code> will
+automatically attempt to configure one.  For more control over this,
+use <code><a href='vos_configure.html'>vos_configure()</a></code>, see examples.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='vos_install.html'>vos_install()</a></code></p></div>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>vos_start</span>()
+<span class='co'>## or with custom config:</span>
+<span class='fu'>vos_start</span>(<span class='fu'><a href='vos_configure.html'>vos_configure</a></span>(<span class='kw'>gigs_ram</span> <span class='kw'>=</span> <span class='fl'>3</span>))
+
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

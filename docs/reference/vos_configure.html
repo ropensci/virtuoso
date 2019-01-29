@@ -43,7 +43,7 @@
 server starts. This file includes both system-specific information from
 your install (location of server files, addons, etc) and user-configurable
 parameters. This helper function provides a way to create and modify an
-appropriate `virtuoso.ini` file." />
+appropriate virtuoso.ini file." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -87,6 +87,9 @@ appropriate `virtuoso.ini` file." />
     <span class="fa fa-home fa-lg"></span>
      
   </a>
+</li>
+<li>
+  <a href="../articles/virtuoso.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -138,7 +141,7 @@ appropriate `virtuoso.ini` file." />
 server starts. This file includes both system-specific information from
 your install (location of server files, addons, etc) and user-configurable
 parameters. This helper function provides a way to create and modify an
-appropriate `virtuoso.ini` file.</p>
+appropriate <code>virtuoso.ini</code> file.</p>
     
     </div>
 
@@ -162,26 +165,30 @@ have access to.  (Used to set NumberOfBuffers &amp; MaxDirtyBuffers in config.)<
     <tr>
       <th>template</th>
       <td><p>Location of an existing virtuoso.ini file which will be used
-as a template. By default, `vos_configure()` will attempt to locate the
+as a template. By default, <code>vos_configure()</code> will attempt to locate the
 appropriate template for your system.</p></td>
     </tr>
     <tr>
       <th>db_dir</th>
-      <td><p>location where `virtuoso.ini` file should be written.  Other
+      <td><p>location where <code>virtuoso.ini</code> file should be written.  Other
 Virtuoso database log files will also be written here.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Writes the requested `virtuoso.ini` file to the db_dir specified
+    <p>Writes the requested <code>virtuoso.ini</code> file to the db_dir specified
 and returns the path to this file.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>&lt;http://docs.openlinksw.com/virtuoso/dbadm/&gt;</p>
+    <p><a href='http://docs.openlinksw.com/virtuoso/dbadm/'>http://docs.openlinksw.com/virtuoso/dbadm/</a></p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'> <span class='co'>## configure with typical defaults:</span>
+ <span class='fu'>vos_configure</span>()</div><div class='output co'>#&gt; [1] "/Users/cboettig/Library/Application Support/Virtuoso/virtuoso.ini"</div><div class='input'> <span class='co'>## Increase or decrease RAM available to virtuoso:</span>
+ <span class='fu'>vos_configure</span>(<span class='kw'>gigs_ram</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] "/Users/cboettig/Library/Application Support/Virtuoso/virtuoso.ini"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -191,7 +198,9 @@ and returns the path to this file.</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#references">References</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

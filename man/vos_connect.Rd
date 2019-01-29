@@ -20,11 +20,34 @@ vos_connect(driver = NULL, uid = "dba", pwd = "dba",
 \item{port}{Port used by Virtuoso. Defaults to
 the Virtuoso standard port, 1111}
 
-\item{system_odbcinst}{Path to the system odbcinst.ini file. (Does not
+\item{system_odbcinst}{Path to the system \code{odbcinst.ini} file. (Does not
 require write access.) Default will attempt to find the file for your system.}
 
 \item{local_odbcinst}{Path to the local odbcinst we should use.}
 }
+\value{
+a DBI connection to the Virtuoso database.  This can
+be passed to additional virtuoso functions such as \code{\link[=vos_import]{vos_import()}}
+or \code{\link[=vos_query]{vos_query()}}, and can also be used as a standard DBI or dplyr
+database backend.
+}
 \description{
 Connect to a Virtuoso Server over ODBC
+}
+\details{
+Default parameters are approporiate for the automatic installer
+provided by the package and for the default settings typically used by
+local Virtuoso installers.  Adjust these only if you are connecting to a
+remote virtuoso server that is not controlled from the R package.
+}
+\examples{
+\dontrun{
+## start up
+vos_start()
+con <- vos_connect()
+}
+
+}
+\seealso{
+\code{\link[=vos_install]{vos_install()}}, \code{\link[=vos_start]{vos_start()}}
 }

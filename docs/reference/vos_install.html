@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Helper method for installing Virtuoso Server on Mac OSX — vos_install • virtuoso</title>
+<title>Helper method for installing Virtuoso Server — vos_install • virtuoso</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,9 +37,17 @@
 
 
 
-<meta property="og:title" content="Helper method for installing Virtuoso Server on Mac OSX — vos_install" />
+<meta property="og:title" content="Helper method for installing Virtuoso Server — vos_install" />
 
-<meta property="og:description" content="Helper method for installing Virtuoso Server on Mac OSX" />
+<meta property="og:description" content="Installation helper for Mac and Windows machines.  By default,
+method will download and launch the official .dmg or .exe installer
+for your platform, running the standard drag-n-drop installer or
+interactive dialog.  Setting prompt = FALSE will allow the installer
+to run entirely unsupervised, which is suitable for use in scripts.
+Mac users can alternatively opt to install Virtuoso through HomeBrew
+by setting use_brew=TRUE. Linux users should simply install the
+virtuoso-opensource package (e.g. in debian &amp;amp; ubuntu) using the
+package manager or by contacting your system administrator." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -85,6 +93,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/virtuoso.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -123,39 +134,59 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Helper method for installing Virtuoso Server on Mac OSX</h1>
+    <h1>Helper method for installing Virtuoso Server</h1>
     <small class="dont-index">Source: <a href='https://github.com/cboettig/virtuoso/blob/master/R/vos_install.R'><code>R/vos_install.R</code></a></small>
     <div class="hidden name"><code>vos_install.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Helper method for installing Virtuoso Server on Mac OSX</p>
+    <p>Installation helper for Mac and Windows machines.  By default,
+method will download and launch the official <code>.dmg</code> or <code>.exe</code> installer
+for your platform, running the standard drag-n-drop installer or
+interactive dialog.  Setting <code>prompt = FALSE</code> will allow the installer
+to run entirely unsupervised, which is suitable for use in scripts.
+Mac users can alternatively opt to install Virtuoso through HomeBrew
+by setting <code>use_brew=TRUE</code>. Linux users should simply install the
+<code>virtuoso-opensource</code> package (e.g. in debian &amp; ubuntu) using the
+package manager or by contacting your system administrator.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>vos_install</span>(<span class='kw'>use_brew</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>prompt</span> <span class='kw'>=</span> <span class='fu'>is_interactive</span>())</pre>
+    <pre class="usage"><span class='fu'>vos_install</span>(<span class='kw'>prompt</span> <span class='kw'>=</span> <span class='fu'>is_interactive</span>(), <span class='kw'>use_brew</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>use_brew</th>
-      <td><p>Should we use homebrew to install? (Mac OSX only)</p></td>
-    </tr>
-    <tr>
       <th>prompt</th>
       <td><p>Should we prompt user for interactive installation?</p></td>
     </tr>
+    <tr>
+      <th>use_brew</th>
+      <td><p>Should we use homebrew to install? (MacOS only)</p></td>
+    </tr>
     </table>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <div class='dont-index'><p><code><a href='vos_start.html'>vos_start()</a></code>, <code><a href='vos_uninstall.html'>vos_uninstall()</a></code></p></div>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>vos_install</span>()
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

@@ -1,9 +1,24 @@
-#' Helper method for installing Virtuoso Server on Mac OSX
-#' @param use_brew Should we use homebrew to install? (Mac OSX only)
+#' Helper method for installing Virtuoso Server
+#'
+#' Installation helper for Mac and Windows machines.  By default,
+#' method will download and launch the official `.dmg` or `.exe` installer
+#' for your platform, running the standard drag-n-drop installer or
+#' interactive dialog.  Setting `prompt = FALSE` will allow the installer
+#' to run entirely unsupervised, which is suitable for use in scripts.
+#' Mac users can alternatively opt to install Virtuoso through HomeBrew
+#' by setting `use_brew=TRUE`. Linux users should simply install the
+#' `virtuoso-opensource` package (e.g. in debian & ubuntu) using the
+#' package manager or by contacting your system administrator.
+#'
+#' @seealso [vos_start()], [vos_uninstall()]
+#' @param use_brew Should we use homebrew to install? (MacOS only)
 #' @param prompt Should we prompt user for interactive installation?
 #' @export
 #' @importFrom processx run process
-vos_install <- function(use_brew = FALSE, prompt = is_interactive()){
+#' @examples \dontrun{
+#' vos_install()
+#' }
+vos_install <- function(prompt = is_interactive(), use_brew = FALSE){
 
   if(has_virtuoso())
     return(message("Virtuoso installation found."))

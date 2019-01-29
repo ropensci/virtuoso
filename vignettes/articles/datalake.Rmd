@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 ```{r}
 library(virtuoso)
-library(rdftools) # for write_nquads
+library(rdftools) # for write_nquads.  Needs: install_github("cboettig/rdftools")
 library(dplyr)
 
 ```
@@ -35,13 +35,15 @@ library(nycflights13)
 We start up our Virtuoso server, wait for it to come up, and then connect:
 
 ```{r install}
-myserver <- vos_start()
-Sys.sleep(5)
+vos_start()
+```
+
+```{r}
 con <- vos_connect()
 ```
 
 
-We can represent any data as RDF with a little care.  For instance, consider the `nycflights13` data. First, we must represent any primary or foreign keys in any table must be as URIs and not literal integers or strings: 
+We can represent any data as RDF with a little care.  For instance, consider the `nycflights13` data. First, we must represent any primary or foreign keys in any table as URIs, indicated by a prefix, and not by bare strings:
 
 ```{r as_uri}
 uri_flights <- flights %>% 
@@ -49,7 +51,7 @@ uri_flights <- flights %>%
          carrier = paste0("airlines:", carrier))
 ```
 
-We write the `data.frame`s out as nquads.  Recall that each cell of a `data.frame` can be represented as a triple, in which the column is the predicate, the primary key (or row number) the subject, and the cell value the object.  We turn column names and primary keys into URIs using a prefix based on the table name.  (Note that `rdflib` does this conversion by merely munging cells and calling `write.table`, it is not a standard `redland` library transform).
+We write the `data.frame`s out as nquads.  Recall that each cell of a `data.frame` can be represented as a triple, in which the column is the predicate, the primary key (or row number) the subject, and the cell value the object.  We turn column names and primary keys into URIs using a prefix based on the table name. 
 
 ```{r}
 write_nquads(airlines,  "airlines.nq", key = "carrier", prefix = "airlines:")
@@ -99,15 +101,15 @@ Transform JSON (or list data) into triples.  In this case, we have a large JSON 
 containing metadata on all rOpenSci packages:
 
 ```{r}
-x <- jsonlite::read_json("https://raw.githubusercontent.com/ropensci/roregistry/ex/codemeta.json")
-write_nquads(x, "ropensci.nq", prefix = "http://schema.org/")
+x <- jsonlite::read_json("https://raw.githubusercontent.com/ropensci/roregistry/master/registry.json")
+write_nquads(x, "ropensci.nq.gz", prefix = "http://schema.org/")
 ```
 
 
 And bulk-import
 
 ```{r}
-vos_import(con, "ropensci.nq")
+vos_import(con, "ropensci.nq.gz")
 ```
 
 Find all packages where "Carl Boettiger" is an "author", and return:
@@ -148,11 +150,6 @@ vos_query(con, query)
 ```
 
 
-
-
-```{r}
-myserver$kill()
-```
 
 
 ```{r include=FALSE}

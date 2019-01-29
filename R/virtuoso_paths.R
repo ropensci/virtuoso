@@ -44,22 +44,6 @@ vos_logdir <- function(log_dir =
 }
 
 
-#' Destroy all Virtuoso's directories
-#'
-#' for a clean reset of the system that purges all
-#' data files, config files, cache and log files created
-#' by virtuoso R package.
-#' @param force should permissions be changed (if possible) to allow deletion?
-#' @return TRUE if entirely successful in removing all files,
-#'  FALSE otherwise (invisibly).
-#' @export
-vos_destroy_all <- function(force = FALSE){
-  s1 <- unlink(vos_db(), recursive = TRUE, force = force)
-  s2 <- unlink(vos_cache(), recursive = TRUE, force = force)
-  s3 <- unlink(vos_config(), recursive = TRUE, force = force)
-  s4 <- unlink(vos_logdir(), recursive = TRUE, force = force)
-  invisible(sum(c(s1,s2,s3,s4)) == 0)
-}
 
 #' @importFrom fs path_norm
 odbcinst_path <- function(){

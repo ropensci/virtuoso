@@ -39,9 +39,10 @@
 
 <meta property="og:title" content="Destroy all Virtuoso's directories — vos_destroy_all" />
 
-<meta property="og:description" content="for a clean reset of the system that purges all
+<meta property="og:description" content="Provides a clean reset of the system that purges all
 data files, config files, cache and log files created
-by virtuoso R package." />
+by virtuoso R package. This does not uninstall Virtuoso software
+itself, see vos_uninstall() to uninstall." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -87,6 +88,9 @@ by virtuoso R package." />
   </a>
 </li>
 <li>
+  <a href="../articles/virtuoso.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -126,15 +130,16 @@ by virtuoso R package." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Destroy all Virtuoso's directories</h1>
-    <small class="dont-index">Source: <a href='https://github.com/cboettig/virtuoso/blob/master/R/virtuoso_paths.R'><code>R/virtuoso_paths.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/cboettig/virtuoso/blob/master/R/vos_destroy_all.R'><code>R/vos_destroy_all.R</code></a></small>
     <div class="hidden name"><code>vos_destroy_all.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>for a clean reset of the system that purges all
+    <p>Provides a clean reset of the system that purges all
 data files, config files, cache and log files created
-by virtuoso R package.</p>
+by virtuoso R package. This does not uninstall Virtuoso software
+itself, see <code><a href='vos_uninstall.html'>vos_uninstall()</a></code> to uninstall.</p>
     
     </div>
 
@@ -151,10 +156,14 @@ by virtuoso R package.</p>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>TRUE if entirely successful in removing all files,
- FALSE otherwise (invisibly).</p>
+    <p><a href='https://www.rdocumentation.org/packages/base/topics/logical'>TRUE</a> if entirely successful in removing all files,
+<a href='https://www.rdocumentation.org/packages/base/topics/logical'>FALSE</a> otherwise (invisibly).</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>vos_destroy_all</span>()
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -162,7 +171,9 @@ by virtuoso R package.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

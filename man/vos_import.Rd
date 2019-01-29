@@ -2,21 +2,21 @@
 % Please edit documentation in R/vos_import.R
 \name{vos_import}
 \alias{vos_import}
-\title{Bulk import of nquads}
+\title{Bulk Import of RDF triples}
 \usage{
 vos_import(con, files = NULL, wd = ".", glob = "*",
   graph = "rdflib", n_cores = 1L)
 }
 \arguments{
-\item{con}{a ODBC connection to Virtuoso, from [`vos_connect()`]}
+\item{con}{a ODBC connection to Virtuoso, from \code{\link[=vos_connect]{vos_connect()}}}
 
 \item{files}{paths to files to be imported}
 
 \item{wd}{Alternatively, can specify directory and globbing pattern
 to import. Note that in this case, wd must be in (or a subdir of)
-the `AllowedDirs` list of `virtuoso.ini` file created by
-[`vos_configure()`]. By default, this includes the working directory
-where you called [`vos_start()`] or [`vos_configure()`].}
+the \code{AllowedDirs} list of \code{virtuoso.ini} file created by
+\code{\link[=vos_configure]{vos_configure()}}. By default, this includes the working directory
+where you called \code{\link[=vos_start]{vos_start()}} or \code{\link[=vos_configure]{vos_configure()}}.}
 
 \item{glob}{A wildcard aka globbing pattern (e.g. `"*.nq"``).}
 
@@ -29,35 +29,51 @@ Particularly useful when importing large numbers of bulk files.}
 }
 \value{
 (Invisibly) returns the status table of the bulk loader,
- indicating file loading time or errors.
+indicating file loading time or errors.
 }
 \description{
-Bulk import of nquads
+While triples data can be added one by one over SPARQL queries,
+Virtuoso bulk import is by far the fastest way to import large
+triplestores in the database.
 }
 \details{
 the bulk importer imports all files matching a pattern
- in a given directory.  If given a list of files, these are
- temporarily symlinked (or copied on Windows machines) to
- the Virtuoso app cache dir in a subdirectory, and the entire
- subdirectory is loaded (filtered by the globbing pattern).
- If files are not specified, load is called directly on the specified
- directory and pattern.  This is particularly useful for loading large
- numbers of files.
+in a given directory.  If given a list of files, these are
+temporarily symlinked (or copied on Windows machines) to
+the Virtuoso app cache dir in a subdirectory, and the entire
+subdirectory is loaded (filtered by the globbing pattern).
+If files are not specified, load is called directly on the specified
+directory and pattern.  This is particularly useful for loading large
+numbers of files.
 
- Note that Virtuoso recommends breaking large files into multiple smaller ones,
- which can improve loading time (particularly if using multiple cores.)
+Note that Virtuoso recommends breaking large files into multiple smaller ones,
+which can improve loading time (particularly if using multiple cores.)
 
- Virtuoso Bulk Importer recognizes the following file formats:
- - `.grdf`
- - `.nq`
- - `.owl`
- - `.nt`
- - `.rdf`
- - `.trig`
- - `.ttl`
- - `.xml`
- Any of these can optionally be gzipped (with a `.gz` extension).
+Virtuoso Bulk Importer recognizes the following file formats:
+\itemize{
+\item \code{.grdf}
+\item \code{.nq}
+\item \code{.owl}
+\item \code{.nt}
+\item \code{.rdf}
+\item \code{.trig}
+\item \code{.ttl}
+\item \code{.xml}
+}
+
+Any of these can optionally be gzipped (with a \code{.gz} extension).
+}
+\examples{
+\dontrun{
+vos_start()
+con <- vos_connect()
+
+example <- system.file("extdata", "person.nq", package = "virtuoso")
+vos_import(con, example)
+
+
+}
 }
 \references{
-<http://vos.openlinksw.com/owiki/wiki/VOS/VirtBulkRDFLoader>
+\url{http://vos.openlinksw.com/owiki/wiki/VOS/VirtBulkRDFLoader}
 }

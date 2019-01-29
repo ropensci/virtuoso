@@ -1,6 +1,6 @@
 Package: virtuoso
 Type: Package
-Title: R interface to Virtuoso using ODBC
+Title: An R interface to Virtuoso using ODBC
 Version: 0.1.1
 Authors@R: c(person("Carl", "Boettiger", 
                   email = "cboettig@gmail.com", 
@@ -13,7 +13,7 @@ Authors@R: c(person("Carl", "Boettiger",
 Description: Virtuoso is a high-performance "universal server," which can act
              as both a relational database (supporting standard SQL queries),
              and an Resource Description Framework (RDF) triplestore, supporting 
-             SPARQL queries and semantic reasoning. The virtuoso package R provides
+             SPARQL queries and semantic reasoning. The virtuoso R package provides
              R users with a DBI-compatible connection to the Virtuoso database. 
              The package also provides helper routines to install, launch, and manage
              a Virtuoso server locally on Mac, Windows and Linux platforms using
@@ -23,7 +23,7 @@ Description: Virtuoso is a high-performance "universal server," which can act
              environment. While this can be used as a normal dplyr backend, Virtuoso 
              excels when used as a RDF triplestore.  Managing the bulk import of triples
              from common serializations with a single intuitive command is another key
-             feature of the Virtuoso R package.  Bulk import performance can be tens to
+             feature of the virtuoso R package.  Bulk import performance can be tens to
              hundreds of times faster than the comparable imports using existing R tools,
              including rdflib and redland packages.  
 License: MIT + file LICENSE
@@ -42,6 +42,7 @@ Imports:
     fs,
     digest
 RoxygenNote: 6.1.1
+Roxygen: list(markdown = TRUE)
 Suggests: 
     knitr,
     rmarkdown,

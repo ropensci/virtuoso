@@ -5,33 +5,18 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>An R interface to Virtuoso using ODBC • virtuoso</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
+<title>Getting Started • virtuoso</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="An R interface to Virtuoso using ODBC">
-<meta property="og:description" content='Virtuoso is a high-performance "universal server," which can act
-             as both a relational database (supporting standard SQL queries),
-             and an Resource Description Framework (RDF) triplestore, supporting 
-             SPARQL queries and semantic reasoning. The virtuoso R package provides
-             R users with a DBI-compatible connection to the Virtuoso database. 
-             The package also provides helper routines to install, launch, and manage
-             a Virtuoso server locally on Mac, Windows and Linux platforms using
-             the standard interactive installers from the R command-line.  By 
-             automatically handling these setup steps, the package can make Virtuoso
-             considerably faster and easier for a most users to deploy in a local
-             environment. While this can be used as a normal dplyr backend, Virtuoso 
-             excels when used as a RDF triplestore.  Managing the bulk import of triples
-             from common serializations with a single intuitive command is another key
-             feature of the virtuoso R package.  Bulk import performance can be tens to
-             hundreds of times faster than the comparable imports using existing R tools,
-             including rdflib and redland packages.  '>
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Getting Started">
+<meta property="og:description" content="">
 <meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -51,7 +36,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">virtuoso</a>
+        <a class="navbar-link" href="../index.html">virtuoso</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
@@ -59,16 +44,16 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="articles/virtuoso.html">Get started</a>
+  <a href="../articles/virtuoso.html">Get started</a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -78,10 +63,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/articles/datalake.html">The Data Lake: Schema on Read</a>
+      <a href="../articles/articles/datalake.html">The Data Lake: Schema on Read</a>
     </li>
     <li>
-      <a href="articles/installation.html">Introduction: Virtuoso Installation and Configuration</a>
+      <a href="../articles/installation.html">Introduction: Virtuoso Installation and Configuration</a>
     </li>
   </ul>
 </li>
@@ -104,16 +89,19 @@
       
       </header><div class="row">
   <div class="col-md-9 contents">
-    
+    <div class="page-header toc-ignore">
+      <h1>Getting Started</h1>
+                        <h4 class="author">Carl Boettiger</h4>
+            
+            <h4 class="date">2019-01-27</h4>
+      
+      <small class="dont-index">Source: <a href="https://github.com/cboettig/virtuoso/blob/master/vignettes/virtuoso.Rmd"><code>vignettes/virtuoso.Rmd</code></a></small>
+      <div class="hidden name"><code>virtuoso.Rmd</code></div>
+
+    </div>
 
     
     
-<div id="virtuoso" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#virtuoso" class="anchor"></a>virtuoso <img src="reference/figures/logo.svg" align="right" alt="" width="120">
-</h1></div>
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 <p>The goal of virtuoso is to provide an easy interface to Virtuoso RDF database from R.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -125,15 +113,15 @@
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting Started</h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(virtuoso)</a></code></pre></div>
-<p>For Mac users, <code>virtuoso</code> package includes a utility function to install and configure a local Virtuoso Open Source instance using Homebrew. Otherwise, simply install the Virtuoso Open Source edition for your operating system.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="reference/vos_install.html">vos_install</a></span>()</a></code></pre></div>
+<p>For Mac &amp; Windows users, <code>virtuoso</code> package includes a utility function to install and configure a local Virtuoso Open Source instance using Homebrew. Otherwise, simply install the Virtuoso Open Source edition for your operating system.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../reference/vos_install.html">vos_install</a></span>()</a></code></pre></div>
 <p>We can now start our Virtuoso server from R:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="reference/vos_start.html">vos_start</a></span>()</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; PROCESS 'virtuoso-t', running, pid 34531.</span></a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/vos_start.html">vos_start</a></span>()</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; PROCESS 'virtuoso-t', running, pid 37560.</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; Server is now starting up, this may take a few seconds...</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; latest log entry: 21:02:06 Server online at 1111 (pid 34531)</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; latest log entry: 06:37:50 Server online at 1111 (pid 37560)</span></a></code></pre></div>
 <p>Once the server is running, we can connect to the database.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">con &lt;-<span class="st"> </span><span class="kw"><a href="reference/vos_connect.html">vos_connect</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">con &lt;-<span class="st"> </span><span class="kw"><a href="../reference/vos_connect.html">vos_connect</a></span>()</a></code></pre></div>
 <p>Our connection is now live, and accepts SPARQL queries directly.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">DBI<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/DBI/topics/dbGetQuery">dbGetQuery</a></span>(con, <span class="st">"SPARQL SELECT * WHERE { ?s ?p ?o } LIMIT 4"</span>)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;                                                                              s</span></a>
@@ -158,16 +146,16 @@
 <p><code>virtuoso</code> also provides wrappers around some common queries to make it easier to work with Virtuoso and RDF.</p>
 <p>The bulk loader can be used to quickly import existing sets of triples.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">example &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"person.nq"</span>, <span class="dt">package =</span> <span class="st">"virtuoso"</span>)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="reference/vos_import.html">vos_import</a></span>(con, example)</a></code></pre></div>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="../reference/vos_import.html">vos_import</a></span>(con, example)</a></code></pre></div>
 <p>Can also read in compressed formats as well. Remember to set the pattern match appropriately. This is convenient because N-Quads compress particularly well, often by a factor of 20 (or rather, can be particularly large when uncompressed, owing to the repeated property and subject URIs).</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">ex &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"library.nq.gz"</span>, <span class="dt">package =</span> <span class="st">"virtuoso"</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="reference/vos_import.html">vos_import</a></span>(con, ex)</a></code></pre></div>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="../reference/vos_import.html">vos_import</a></span>(con, ex)</a></code></pre></div>
 <p><code>vos_import</code> invisibly returns a table of the loaded files, with error message and loading times. If a file cannot be imported, an error message is returned:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">bad_file &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"extdata"</span>, <span class="st">"bad_quads.nq"</span>, <span class="dt">package =</span> <span class="st">"virtuoso"</span>)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="reference/vos_import.html">vos_import</a></span>(con, bad_file)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="../reference/vos_import.html">vos_import</a></span>(con, bad_file)</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; Error: Error importing: bad_quads.nq 37000 [Vectorized Turtle loader] SP029: NQuads RDF loader, line 2: Undefined namespace prefix at ITIS:1000000</span></a></code></pre></div>
 <p>We can now query the imported data using SPARQL.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="reference/vos_query.html">vos_query</a></span>(con, </a>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/vos_query.html">vos_query</a></span>(con, </a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">"SELECT ?p ?o </span></a>
 <a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st"> WHERE { ?s ?p ?o .</span></a>
 <a class="sourceLine" id="cb10-4" data-line-number="4"><span class="st">        ?s a &lt;http://schema.org/Person&gt;</span></a>
@@ -178,7 +166,7 @@
 <a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 3                      http://schema.org/jobTitle                Professor</span></a>
 <a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 4                     http://schema.org/telephone           (425) 123-4567</span></a>
 <a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 5                           http://schema.org/url   http://www.janedoe.com</span></a></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="reference/vos_query.html">vos_query</a></span>(con, </a>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../reference/vos_query.html">vos_query</a></span>(con, </a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">"SELECT ?p ?o </span></a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st"> WHERE { ?s ?p ?o .</span></a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">        ?s a &lt;http://example.org/vocab#Chapter&gt;</span></a>
@@ -195,12 +183,12 @@
 <div id="server-controls" class="section level2">
 <h2 class="hasAnchor">
 <a href="#server-controls" class="anchor"></a>Server controls</h2>
-<p>We can control any <code>virtuoso</code> server started with <code><a href="reference/vos_start.html">vos_start()</a></code> using a series of helper commands.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="reference/vos_status.html">vos_status</a></span>()</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; latest log entry: 21:02:07 PL LOG: No more files to load. Loader has finished,</span></a>
+<p>We can control any <code>virtuoso</code> server started with <code><a href="../reference/vos_start.html">vos_start()</a></code> using a series of helper commands.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../reference/vos_status.html">vos_status</a></span>()</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; latest log entry: 06:37:51 PL LOG: No more files to load. Loader has finished,</span></a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt; [1] "running"</span></a></code></pre></div>
-<p>Advanced usage note: <code><a href="reference/vos_start.html">vos_start()</a></code> invisibly returns a <code>processx</code> object which we can pass to other server control functions, or access the embedded <code>processx</code> control methods directly. The <code>virtuoso</code> package also caches this object in an environment so that it can be accessed directly without having to keep track of an object in the global environment. Use <code><a href="reference/vos_process.html">vos_process()</a></code> to return the <code>processx</code> object. For example:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">p &lt;-<span class="st"> </span><span class="kw"><a href="reference/vos_process.html">vos_process</a></span>()</a>
+<p>Advanced usage note: <code><a href="../reference/vos_start.html">vos_start()</a></code> invisibly returns a <code>processx</code> object which we can pass to other server control functions, or access the embedded <code>processx</code> control methods directly. The <code>virtuoso</code> package also caches this object in an environment so that it can be accessed directly without having to keep track of an object in the global environment. Use <code><a href="../reference/vos_process.html">vos_process()</a></code> to return the <code>processx</code> object. For example:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">p &lt;-<span class="st"> </span><span class="kw"><a href="../reference/vos_process.html">vos_process</a></span>()</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2">p<span class="op">$</span><span class="kw">get_error_file</span>()</a>
 <a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt; [1] "/Users/cboettig/Library/Logs/Virtuoso/virtuoso.log"</span></a>
 <a class="sourceLine" id="cb13-4" data-line-number="4">p<span class="op">$</span><span class="kw">suspend</span>()</a>
@@ -217,47 +205,23 @@
 <li><a href="https://cboettig.github.io/virtuoso/articles/articles/datalake.html">The Data Lake: richer examples of RDF use</a></li>
 </ul>
 <hr>
-<p>Please note that the <code>virtuoso</code> R package is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
-</div>
+<p>Please note that the ‘virtuoso’ project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div class="links">
-<h2>Links</h2>
-<ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/cboettig/virtuoso">https://​github.com/​cboettig/​virtuoso</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/cboettig/virtuoso/issues">https://​github.com/​cboettig/​virtuoso/​issues</a>
-</li>
-</ul>
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#installation">Installation</a></li>
+      <li><a href="#getting-started">Getting Started</a></li>
+      <li><a href="#dsl">DSL</a></li>
+      <li><a href="#server-controls">Server controls</a></li>
+      <li><a href="#going-further">Going further</a></li>
+      </ul>
 </div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Carl Boettiger <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0002-1642-628X" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
-<li><a href="authors.html">All authors...</a></li>
-</ul>
-</div>
-
-      <div class="dev-status">
-<h2>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></li>
-<li><a href="https://travis-ci.org/cboettig/virtuoso"><img src="https://travis-ci.org/cboettig/virtuoso.svg?branch=master" alt="Travis build status"></a></li>
-<li><a href="https://ci.appveyor.com/project/cboettig/virtuoso"><img src="https://ci.appveyor.com/api/projects/status/github/cboettig/virtuoso?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
-<li><a href="https://codecov.io/github/cboettig/virtuoso?branch=master"><img src="https://codecov.io/gh/cboettig/virtuoso/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
-<li><a href="https://cran.r-project.org/package=virtuoso"><img src="https://www.r-pkg.org/badges/version/virtuoso" alt="CRAN status"></a></li>
-</ul>
-</div>
-</div>
+      </div>
 
 </div>
 
