@@ -21,9 +21,8 @@ vos_process <- function(p = NA){
   }
   if (!inherits(p, "process")) {
     message(paste("No virtouso process found.",
-               "Try starting one with vos_start()"
-    ),
-    call. = FALSE)
+               "Try starting one with vos_start()\n"
+    ))
   }
   p
 }
