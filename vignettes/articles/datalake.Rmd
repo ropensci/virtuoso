@@ -101,15 +101,17 @@ Transform JSON (or list data) into triples.  In this case, we have a large JSON 
 containing metadata on all rOpenSci packages:
 
 ```{r}
-x <- jsonlite::read_json("https://raw.githubusercontent.com/ropensci/roregistry/master/registry.json")
-write_nquads(x, "ropensci.nq.gz", prefix = "http://schema.org/")
+library(jsonld)
+download.file("https://raw.githubusercontent.com/ropensci/roregistry/gh-pages/raw_cm.json", "raw_cm.json")
+nq <- jsonld::jsonld_to_rdf("raw_cm.json") # drops implicit URIs if not base URIs
+writeLines(nq, gzfile("ro.nq.gz"))
 ```
 
 
 And bulk-import
 
 ```{r}
-vos_import(con, "ropensci.nq.gz")
+vos_import(con, "ro.nq.gz")
 ```
 
 Find all packages where "Carl Boettiger" is an "author", and return:
@@ -118,36 +120,21 @@ package name, license, and co-author surnames:
 ```{r}
 query <-
 "PREFIX schema: <http://schema.org/>
-SELECT DISTINCT ?package ?license ?coauthor
+SELECT DISTINCT ?coauthor  ?license ?package 
  WHERE {
- ?s schema:identifier ?package ;
+ ?s schema:name ?package ;
     schema:author ?author ;
     schema:license ?license ;
-    schema:name ?name ;
     schema:author ?coauth .
  ?author schema:givenName 'Carl' .
  ?author schema:familyName 'Boettiger' .
  ?coauth schema:familyName ?coauthor
 }"
 
-vos_query(con, query) %>% 
-as_tibble() %>% 
-mutate(license = basename(license)) # Tidy up URIs into names
+vos_query(con, query) %>% distinct() %>%
+mutate(license = basename(license), package = basename(package)) # Tidy up URIs into names
 ```
 
-
-```{r}
-query <-
-  rdftools:::sparql_op() %>%
-  rdftools:::select("identifier", "license", prefix = "http://schema.org/") %>%
-  rdftools:::filter(author.familyName == "Boettiger",
-         author.givenName == "Carl",
-        prefix = "http://schema.org/") %>%
-  rdftools:::sparql_build()
-
-vos_query(con, query)
-
-```
 
 
 
@@ -156,5 +143,6 @@ vos_query(con, query)
 unlink("flights.nq")
 unlink("planes.nq")
 unlink("airlines.nq")
-unlink("ropensci.nq")
+unlink("ro.nq.gz")
+unlink("raw_cm.json")
 ```

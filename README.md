@@ -10,6 +10,7 @@ status](https://ci.appveyor.com/api/projects/status/github/cboettig/virtuoso?bra
 status](https://codecov.io/gh/cboettig/virtuoso/branch/master/graph/badge.svg)](https://codecov.io/github/cboettig/virtuoso?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/virtuoso)](https://cran.r-project.org/package=virtuoso)
+[![](http://badges.ropensci.org/271_status.svg)](https://github.com/ropensci/sofware-review/issues/271)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -37,15 +38,16 @@ operating system.
 
 ``` r
 vos_install()
+#> Virtuoso is already installed.
 ```
 
 We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 25278.
+#> PROCESS 'virtuoso-t', running, pid 27505.
 #> Server is now starting up, this may take a few seconds...
-#> latest log entry: 20:22:46 Server online at 1111 (pid 25278)
+#> latest log entry: 16:10:07 Server online at 1111 (pid 27505)
 ```
 
 Once the server is running, we can connect to the database.
@@ -118,10 +120,10 @@ vos_query(con,
        }")
 #>                                                 p                        o
 #> 1 http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://schema.org/Person
-#> 2                      http://schema.org/jobTitle                Professor
-#> 3                     http://schema.org/telephone           (425) 123-4567
-#> 4                           http://schema.org/url   http://www.janedoe.com
-#> 5                          http://schema.org/name                 Jane Doe
+#> 2                          http://schema.org/name                 Jane Doe
+#> 3                      http://schema.org/jobTitle                Professor
+#> 4                     http://schema.org/telephone           (425) 123-4567
+#> 5                           http://schema.org/url   http://www.janedoe.com
 ```
 
 ``` r
@@ -147,7 +149,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 20:22:47 PL LOG: No more files to load. Loader has finished,
+#> latest log entry: 16:10:08 PL LOG: No more files to load. Loader has finished,
 #> [1] "running"
 ```
 
