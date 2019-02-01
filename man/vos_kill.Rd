@@ -2,7 +2,6 @@
 % Please edit documentation in R/vos_kill.R
 \name{vos_kill}
 \alias{vos_kill}
-\alias{vos_stop}
 \title{Stop (kill) the Virtuoso server}
 \usage{
 vos_kill(p = NA)

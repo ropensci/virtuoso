@@ -21,7 +21,9 @@ vos_log <- function(p = NA, collapse = NULL, just_errors = FALSE){
 
   p <- vos_process(p)
 
-  log <- readLines(p$get_error_file())
+  err_file <- file.path(vos_logdir(), "virtuoso.log")
+  log <- readLines(err_file)
+
   if(just_errors){
     return(log[grepl("error", log)])
   }

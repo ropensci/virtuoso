@@ -123,10 +123,12 @@ vos_status()
 Advanced usage note: `vos_start()` invisibly returns a `processx` object which we can pass to other server control functions, or access the embedded `processx` control methods directly.  The `virtuoso` package also caches this object in an environment so that it can be accessed directly without having to keep track of an object in the global environment. Use `vos_process()` to return the `processx` object.  For example:
 
 ```{r}
+library(ps)
 p <- vos_process()
-p$get_error_file()
-p$suspend()
-p$resume()
+ps_is_running(p)
+ps_cpu_times(p)
+ps_suspend(p)
+ps_resume(p)
 ```
 
 ```{r include = FALSE}

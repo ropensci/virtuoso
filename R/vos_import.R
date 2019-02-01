@@ -157,10 +157,8 @@ guess_ext <- function(files){
 assert_allowedDirs <- function(wd = ".", db_dir = vos_db()){
 
   ## In case user connects to external virtuoso
-  status <- tryCatch(vos_status(),
-                     error = function(e) "not detected",
-                     finally = NULL)
-  if(status == "not detected"){
+  status <- vos_status()
+  if(is.null(status)){
     warning(paste("Could not access virtuoso.ini configuration.",
                "If you are using an external virtuoso server,",
                "ensure working directory is in allowedDirs"),
