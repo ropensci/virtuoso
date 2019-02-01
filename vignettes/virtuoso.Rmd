@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 
 The goal of virtuoso is to provide an easy interface to Virtuoso RDF database from R. 
 
+
 ## Installation
 
 You can install the development version of virtuoso from GitHub with:
@@ -33,7 +34,7 @@ remotes::install_github("cboettig/virtuoso")
 library(virtuoso)
 ```
 
-For Mac & Windows users, `virtuoso` package includes a utility function to install and configure a local Virtuoso Open Source instance using Homebrew.  Otherwise, simply install the Virtuoso Open Source edition for your operating system. 
+For Mac users, `virtuoso` package includes a utility function to install and configure a local Virtuoso Open Source instance using Homebrew.  Otherwise, simply install the Virtuoso Open Source edition for your operating system. 
 
 
 ```{r install}
@@ -116,10 +117,12 @@ vos_status()
 Advanced usage note: `vos_start()` invisibly returns a `processx` object which we can pass to other server control functions, or access the embedded `processx` control methods directly.  The `virtuoso` package also caches this object in an environment so that it can be accessed directly without having to keep track of an object in the global environment. Use `vos_process()` to return the `processx` object.  For example:
 
 ```{r}
+library(ps)
 p <- vos_process()
-p$get_error_file()
-p$suspend()
-p$resume()
+ps_is_running(p)
+ps_cpu_times(p)
+ps_suspend(p)
+ps_resume(p)
 ```
 
 ```{r include = FALSE}
@@ -132,7 +135,3 @@ Please see the package vignettes for more information:
 
 - [details on Virtuoso Installation & configuration](https://cboettig.github.io/virtuoso/articles/installation.html)
 - [The Data Lake: richer examples of RDF use](https://cboettig.github.io/virtuoso/articles/articles/datalake.html)
-
----
-
-Please note that the 'virtuoso' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
