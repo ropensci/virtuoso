@@ -19,7 +19,10 @@
 vos_status <- function(p = NA, wait = 10){
 
   p <- vos_process(p)
-  if(!inherits(p, "ps_handle")) return(invisible(NULL))
+  if(!inherits(p, "ps_handle")){
+    message("virtuoso isn't running.")
+    return(invisible(NULL))
+  }
 
   status <- ps::ps_status(p)
 

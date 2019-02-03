@@ -34,14 +34,15 @@ test_that("We can connect, bulk load and query", {
   expect_error(vos_import(con, bad_file))
 
   vos_list_graphs(con)
-  vos_count_triples(con)
-  vos_count_triples(con, "rdflib")
+  ## not fully developed:
+#  virtuoso:::vos_count_triples(con)
+#  virtuoso:::vos_count_triples(con, "rdflib")
 
 ### After data is cleared, cannot re-load it w/o restarting server first...
 ### "We can clear all data",
-  vos_clear_graph(con)
-  df2 <- vos_query(con, query)
-  expect_equal(dim(df2), c(0,2))
+#  virtuoso:::vos_clear_graph(con)
+#  df2 <- vos_query(con, query)
+#  expect_equal(dim(df2), c(0,2))
 
 
 })
