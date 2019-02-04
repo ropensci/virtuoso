@@ -18,7 +18,7 @@ test_that("we can start a vos server and check status",{
 
   ## vos_status responds correctly
   expect_true(vos_status(p) %in% c("sleeping", "running"))
-  ps_suspend(p)
+  ps::ps_suspend(p)
   expect_equal(vos_status(p), "stopped")
 
   expect_length(vos_log(just_errors = TRUE), 0)
