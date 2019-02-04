@@ -23,11 +23,12 @@
 #' @importFrom ini read.ini write.ini
 #' @references <http://docs.openlinksw.com/virtuoso/dbadm/>
 #' @export
-#' @examples
+#' @examples \donttest{ # can take > 5s to test
 #'  ## configure with typical defaults:
 #'  vos_configure()
 #'  ## Increase or decrease RAM available to virtuoso:
 #'  vos_configure(gigs_ram = 1)
+#'  }
 vos_configure <- function(dirs_allowed = getwd(),
                           gigs_ram = 2,
                           template = find_virtuoso_ini(),
@@ -87,7 +88,6 @@ vos_configure <- function(dirs_allowed = getwd(),
   output
 }
 
-## FIXME ick don't hardwire Linux path
 find_virtuoso_ini <- function(){
   switch(which_os(),
          osx = find_virtuoso_ini_osx(),
@@ -97,6 +97,7 @@ find_virtuoso_ini <- function(){
   )
 }
 
+## ick -- hardwire Linux path
 find_virtuoso_ini_linux <- function(){
   "/etc/virtuoso-opensource-6.1/virtuoso.ini"
 }

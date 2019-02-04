@@ -78,14 +78,18 @@ vos_import <- function(con,
     wd <- file.path(cache, subdir)
     dir.create(wd, showWarnings = FALSE, recursive = TRUE)
     ## NOTE we need abs paths of files for this to work (at least with symlinks)
-    if(is_windows()){
-      lapply(files, function(from)
-        file.copy(fs::path_abs(from), file.path(wd, basename(from))))
-    } else {
-      lapply(files, function(from)
-        file.symlink(fs::path_abs(from), file.path(wd, basename(from))))
-    }
+      lapply(files, function(from){
+        target <- file.path(wd, basename(from))
 
+        ## remove target before symlinking
+        if(file.exists(target)) file.remove(target)
+
+        ## symlink only on Unix, must copy on Windows:
+        switch(which_os(),
+               "windows" = file.copy(fs::path_abs(from), target),
+               file.symlink(fs::path_abs(from), target)
+        )
+      })
   }
 
   ## Even on Windows, ld_dir wants a Unix-style path-slash
@@ -157,10 +161,8 @@ guess_ext <- function(files){
 assert_allowedDirs <- function(wd = ".", db_dir = vos_db()){
 
   ## In case user connects to external virtuoso
-  status <- tryCatch(vos_status(),
-                     error = function(e) "not detected",
-                     finally = NULL)
-  if(status == "not detected"){
+  status <- vos_status()
+  if(is.null(status)){
     warning(paste("Could not access virtuoso.ini configuration.",
                "If you are using an external virtuoso server,",
                "ensure working directory is in allowedDirs"),

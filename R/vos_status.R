@@ -11,6 +11,7 @@
 #'  - "running" Server is up and accepting queries.
 #'  - "sleeping" Server is up and accepting queries.
 #'
+#' @importFrom ps ps_status
 #' @export
 #' @examples \dontrun{
 #' vos_status()
@@ -18,18 +19,16 @@
 vos_status <- function(p = NA, wait = 10){
 
   p <- vos_process(p)
-  if(!inherits(p, "process")) return("not detected")
-
-  if (!p$is_alive()) {
-    message(paste("Server is not alive, please restart. Server log: \n\n",
-                  vos_log(p, collapse = "\n")), call. = FALSE)
-    return("dead")
+  if(!inherits(p, "ps_handle")){
+    message("virtuoso isn't running.")
+    return(invisible(NULL))
   }
 
-  if (!(p$get_status() %in% c("running", "sleeping"))) # stopped,
-    return(p$get_status())
+  status <- ps::ps_status(p)
 
-  Sys.sleep(1)
+  if ( !(status %in% c("running", "sleeping")) )
+    return(status)
+
   log <- vos_log(p, collapse = "\n")
   tries <- 0
   up <- grepl("Server online at", log)
@@ -43,5 +42,5 @@ vos_status <- function(p = NA, wait = 10){
   log <- vos_log(p)
   message(paste("latest log entry:", log[length(log)]))
 
-  p$get_status()
+  status
 }

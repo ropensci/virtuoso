@@ -31,6 +31,7 @@ virtuoso_cache <- new.env()
 #' If no `virtuoso.ini` configuration file is provided, [vos_start()] will
 #' automatically attempt to configure one.  For more control over this,
 #' use [vos_configure()], see examples.
+#' @importFrom ps ps_pid
 #' @seealso [vos_install()]
 #' @examples \dontrun{
 #'
@@ -51,10 +52,13 @@ vos_start <- function(ini = NULL, wait = 30){
 
 
   ## Check for cached process
-  p <- mget("virtuoso_process", envir = virtuoso_cache, ifnotfound = NA)[[1]]
-  if (inherits(p, "process")) {
-    message(paste("Found existing process:", p$format()))
-    return(p)
+  p <- vos_process()
+
+  if (inherits(p, "ps_handle")) {
+    message(paste(
+      "Virtuoso is already running with pid:",
+      ps::ps_pid(p)))
+    return(invisible(p))
   }
 
   ## Prepare a virtuoso.ini configuration file if one is not provided.
@@ -64,22 +68,21 @@ vos_start <- function(ini = NULL, wait = 30){
 
   ## Here we go time to start the process
   err <- file.path(vos_logdir(), "virtuoso.log")
-  p <- processx::process$new("virtuoso-t", c("-f", "-c", ini),
+
+  px <- processx::process$new("virtuoso-t", c("-f", "-c", ini),
                              stderr = err, stdout = "|",
                              cleanup = TRUE)
 
-  ## Cache the process so we can control it later.
-  assign("virtuoso_process", p, envir = virtuoso_cache)
 
   ## Wait for status
-  message(p$format())
+  message(px$format())
   message("Server is now starting up, this may take a few seconds...\n")
   Sys.sleep(2)
-  vos_status(p, wait = wait)
+  vos_status(wait = wait)
 
 
   ##
-  invisible(p)
+  invisible(vos_process())
 }
 
 # FIXME check if virtuoso process is already running independently?

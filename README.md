@@ -45,9 +45,9 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 27505.
+#> PROCESS 'virtuoso-t', running, pid 69790.
 #> Server is now starting up, this may take a few seconds...
-#> latest log entry: 16:10:07 Server online at 1111 (pid 27505)
+#> latest log entry: 13:02:40 Server online at 1111 (pid 69790)
 ```
 
 Once the server is running, we can connect to the database.
@@ -149,7 +149,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 16:10:08 PL LOG: No more files to load. Loader has finished,
+#> latest log entry: 13:02:41 PL LOG: No more files to load. Loader has finished,
 #> [1] "running"
 ```
 
@@ -162,12 +162,16 @@ environment. Use `vos_process()` to return the `processx` object. For
 example:
 
 ``` r
+library(ps)
 p <- vos_process()
-p$get_error_file()
-#> [1] "/Users/cboettig/Library/Logs/Virtuoso/virtuoso.log"
-p$suspend()
+ps_is_running(p)
+#> [1] TRUE
+ps_cpu_times(p)
+#>            user          system    childen_user children_system 
+#>       3.1002602       0.4033256              NA              NA
+ps_suspend(p)
 #> NULL
-p$resume()
+ps_resume(p)
 #> NULL
 ```
 
