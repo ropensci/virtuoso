@@ -1,11 +1,17 @@
 context("test vos_query")
 
-vos_start()
+vos_start(wait=120)
 
 
 
 test_that("We can connect, bulk load and query", {
 
+
+  ## We can access process handle independently
+  p <- vos_process()
+  expect_is(p, "ps_handle")
+  expect_true(vos_status(p) %in% c("sleeping", "running"))
+  expect_length(vos_log(just_errors = TRUE), 0)
 
   con <- vos_connect()
   expect_is(con, "OpenLink Virtuoso")
@@ -48,6 +54,7 @@ test_that("We can connect, bulk load and query", {
 })
 
 vos_kill()
+
 
 
 
