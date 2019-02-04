@@ -20,7 +20,7 @@
 vos_log <- function(p = NA, collapse = NULL, just_errors = FALSE){
 
   p <- vos_process(p)
-
+  if(!inherits(p, "ps_handle")) return("")
   err_file <- file.path(vos_logdir(), "virtuoso.log")
   log <- readLines(err_file)
 

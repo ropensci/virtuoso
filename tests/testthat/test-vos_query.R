@@ -5,12 +5,13 @@ vos_start(wait=120)
 
 
 test_that("We can connect, bulk load and query", {
-
+  skip_on_cran()
 
   ## We can access process handle independently
   p <- vos_process()
-  expect_is(p, "ps_handle")
-  expect_true(vos_status(p) %in% c("sleeping", "running"))
+  #expect_is(p, "ps_handle")
+  #expect_true(vos_status() %in% c("sleeping", "running"))
+
   expect_length(vos_log(just_errors = TRUE), 0)
 
   con <- vos_connect()
@@ -23,7 +24,7 @@ test_that("We can connect, bulk load and query", {
 
   example <- system.file("extdata", "person.nq", package = "virtuoso")
   # Tests with alternative temp location:
-  #vos_import(con, example, wd = rappdirs::user_cache_dir("Virtuoso"))
+  vos_import(con, example, wd = tempdir())
   vos_import(con, example)
 
   Sys.sleep(5)

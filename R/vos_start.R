@@ -68,6 +68,7 @@ vos_start <- function(ini = NULL, wait = 30){
 
   ## Here we go time to start the process
   err <- file.path(vos_logdir(), "virtuoso.log")
+
   px <- processx::process$new("virtuoso-t", c("-f", "-c", ini),
                              stderr = err, stdout = "|",
                              cleanup = TRUE)
