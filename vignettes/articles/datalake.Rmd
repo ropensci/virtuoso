@@ -21,16 +21,16 @@ knitr::opts_chunk$set(
 
 ```{r}
 library(virtuoso)
-library(rdftools) # for write_nquads.  Needs: install_github("cboettig/rdftools")
 library(dplyr)
+library(nycflights13)
+library(jsonld)
 
+
+# needed write_nquads().  Install using: install_github("cboettig/rdftools")
+library(rdftools) 
 ```
 
 # Tabular Data
-
-```{r}
-library(nycflights13)
-```
 
 We start up our Virtuoso server, wait for it to come up, and then connect:
 
@@ -101,7 +101,6 @@ Transform JSON (or list data) into triples.  In this case, we have a large JSON 
 containing metadata on all rOpenSci packages:
 
 ```{r}
-library(jsonld)
 download.file("https://raw.githubusercontent.com/ropensci/roregistry/gh-pages/raw_cm.json", "raw_cm.json")
 nq <- jsonld::jsonld_to_rdf("raw_cm.json") # drops implicit URIs if not base URIs
 writeLines(nq, gzfile("ro.nq.gz"))
@@ -145,8 +144,4 @@ unlink("flights.nq")
 unlink("planes.nq")
 unlink("airlines.nq")
 unlink("ro.nq.gz")
-<<<<<<< HEAD
-unlink("raw_cm.json")
-=======
->>>>>>> master
 ```
