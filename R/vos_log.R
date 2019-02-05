@@ -10,25 +10,23 @@
 #' @export
 #' @return Virtuoso logs as a character vector.
 #' @seealso [vos_start()]
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' vos_start()
 #' vos_log()
-#'
+#' 
 #' ## look only for any error messages:
 #' vos_log(just_errors = TRUE)
 #' }
-vos_log <- function(p = NA, collapse = NULL, just_errors = FALSE){
-
+vos_log <- function(p = NA, collapse = NULL, just_errors = FALSE) {
   p <- vos_process(p)
-  if(!inherits(p, "ps_handle")) return("")
+  if (!inherits(p, "ps_handle")) return("")
   err_file <- file.path(vos_logdir(), "virtuoso.log")
   log <- readLines(err_file)
 
-  if(just_errors){
+  if (just_errors) {
     return(log[grepl("error", log)])
   }
 
   paste(log, collapse = collapse)
-
 }
-

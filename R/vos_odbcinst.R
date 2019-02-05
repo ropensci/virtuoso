@@ -23,50 +23,52 @@
 #' @examples
 #' ## Configures ODBC and returns silently on success.
 #' vos_odbcinst()
-#'
+#' 
 #' ## see where the inst file is located:
 #' inst <- vos_odbcinst()
 #' inst
-#'
-#'
 #' @export
 vos_odbcinst <-
   function(system_odbcinst = find_odbcinst(),
-           local_odbcinst = odbcinst_path()){
+             local_odbcinst = odbcinst_path()) {
 
-  ## NOTE: This applies to and is used only by on MacOS / Linux
-  Sys.setenv(ODBCSYSINI=dirname(local_odbcinst))
+    ## NOTE: This applies to and is used only by on MacOS / Linux
+    Sys.setenv(ODBCSYSINI = dirname(local_odbcinst))
 
-  ## Use local odbcinst if already configured
-  if (already_set(local_odbcinst)){
-    return(invisible(local_odbcinst))
+    ## Use local odbcinst if already configured
+    if (already_set(local_odbcinst)) {
+      return(invisible(local_odbcinst))
+    }
+
+    ## Then use system odbcinst if that is configured
+    ## NO -- don't trust system odbcinst to be already set
+    # if (already_set(system_odbcinst)){
+    #  # Sys.setenv(ODBCSYSINI=system_odbcinst)
+    #  return(invisible(system_odbcinst))
+    # }
+
+    write(c(
+      "",
+      "[Local Virtuoso]",
+      paste("Driver =", find_odbc_driver()),
+      ""
+    ),
+    file = local_odbcinst,
+    append = TRUE
+    )
+
+    invisible(local_odbcinst)
   }
 
-  ## Then use system odbcinst if that is configured
-  ## NO -- don't trust system odbcinst to be already set
-  #if (already_set(system_odbcinst)){
-  #  # Sys.setenv(ODBCSYSINI=system_odbcinst)
-  #  return(invisible(system_odbcinst))
-  #}
-
-  write(c("",
-          "[Local Virtuoso]",
-          paste("Driver =", find_odbc_driver()),
-          ""),
-          file = local_odbcinst,
-          append = TRUE)
-
-  invisible(local_odbcinst)
-  }
 
 
-
-already_set <- function(odbcinst){
-  if(is.null(odbcinst))
+already_set <- function(odbcinst) {
+  if (is.null(odbcinst)) {
     return(FALSE)
+  }
   if (file.exists(odbcinst)) {
-    if (any(grepl("\\[Local Virtuoso\\]", readLines(odbcinst))) ) {
-      #message("Configuration for Virtuoso found")
+    if (any(grepl("\\[Local Virtuoso\\]", readLines(odbcinst)))) {
+      # message("Configuration for Virtuoso found")
       return(TRUE)
     }
   }
@@ -74,31 +76,36 @@ already_set <- function(odbcinst){
 }
 
 
-find_odbc_driver <- function(os = which_os()){
+find_odbc_driver <- function(os = which_os()) {
   lookup <- switch(os,
-    osx   = c("/usr/lib/virtodbc.so",
-              "/usr/local/lib/virtodbc.so", # Mac Homebrew symlink
-              file.path(virtuoso_home_osx(), "lib", "virtodbc.so")
-             ),
+    osx = c(
+      "/usr/lib/virtodbc.so",
+      "/usr/local/lib/virtodbc.so", # Mac Homebrew symlink
+      file.path(virtuoso_home_osx(), "lib", "virtodbc.so")
+    ),
     linux = c(
-              "/usr/lib/virtodbc.so",
-              "/usr/local/lib/virtodbc.so",
-              "/usr/lib/odbc/virtodbc.so",
-              "/usr/lib/x86_64-linux-gnu/odbc/virtodbc.so"
-              ),
-    windows = normalizePath(file.path(virtuoso_home_windows(),
-                                      "bin", "virtodbc.dll"),
-                            mustWork = FALSE),
+      "/usr/lib/virtodbc.so",
+      "/usr/local/lib/virtodbc.so",
+      "/usr/lib/odbc/virtodbc.so",
+      "/usr/lib/x86_64-linux-gnu/odbc/virtodbc.so"
+    ),
+    windows = normalizePath(file.path(
+      virtuoso_home_windows(),
+      "bin", "virtodbc.dll"
+    ),
+    mustWork = FALSE
+    ),
     "OS not recognized or not supported"
   )
   path_lookup(lookup)
 }
 
-path_lookup <- function(paths, target_name = basename(paths[[1]])){
+path_lookup <- function(paths, target_name = basename(paths[[1]])) {
   i <- vapply(paths, file.exists, logical(1L))
-  if (sum(i) < 1){
+  if (sum(i) < 1) {
     warning(paste("could not automatically locate", target_name),
-            call. = FALSE)
+      call. = FALSE
+    )
     return(target_name)
   }
 
@@ -108,15 +115,17 @@ path_lookup <- function(paths, target_name = basename(paths[[1]])){
 
 
 #' @importFrom utils read.table
-find_odbcinst <- function(){
-  if (Sys.which("odbcinst") == "")
+find_odbcinst <- function() {
+  if (Sys.which("odbcinst") == "") {
     return(normalizePath("~/.odbcinst.ini", mustWork = FALSE))
+  }
 
   ## Otherwise we can use `odbcinst -j` to find odbcinst.ini file
   p <- processx::run("odbcinst", "-j")
   trimws(
     read.table(textConnection(p$stdout),
-               skip = 1, sep = ":",
-               stringsAsFactors = FALSE)[1,2]
+      skip = 1, sep = ":",
+      stringsAsFactors = FALSE
+    )[1, 2]
   )
 }

@@ -70,8 +70,6 @@ con <- vos_connect()
 
 example <- system.file("extdata", "person.nq", package = "virtuoso")
 vos_import(con, example)
-
-
 }
 }
 \references{

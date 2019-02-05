@@ -13,21 +13,22 @@
 #'
 #' @importFrom ps ps_status
 #' @export
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' vos_status()
 #' }
-vos_status <- function(p = NA, wait = 10){
-
+vos_status <- function(p = NA, wait = 10) {
   p <- vos_process(p)
-  if(!inherits(p, "ps_handle")){
+  if (!inherits(p, "ps_handle")) {
     message("virtuoso isn't running.")
     return(invisible(NULL))
   }
 
   status <- ps::ps_status(p)
 
-  if ( !(status %in% c("running", "sleeping")) )
+  if (!(status %in% c("running", "sleeping"))) {
     return(status)
+  }
 
   log <- vos_log(p, collapse = "\n")
   tries <- 0

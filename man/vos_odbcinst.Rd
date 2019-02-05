@@ -37,6 +37,4 @@ vos_odbcinst()
 ## see where the inst file is located:
 inst <- vos_odbcinst()
 inst
-
-
 }

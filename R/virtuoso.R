@@ -6,7 +6,7 @@
 #' @details NOTE: after clearing a graph, re-running the bulk
 #' importer may refuse to re-import triples.
 #' @inheritParams vos_import
-vos_clear_graph <- function(con, graph = "rdflib"){
+vos_clear_graph <- function(con, graph = "rdflib") {
   DBI::dbGetQuery(con, paste0("SPARQL CLEAR GRAPH <", graph, ">"))
 }
 
@@ -16,15 +16,18 @@ vos_clear_graph <- function(con, graph = "rdflib"){
 #'
 #' @export
 #' @inheritParams vos_import
-vos_list_graphs <- function(con){
-  DBI::dbGetQuery(con,
-     paste("SPARQL SELECT",
-           "DISTINCT ?g",
-           "WHERE {",
-           "GRAPH ?g {?s ?p ?o}",
-           "}",
-           "ORDER BY ?g")
-          )
+vos_list_graphs <- function(con) {
+  DBI::dbGetQuery(
+    con,
+    paste(
+      "SPARQL SELECT",
+      "DISTINCT ?g",
+      "WHERE {",
+      "GRAPH ?g {?s ?p ?o}",
+      "}",
+      "ORDER BY ?g"
+    )
+  )
 }
 
 
@@ -34,12 +37,12 @@ vos_list_graphs <- function(con){
 #'
 #' @inheritParams vos_import
 #' @noRd
-vos_count_triples <- function(con, graph = NULL){
+vos_count_triples <- function(con, graph = NULL) {
 
   ## Official query method below.  Not sure why these return
   ## large negative integer on debian and fail on mac...
-  #DBI::dbGetQuery(con, "SPARQL SELECT COUNT(*) FROM <rdflib>")
-  #DBI::dbGetQuery(con, paste("SPARQL SELECT (COUNT(?s) AS ?triples)",
+  # DBI::dbGetQuery(con, "SPARQL SELECT COUNT(*) FROM <rdflib>")
+  # DBI::dbGetQuery(con, paste("SPARQL SELECT (COUNT(?s) AS ?triples)",
   ## "WHERE { GRAPH ?g { ?s ?p ?o } }"))
 
   ## this way with dplyr way works but requires in-memory
@@ -47,12 +50,4 @@ vos_count_triples <- function(con, graph = NULL){
   ## df <- DBI::dbGetQuery(con, paste(
   ## "SPARQL SELECT ?g ?s ?p ?o  WHERE { GRAPH ?g {?s ?p ?o} }"))
   ## dplyr::count_(df, "g")
-
 }
-
-
-
-
-
-
-

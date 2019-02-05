@@ -1,6 +1,6 @@
 context("test vos_query")
 
-testthat::setup(vos_start(wait=120))
+testthat::setup(vos_start(wait = 120))
 
 
 
@@ -9,8 +9,8 @@ test_that("We can connect, bulk load and query", {
 
   ## We can access process handle independently
   p <- vos_process()
-  #expect_is(p, "ps_handle")
-  #expect_true(vos_status() %in% c("sleeping", "running"))
+  # expect_is(p, "ps_handle")
+  # expect_true(vos_status() %in% c("sleeping", "running"))
 
   expect_length(vos_log(just_errors = TRUE), 0)
 
@@ -33,7 +33,7 @@ test_that("We can connect, bulk load and query", {
              ?s a <http://schema.org/Person>
             }"
   df <- vos_query(con, query)
-  expect_equal(dim(df), c(5,2))
+  expect_equal(dim(df), c(5, 2))
   expect_true(any(grepl("Jane Doe", df)))
 
 
@@ -42,21 +42,14 @@ test_that("We can connect, bulk load and query", {
 
   vos_list_graphs(con)
   ## not fully developed:
-#  virtuoso:::vos_count_triples(con)
-#  virtuoso:::vos_count_triples(con, "rdflib")
+  #  virtuoso:::vos_count_triples(con)
+  #  virtuoso:::vos_count_triples(con, "rdflib")
 
-### After data is cleared, cannot re-load it w/o restarting server first...
-### "We can clear all data",
-#  virtuoso:::vos_clear_graph(con)
-#  df2 <- vos_query(con, query)
-#  expect_equal(dim(df2), c(0,2))
-
-
+  ### After data is cleared, cannot re-load it w/o restarting server first...
+  ### "We can clear all data",
+  #  virtuoso:::vos_clear_graph(con)
+  #  df2 <- vos_query(con, query)
+  #  expect_equal(dim(df2), c(0,2))
 })
 
 testthat::teardown(vos_kill())
-
-
-
-
-

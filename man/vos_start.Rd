@@ -48,7 +48,6 @@ use \code{\link[=vos_configure]{vos_configure()}}, see examples.
 vos_start()
 ## or with custom config:
 vos_start(vos_configure(gigs_ram = 3))
-
 }
 }
 \seealso{

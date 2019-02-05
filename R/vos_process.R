@@ -7,14 +7,15 @@
 #' to control the external Virtuoso sever process from R.
 #' @importFrom ps ps_handle ps
 #' @export
-#' @examples \dontrun{
-#'
+#' @examples
+#' \dontrun{
+#' 
 #' vos_start()
 #' p <- vos_process()
 #' p
 #' }
-#'
-vos_process <- function(p = NA){
+#' 
+vos_process <- function(p = NA) {
 
   ## p already is a handle to the process
   if (inherits(p, "ps_handle")) {
@@ -32,9 +33,7 @@ vos_process <- function(p = NA){
 }
 
 
-virtuoso_pid <- function(...){
+virtuoso_pid <- function(...) {
   x <- ps::ps(...)
   x$pid[grepl("virtuoso-t", x$name)]
 }
-
-

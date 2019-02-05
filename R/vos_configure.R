@@ -23,29 +23,32 @@
 #' @importFrom ini read.ini write.ini
 #' @references <http://docs.openlinksw.com/virtuoso/dbadm/>
 #' @export
-#' @examples \donttest{ # can take > 5s to test
-#'  ## configure with typical defaults:
-#'  vos_configure()
-#'  ## Increase or decrease RAM available to virtuoso:
-#'  vos_configure(gigs_ram = 1)
-#'  }
+#' @examples
+#' \donttest{
+#' # can take > 5s to test
+#' ## configure with typical defaults:
+#' vos_configure()
+#' ## Increase or decrease RAM available to virtuoso:
+#' vos_configure(gigs_ram = 1)
+#' }
 vos_configure <- function(dirs_allowed = getwd(),
                           gigs_ram = 2,
                           template = find_virtuoso_ini(),
-                          db_dir = vos_db()
-                          ){
-
+                          db_dir = vos_db()) {
   dir.create(db_dir, FALSE)
 
   DirsAllowed <- paste(unique(
-    c(dirs_allowed,       # user-supplied
-      ".",                # required (refers to ini file, e.g. db_dir())
-      vos_cache()         # app's cache dir
-      )),
-    sep="", collapse=",")
+    c(
+      dirs_allowed, # user-supplied
+      ".", # required (refers to ini file, e.g. db_dir())
+      vos_cache() # app's cache dir
+    )
+  ),
+  sep = "", collapse = ","
+  )
 
   ## Escape spaces in directory names
-  gsub( " ", "\\ ", DirsAllowed)
+  gsub(" ", "\\ ", DirsAllowed)
   ## Consider normalizePaths with winslash="/"
 
   V <- ini::read.ini(template)
@@ -72,7 +75,7 @@ vos_configure <- function(dirs_allowed = getwd(),
     file.path(db_dir, basename(V$TempDatabase$TransactionFile))
 
   ## Fix relative paths to absolute ones
-  if(is_windows()){
+  if (is_windows()) {
     base <- dirname(template)
     V$Plugins$LoadPath <-
       normalizePath(file.path(base, V$Plugins$LoadPath))
@@ -88,33 +91,29 @@ vos_configure <- function(dirs_allowed = getwd(),
   output
 }
 
-find_virtuoso_ini <- function(){
+find_virtuoso_ini <- function() {
   switch(which_os(),
-         osx = find_virtuoso_ini_osx(),
-         windows = find_virtuoso_ini_windows(),
-         linux = find_virtuoso_ini_linux(),
-         NULL
+    osx = find_virtuoso_ini_osx(),
+    windows = find_virtuoso_ini_windows(),
+    linux = find_virtuoso_ini_linux(),
+    NULL
   )
 }
 
 ## ick -- hardwire Linux path
-find_virtuoso_ini_linux <- function(){
+find_virtuoso_ini_linux <- function() {
   "/etc/virtuoso-opensource-6.1/virtuoso.ini"
 }
 
 ## Note: normalizePath fails to simplify /my/path/to/../..
-find_virtuoso_ini_windows <- function(){
+find_virtuoso_ini_windows <- function() {
   normalizePath(file.path(virtuoso_home_windows(), "database", "virtuoso.ini"))
 }
 
-find_virtuoso_ini_osx <- function(){
-
+find_virtuoso_ini_osx <- function() {
   path_lookup(c(
     file.path(virtuoso_home_osx(), "db", "virtuoso.ini"),
     file.path(virtuoso_home_osx(), "database", "virtuoso.ini"),
     paste0(gsub("\\n$", "", brew_home()), "/var/lib/virtuoso/db/virtuoso.ini")
-    ))
-
+  ))
 }
-
-

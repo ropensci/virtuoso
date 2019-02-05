@@ -34,12 +34,13 @@ parameters. This helper function provides a way to create and modify an
 appropriate \code{virtuoso.ini} file.
 }
 \examples{
-\donttest{ # can take > 5s to test
- ## configure with typical defaults:
- vos_configure()
- ## Increase or decrease RAM available to virtuoso:
- vos_configure(gigs_ram = 1)
- }
+\donttest{
+# can take > 5s to test
+## configure with typical defaults:
+vos_configure()
+## Increase or decrease RAM available to virtuoso:
+vos_configure(gigs_ram = 1)
+}
 }
 \references{
 \url{http://docs.openlinksw.com/virtuoso/dbadm/}

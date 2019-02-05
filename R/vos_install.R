@@ -15,22 +15,24 @@
 #' @param ask Should we ask user for interactive installation?
 #' @export
 #' @importFrom processx run process
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' vos_install()
 #' }
-vos_install <- function(ask = is_interactive(), use_brew = FALSE){
+vos_install <- function(ask = is_interactive(), use_brew = FALSE) {
 
   ## Windows & DMG installers do not persist path
   ## Need path set so we can check if virtuoso is already installed
   vos_set_path()
 
-  if(has_virtuoso())
+  if (has_virtuoso()) {
     return(message("Virtuoso is already installed."))
+  }
 
 
   # Install Virtuoso if not already installed
   if (!has_virtuoso()) {
-    switch (which_os(),
+    switch(which_os(),
       "osx" = vos_install_osx(use_brew = use_brew, ask = ask),
       "linux" = vos_install_linux(),
       "windows" = vos_install_windows(ask = ask),
@@ -40,37 +42,36 @@ vos_install <- function(ask = is_interactive(), use_brew = FALSE){
 
   ## Configure ODBC, even if Virtuoso installation already detected
   vos_odbcinst()
-
 }
 
-has_virtuoso <- function(){
-  file.exists(unname(Sys.which('virtuoso-t')))
+has_virtuoso <- function() {
+  file.exists(unname(Sys.which("virtuoso-t")))
 }
 
-vos_set_path <- function(vos_home = NULL){
+vos_set_path <- function(vos_home = NULL) {
   ## Virtuoso already detected in PATH
 
-  if (has_virtuoso()){
+  if (has_virtuoso()) {
     return(NULL)
   }
 
-  if (is.null(vos_home)){
-    vos_home <- switch (which_os(),
-                       "linux" = return(NULL),
-                       "osx" = virtuoso_home_osx(),
-                       "windows" = virtuoso_home_windows()
-                       )
+  if (is.null(vos_home)) {
+    vos_home <- switch(which_os(),
+      "linux" = return(NULL),
+      "osx" = virtuoso_home_osx(),
+      "windows" = virtuoso_home_windows()
+    )
   }
-  sep <- switch (which_os(),
-                "linux" = ":",
-                "osx" = ":",
-                "windows" = ";"
-                )
+  sep <- switch(which_os(),
+    "linux" = ":",
+    "osx" = ":",
+    "windows" = ";"
+  )
 
   bin_dir <- file.path(vos_home, "bin")
 
   ## If Virtuoso has not yet been installed, don't modify path yet.
-  if(!file.exists(bin_dir)) return(NULL)
+  if (!file.exists(bin_dir)) return(NULL)
 
   bin_dir <- normalizePath(bin_dir)
   path <- Sys.getenv("PATH")
@@ -78,6 +79,3 @@ vos_set_path <- function(vos_home = NULL){
 
   invisible(path)
 }
-
-
-

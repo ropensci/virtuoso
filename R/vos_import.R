@@ -48,22 +48,20 @@
 #' @importFrom digest digest
 #' @importFrom fs path_abs
 #' @export
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' vos_start()
 #' con <- vos_connect()
-#'
+#' 
 #' example <- system.file("extdata", "person.nq", package = "virtuoso")
 #' vos_import(con, example)
-#'
-#'
 #' }
 vos_import <- function(con,
                        files = NULL,
                        wd = ".",
                        glob = "*",
                        graph = "rdflib",
-                       n_cores = 1L){
-
+                       n_cores = 1L) {
   cache <- vos_cache()
 
 
@@ -73,44 +71,48 @@ vos_import <- function(con,
 
 
   ## We have to copy (link) files into the directory Virtuoso can access.
-  if(!is.null(files)){
+  if (!is.null(files)) {
     subdir <- digest::digest(files)
     wd <- file.path(cache, subdir)
     dir.create(wd, showWarnings = FALSE, recursive = TRUE)
     ## NOTE we need abs paths of files for this to work (at least with symlinks)
-      lapply(files, function(from){
-        target <- file.path(wd, basename(from))
+    lapply(files, function(from) {
+      target <- file.path(wd, basename(from))
 
-        ## remove target before symlinking
-        if(file.exists(target)) file.remove(target)
+      ## remove target before symlinking
+      if (file.exists(target)) file.remove(target)
 
-        ## symlink only on Unix, must copy on Windows:
-        switch(which_os(),
-               "windows" = file.copy(fs::path_abs(from), target),
-               file.symlink(fs::path_abs(from), target)
-        )
-      })
+      ## symlink only on Unix, must copy on Windows:
+      switch(which_os(),
+        "windows" = file.copy(fs::path_abs(from), target),
+        file.symlink(fs::path_abs(from), target)
+      )
+    })
   }
 
   ## Even on Windows, ld_dir wants a Unix-style path-slash
   wd <- fs::path_tidy(wd)
-  if(is_windows()) wd <- fs::path_abs(wd)
-  DBI::dbGetQuery(con,
-                  paste0("ld_dir('",
-                         wd,
-                         "', '",
-                         glob,
-                         "', '",
-                         graph,
-                         "')") )
+  if (is_windows()) wd <- fs::path_abs(wd)
+  DBI::dbGetQuery(
+    con,
+    paste0(
+      "ld_dir('",
+      wd,
+      "', '",
+      glob,
+      "', '",
+      graph,
+      "')"
+    )
+  )
 
   importing_files <- fs::dir_ls(wd, glob = glob)
 
   ## Can call loader multiple times on multicore to load multiple files...
-  replicate(n_cores, DBI::dbGetQuery(con, "rdf_loader_run()" ))
+  replicate(n_cores, DBI::dbGetQuery(con, "rdf_loader_run()"))
 
   ## clean up cache
-  if(!is.null(files)){
+  if (!is.null(files)) {
     lapply(files, function(f) unlink(file.path(wd, basename(files))))
     unlink(subdir)
   }
@@ -119,25 +121,30 @@ vos_import <- function(con,
   ## Select only those on current import list.
   status <- DBI::dbGetQuery(con, paste0("SELECT * FROM DB.DBA.LOAD_LIST"))
   current <- status$ll_file %in% importing_files
-  status <- status[current,]
+  status <- status[current, ]
 
-  import_errors <-  any(!is.na(status$ll_error))
-  if(import_errors){
+  import_errors <- any(!is.na(status$ll_error))
+  if (import_errors) {
     err <- status[!is.na(status$ll_error), c("ll_file", "ll_error")]
     stop(paste("Error importing:", paste(basename(err$ll_file), err$ll_error)),
-         call. = FALSE)
+      call. = FALSE
+    )
   }
 
   invisible(status)
 }
 
-assert_extensions <- function(files){
-  known_extensions <- c("grdf", "nq",  "owl", "nt",
-                        "rdf", "trig", "ttl", "xml")
+assert_extensions <- function(files) {
+  known_extensions <- c(
+    "grdf", "nq", "owl", "nt",
+    "rdf", "trig", "ttl", "xml"
+  )
   pattern <- paste0("[.]", known_extensions, "(.gz)?$")
   results <-
-    vapply(files, function(filename) any(
-      vapply(pattern, grepl, logical(1L), filename)),
+    vapply(
+      files, function(filename) any(
+          vapply(pattern, grepl, logical(1L), filename)
+        ),
       logical(1L)
     )
 
@@ -145,35 +152,39 @@ assert_extensions <- function(files){
 }
 
 
-guess_ext <- function(files){
+guess_ext <- function(files) {
   filename <- basename(files[[1]])
   ext <- sub(".*([.]\\w+)", "*\\1", filename)
-  if(ext == "*.gz"){
-    ext <- paste0(sub(".*([.]\\w+)", "*\\1",
-                      sub("[.]\\w+$", "", filename)),
-                  ".gz")
+  if (ext == "*.gz") {
+    ext <- paste0(
+      sub(
+        ".*([.]\\w+)", "*\\1",
+        sub("[.]\\w+$", "", filename)
+      ),
+      ".gz"
+    )
   }
   ext
 }
 
 
 #' @importFrom fs path_tidy
-assert_allowedDirs <- function(wd = ".", db_dir = vos_db()){
+assert_allowedDirs <- function(wd = ".", db_dir = vos_db()) {
 
   ## In case user connects to external virtuoso
   status <- vos_status()
-  if(is.null(status)){
-    warning(paste("Could not access virtuoso.ini configuration.",
-               "If you are using an external virtuoso server,",
-               "ensure working directory is in allowedDirs"),
-            call. = FALSE)
+  if (is.null(status)) {
+    warning(paste(
+      "Could not access virtuoso.ini configuration.",
+      "If you are using an external virtuoso server,",
+      "ensure working directory is in allowedDirs"
+    ),
+    call. = FALSE
+    )
     return(as.character(NA))
   }
 
   V <- ini::read.ini(file.path(db_dir, "virtuoso.ini"))
   allowed <- strsplit(V$Parameters$DirsAllowed, ",")[[1]]
   fs::path_tidy(wd) %in% fs::path_tidy(allowed)
-
-
-
 }

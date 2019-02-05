@@ -33,22 +33,25 @@ virtuoso_cache <- new.env()
 #' use [vos_configure()], see examples.
 #' @importFrom ps ps_pid
 #' @seealso [vos_install()]
-#' @examples \dontrun{
-#'
+#' @examples
+#' \dontrun{
+#' 
 #' vos_start()
 #' ## or with custom config:
 #' vos_start(vos_configure(gigs_ram = 3))
-#'
 #' }
-vos_start <- function(ini = NULL, wait = 30){
+vos_start <- function(ini = NULL, wait = 30) {
 
   ## Windows & Mac-dmg-based installers do not persist path
   ## Need path set so we can check if virtuoso is already installed
   vos_set_path()
 
-  if(!has_virtuoso())
-    stop(paste("Virtuoso installation not detected.",
-               "Try running: vos_install()"))
+  if (!has_virtuoso()) {
+    stop(paste(
+      "Virtuoso installation not detected.",
+      "Try running: vos_install()"
+    ))
+  }
 
 
   ## Check for cached process
@@ -57,7 +60,8 @@ vos_start <- function(ini = NULL, wait = 30){
   if (inherits(p, "ps_handle")) {
     message(paste(
       "Virtuoso is already running with pid:",
-      ps::ps_pid(p)))
+      ps::ps_pid(p)
+    ))
     return(invisible(p))
   }
 
@@ -70,8 +74,9 @@ vos_start <- function(ini = NULL, wait = 30){
   err <- file.path(vos_logdir(), "virtuoso.log")
 
   px <- processx::process$new("virtuoso-t", c("-f", "-c", ini),
-                             stderr = err, stdout = "|",
-                             cleanup = TRUE)
+    stderr = err, stdout = "|",
+    cleanup = TRUE
+  )
 
 
   ## Wait for status

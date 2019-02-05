@@ -12,17 +12,17 @@
 #' @seealso [vos_start()]
 #' @aliases vos_kill
 #' @importFrom ps ps_kill
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' vos_start()
 #' vos_kill()
 #' }
-vos_kill <- function(p = NA){
+vos_kill <- function(p = NA) {
   status <- vos_status(p)
-  if(is.null(status)){
+  if (is.null(status)) {
     message("No active virtuoso process detected.")
     return(NULL)
   }
   p <- vos_process(p)
   ps::ps_kill(p)
 }
-
