@@ -172,7 +172,6 @@ assert_allowedDirs <- function(wd = ".", db_dir = vos_db()){
 
   V <- ini::read.ini(file.path(db_dir, "virtuoso.ini"))
   allowed <- strsplit(V$Parameters$DirsAllowed, ",")[[1]]
-  ## FIXME Should also be TRUE if wd is a subdir of an allowed dir
   fs::path_tidy(wd) %in% fs::path_tidy(allowed)
 
 

@@ -45,9 +45,9 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 69790.
+#> PROCESS 'virtuoso-t', running, pid 11168.
 #> Server is now starting up, this may take a few seconds...
-#> latest log entry: 13:02:40 Server online at 1111 (pid 69790)
+#> latest log entry: 11:32:23 Server online at 1111 (pid 11168)
 ```
 
 Once the server is running, we can connect to the database.
@@ -120,8 +120,8 @@ vos_query(con,
        }")
 #>                                                 p                        o
 #> 1 http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://schema.org/Person
-#> 2                          http://schema.org/name                 Jane Doe
-#> 3                      http://schema.org/jobTitle                Professor
+#> 2                      http://schema.org/jobTitle                Professor
+#> 3                          http://schema.org/name                 Jane Doe
 #> 4                     http://schema.org/telephone           (425) 123-4567
 #> 5                           http://schema.org/url   http://www.janedoe.com
 ```
@@ -149,7 +149,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 13:02:41 PL LOG: No more files to load. Loader has finished,
+#> latest log entry: 11:32:24 PL LOG: No more files to load. Loader has finished,
 #> [1] "running"
 ```
 
@@ -168,7 +168,7 @@ ps_is_running(p)
 #> [1] TRUE
 ps_cpu_times(p)
 #>            user          system    childen_user children_system 
-#>       3.1002602       0.4033256              NA              NA
+#>        2.828942        0.407887              NA              NA
 ps_suspend(p)
 #> NULL
 ps_resume(p)

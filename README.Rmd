@@ -145,3 +145,8 @@ Please see the package vignettes for more information:
 ---
 
 Please note that the `virtuoso` R package is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+
+
+```{r include=FALSE}
+if(require(codemetar)) codemetar::write_codemeta()
+```

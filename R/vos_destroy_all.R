@@ -24,11 +24,12 @@ vos_destroy_all <- function(force = FALSE){
 #' Delete Virtuoso Database
 #'
 #' delete the entire Virtuoso database for a fresh start.
-#' @param ask prompt before deleting?
+#' @param ask ask before deleting?
 #' @param db_dir location of the directory to delete
 #' @export
-vos_delete_db <- function(ask = interactive(),
+vos_delete_db <- function(ask = is_interactive(),
                           db_dir = vos_db()){
+  continue = TRUE
   if(ask)
     continue <- askYesNo("Are you sure?")
   if(continue)

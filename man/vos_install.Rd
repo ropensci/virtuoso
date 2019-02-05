@@ -4,10 +4,10 @@
 \alias{vos_install}
 \title{Helper method for installing Virtuoso Server}
 \usage{
-vos_install(prompt = is_interactive(), use_brew = FALSE)
+vos_install(ask = is_interactive(), use_brew = FALSE)
 }
 \arguments{
-\item{prompt}{Should we prompt user for interactive installation?}
+\item{ask}{Should we ask user for interactive installation?}
 
 \item{use_brew}{Should we use homebrew to install? (MacOS only)}
 }
@@ -15,7 +15,7 @@ vos_install(prompt = is_interactive(), use_brew = FALSE)
 Installation helper for Mac and Windows machines.  By default,
 method will download and launch the official \code{.dmg} or \code{.exe} installer
 for your platform, running the standard drag-n-drop installer or
-interactive dialog.  Setting \code{prompt = FALSE} will allow the installer
+interactive dialog.  Setting \code{ask = FALSE} will allow the installer
 to run entirely unsupervised, which is suitable for use in scripts.
 Mac users can alternatively opt to install Virtuoso through HomeBrew
 by setting \code{use_brew=TRUE}. Linux users should simply install the

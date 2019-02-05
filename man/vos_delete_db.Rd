@@ -4,10 +4,10 @@
 \alias{vos_delete_db}
 \title{Delete Virtuoso Database}
 \usage{
-vos_delete_db(ask = interactive(), db_dir = vos_db())
+vos_delete_db(ask = is_interactive(), db_dir = vos_db())
 }
 \arguments{
-\item{ask}{prompt before deleting?}
+\item{ask}{ask before deleting?}
 
 \item{db_dir}{location of the directory to delete}
 }

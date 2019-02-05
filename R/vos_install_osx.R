@@ -1,11 +1,11 @@
 #  @importFrom utils askYesNo  ## Do not import, breaks in R 3.4
 vos_install_osx <-
   function(use_brew = has_homebrew(),
-           prompt = is_interactive()){
+           ask = is_interactive()){
 
   if(use_brew){
     vos_install_formulae()
-  } else if(!prompt && has_homebrew()){
+  } else if(!ask && has_homebrew()){
     vos_install_formulae()
   } else {
     vos_install_dmg()

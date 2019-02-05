@@ -1,6 +1,6 @@
 context("test vos_query")
 
-vos_start(wait=120)
+testthat::setup(vos_start(wait=120))
 
 
 
@@ -54,7 +54,7 @@ test_that("We can connect, bulk load and query", {
 
 })
 
-vos_kill()
+testthat::teardown(vos_kill())
 
 
 

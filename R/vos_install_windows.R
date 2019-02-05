@@ -19,14 +19,14 @@ download_windows_installer <- function(version = "7.2.5"){
 
 
 #' @importFrom curl curl_download
-vos_install_windows <- function(prompt = is_interactive()){
+vos_install_windows <- function(ask = is_interactive()){
   installer <- system.file("windows",
                            "Virtuoso_OpenSource_Server_7.20.x64.exe",
                            package = "virtuoso")
   if(installer == "") # not packaged
     installer <- download_windows_installer()
 
-  if(prompt){
+  if(ask){
     proceed <- askYesNo(paste(
       "R will open the Windows Installer in another window.\n",
       "When asked to 'Create DB and start Virtuoso',\n",

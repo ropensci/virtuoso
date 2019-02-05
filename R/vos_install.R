@@ -3,7 +3,7 @@
 #' Installation helper for Mac and Windows machines.  By default,
 #' method will download and launch the official `.dmg` or `.exe` installer
 #' for your platform, running the standard drag-n-drop installer or
-#' interactive dialog.  Setting `prompt = FALSE` will allow the installer
+#' interactive dialog.  Setting `ask = FALSE` will allow the installer
 #' to run entirely unsupervised, which is suitable for use in scripts.
 #' Mac users can alternatively opt to install Virtuoso through HomeBrew
 #' by setting `use_brew=TRUE`. Linux users should simply install the
@@ -12,13 +12,13 @@
 #'
 #' @seealso [vos_start()], [vos_uninstall()]
 #' @param use_brew Should we use homebrew to install? (MacOS only)
-#' @param prompt Should we prompt user for interactive installation?
+#' @param ask Should we ask user for interactive installation?
 #' @export
 #' @importFrom processx run process
 #' @examples \dontrun{
 #' vos_install()
 #' }
-vos_install <- function(prompt = is_interactive(), use_brew = FALSE){
+vos_install <- function(ask = is_interactive(), use_brew = FALSE){
 
   ## Windows & DMG installers do not persist path
   ## Need path set so we can check if virtuoso is already installed
@@ -31,9 +31,9 @@ vos_install <- function(prompt = is_interactive(), use_brew = FALSE){
   # Install Virtuoso if not already installed
   if (!has_virtuoso()) {
     switch (which_os(),
-      "osx" = vos_install_osx(use_brew = use_brew, prompt = prompt),
+      "osx" = vos_install_osx(use_brew = use_brew, ask = ask),
       "linux" = vos_install_linux(),
-      "windows" = vos_install_windows(prompt = prompt),
+      "windows" = vos_install_windows(ask = ask),
       NULL
     )
   }
