@@ -108,6 +108,7 @@ writeLines(nq, gzfile("ro.nq.gz"))
 ```
 
 
+
 And bulk-import
 
 ```{r}
@@ -144,5 +145,8 @@ unlink("flights.nq")
 unlink("planes.nq")
 unlink("airlines.nq")
 unlink("ro.nq.gz")
+<<<<<<< HEAD
 unlink("raw_cm.json")
+=======
+>>>>>>> master
 ```
