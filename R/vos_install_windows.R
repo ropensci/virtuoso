@@ -6,13 +6,14 @@ download_windows_installer <- function(version = "7.2.5"){
                          "files/virtuoso/7.2.5/",
                          "2018_08_28_",
                          "Virtuoso_OpenSource_Server_7.2.x64.exe/download")
+  fallback_url <- paste0("https://github.com/cboettig/virtuoso/releases/",
+                             "download/v0.1.1/Virtuoso_OpenSource_Server_7.20.x64.exe")
   installer <- normalizePath(file.path(
     tempdir(),
     exe),
     mustWork = FALSE)
   message(paste("downloading", exe,  "..."))
-  curl::curl_download(download_url,
-                      installer)
+  download_fallback(download_url, installer, fallback_url)
   installer
 }
 

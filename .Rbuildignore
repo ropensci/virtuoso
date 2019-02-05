@@ -13,3 +13,5 @@
 ^pkgdown$
 .*-review.md
 \*.nq$
+.*\.dmg$
+.*\.exe$

@@ -13,16 +13,25 @@ vos_install_osx <-
 }
 
 
+
 download_osx_installer <- function(){
   download_url <- paste0("https://sourceforge.net/projects/virtuoso/",
                          "files/virtuoso/7.2.5/virtuoso-opensource-",
                          "7.2.5-macosx-app.dmg")
+  fallback_url <- paste0("https://github.com/cboettig/virtuoso/releases/",
+                         "download/v0.1.1/Virtuoso_OpenSource_7.20.dmg")
   installer <- tempfile("virtuoso", fileext = ".dmg")
   message(paste("downloading Virtuoso dmg",  "..."))
-  curl::curl_download(download_url,
-                      installer)
+  download_fallback(download_url, installer, fallback_url)
   installer
 }
+
+
+download_fallback <- function(url, dest, fallback_url){
+  req <- curl::curl_fetch_disk(url, dest)
+  if(req$status_code > 300) curl::curl_download(fallback_url, dest)
+}
+
 
 vos_install_dmg <- function(){
   dmg <- download_osx_installer()
