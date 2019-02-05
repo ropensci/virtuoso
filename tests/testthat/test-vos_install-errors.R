@@ -45,5 +45,5 @@ test_that("We get error message on linux install", {
 
   ## only run by vos_install() if `virtuoso-t` not found in PATH
 
-  expect_error(virtuoso:::vos_install_linux())
+  expect_message(virtuoso:::vos_install_linux(), "Please install virtuoso-opensource")
 })

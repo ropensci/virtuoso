@@ -35,7 +35,7 @@ virtuoso_cache <- new.env()
 #' @seealso [vos_install()]
 #' @examples
 #' \dontrun{
-#' 
+#'
 #' vos_start()
 #' ## or with custom config:
 #' vos_start(vos_configure(gigs_ram = 3))
@@ -90,4 +90,3 @@ vos_start <- function(ini = NULL, wait = 30) {
   invisible(vos_process())
 }
 
-# FIXME check if virtuoso process is already running independently?

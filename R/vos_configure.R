@@ -56,7 +56,6 @@ vos_configure <- function(dirs_allowed = getwd(),
   V$Parameters$NumberOfBuffers <- 85000 * gigs_ram
   V$Parameters$MaxDirtyBuffers <- 65000 * gigs_ram
 
-  ## FIXME give option not to change these? e.g. on MacOS the default is fine.
   ## By default on Linux example config, these files are below $HOME and need
   ## root access.  Pointing them at user_log_dir instead.
   V$Database$DatabaseFile <-
