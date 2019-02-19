@@ -1,11 +1,11 @@
 context("vos install")
 
 test_that("Virtuoso is installed", {
-
   virtuoso:::vos_set_path()
-  expect_message(vos_install(prompt = FALSE),
-                 "Virtuoso installation found.")
-
+  expect_message(
+    vos_install(ask = FALSE),
+    "Virtuoso is already installed."
+  )
 })
 
 test_that("We can download installers", {
@@ -17,5 +17,4 @@ test_that("We can download installers", {
 
   exe <- download_windows_installer()
   expect_true(file.exists(exe))
-
 })

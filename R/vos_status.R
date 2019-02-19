@@ -3,23 +3,33 @@
 #'
 #' @inheritParams vos_kill
 #' @inheritParams vos_start
-#' @details Note: Use `[vos_log()]`` to see the full log
+#' @details Note: Use [vos_log()] to see the full log
+#' @return a character string indicating the state of the server:
+#'  - "not detected" if no process can be found
+#'  - "dead" process exists but reports that server is not alive.  Server may fail
+#'   to come online due to errors in configuration file. see [vos_configure()]
+#'  - "running" Server is up and accepting queries.
+#'  - "sleeping" Server is up and accepting queries.
+#'
+#' @importFrom ps ps_status
 #' @export
-vos_status <- function(p = NA, wait = 10){
-
+#' @examples
+#' \dontrun{
+#' vos_status()
+#' }
+vos_status <- function(p = NA, wait = 10) {
   p <- vos_process(p)
-  if(!inherits(p, "process")) return("not detected")
-
-  if (!p$is_alive()) {
-    warning(paste("Server is not alive, please restart. Server log: \n\n",
-                  vos_log(p, collapse = "\n")), call. = FALSE)
-    return("dead")
+  if (!inherits(p, "ps_handle")) {
+    message("virtuoso isn't running.")
+    return(invisible(NULL))
   }
 
-  if (!(p$get_status() %in% c("running", "sleeping"))) # stopped,
-    return(p$get_status())
+  status <- ps::ps_status(p)
 
-  Sys.sleep(1)
+  if (!(status %in% c("running", "sleeping"))) {
+    return(status)
+  }
+
   log <- vos_log(p, collapse = "\n")
   tries <- 0
   up <- grepl("Server online at", log)
@@ -33,5 +43,5 @@ vos_status <- function(p = NA, wait = 10){
   log <- vos_log(p)
   message(paste("latest log entry:", log[length(log)]))
 
-  p$get_status()
+  status
 }

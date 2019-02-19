@@ -3,21 +3,30 @@
 #'
 #' @param collapse an optional character string to separate the
 #' lines in a single character string.
-#' @param just_errors logical, default FALSE. Set to true to return
+#' @param just_errors logical, default [FALSE]. Set to [TRUE] to return
 #' just the lines that contain the term "error", which can be useful
 #' in debugging or validating bulk imports.
 #' @inheritParams vos_kill
 #' @export
-vos_log <- function(p = NA, collapse = NULL, just_errors = FALSE){
-
+#' @return Virtuoso logs as a character vector.
+#' @seealso [vos_start()]
+#' @examples
+#' \dontrun{
+#' vos_start()
+#' vos_log()
+#' 
+#' ## look only for any error messages:
+#' vos_log(just_errors = TRUE)
+#' }
+vos_log <- function(p = NA, collapse = NULL, just_errors = FALSE) {
   p <- vos_process(p)
+  if (!inherits(p, "ps_handle")) return("")
+  err_file <- file.path(vos_logdir(), "virtuoso.log")
+  log <- readLines(err_file)
 
-  log <- readLines(p$get_error_file())
-  if(just_errors){
+  if (just_errors) {
     return(log[grepl("error", log)])
   }
 
   paste(log, collapse = collapse)
-
 }
-

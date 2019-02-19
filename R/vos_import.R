@@ -1,14 +1,18 @@
 
 
-#' Bulk import of nquads
+#' Bulk Import of RDF triples
 #'
-#' @param con a ODBC connection to Virtuoso, from [`vos_connect()`]
+#' While triples data can be added one by one over SPARQL queries,
+#' Virtuoso bulk import is by far the fastest way to import large
+#' triplestores in the database.
+#'
+#' @param con a ODBC connection to Virtuoso, from [vos_connect()]
 #' @param files paths to files to be imported
 #' @param wd Alternatively, can specify directory and globbing pattern
 #'  to import. Note that in this case, wd must be in (or a subdir of)
 #'  the `AllowedDirs` list of `virtuoso.ini` file created by
-#'  [`vos_configure()`]. By default, this includes the working directory
-#'  where you called [`vos_start()`] or [`vos_configure()`].
+#'  [vos_configure()]. By default, this includes the working directory
+#'  where you called [vos_start()] or [vos_configure()].
 #' @param glob A wildcard aka globbing pattern (e.g. `"*.nq"``).
 #' @param graph Name (technically URI) for a graph in the database.
 #'  Can leave as default. If a graph is already specified by the
@@ -38,18 +42,26 @@
 #'  - `.trig`
 #'  - `.ttl`
 #'  - `.xml`
+#'
 #'  Any of these can optionally be gzipped (with a `.gz` extension).
 #' @references <http://vos.openlinksw.com/owiki/wiki/VOS/VirtBulkRDFLoader>
 #' @importFrom digest digest
 #' @importFrom fs path_abs
 #' @export
+#' @examples
+#' \dontrun{
+#' vos_start()
+#' con <- vos_connect()
+#' 
+#' example <- system.file("extdata", "person.nq", package = "virtuoso")
+#' vos_import(con, example)
+#' }
 vos_import <- function(con,
                        files = NULL,
                        wd = ".",
                        glob = "*",
                        graph = "rdflib",
-                       n_cores = 1L){
-
+                       n_cores = 1L) {
   cache <- vos_cache()
 
 
@@ -59,40 +71,48 @@ vos_import <- function(con,
 
 
   ## We have to copy (link) files into the directory Virtuoso can access.
-  if(!is.null(files)){
+  if (!is.null(files)) {
     subdir <- digest::digest(files)
     wd <- file.path(cache, subdir)
     dir.create(wd, showWarnings = FALSE, recursive = TRUE)
     ## NOTE we need abs paths of files for this to work (at least with symlinks)
-    if(is_windows()){
-      lapply(files, function(from)
-        file.copy(fs::path_abs(from), file.path(wd, basename(from))))
-    } else {
-      lapply(files, function(from)
-        file.symlink(fs::path_abs(from), file.path(wd, basename(from))))
-    }
+    lapply(files, function(from) {
+      target <- file.path(wd, basename(from))
 
+      ## remove target before symlinking
+      if (file.exists(target)) file.remove(target)
+
+      ## symlink only on Unix, must copy on Windows:
+      switch(which_os(),
+        "windows" = file.copy(fs::path_abs(from), target),
+        file.symlink(fs::path_abs(from), target)
+      )
+    })
   }
 
   ## Even on Windows, ld_dir wants a Unix-style path-slash
   wd <- fs::path_tidy(wd)
-  if(is_windows()) wd <- fs::path_abs(wd)
-  DBI::dbGetQuery(con,
-                  paste0("ld_dir('",
-                         wd,
-                         "', '",
-                         glob,
-                         "', '",
-                         graph,
-                         "')") )
+  if (is_windows()) wd <- fs::path_abs(wd)
+  DBI::dbGetQuery(
+    con,
+    paste0(
+      "ld_dir('",
+      wd,
+      "', '",
+      glob,
+      "', '",
+      graph,
+      "')"
+    )
+  )
 
   importing_files <- fs::dir_ls(wd, glob = glob)
 
   ## Can call loader multiple times on multicore to load multiple files...
-  replicate(n_cores, DBI::dbGetQuery(con, "rdf_loader_run()" ))
+  replicate(n_cores, DBI::dbGetQuery(con, "rdf_loader_run()"))
 
   ## clean up cache
-  if(!is.null(files)){
+  if (!is.null(files)) {
     lapply(files, function(f) unlink(file.path(wd, basename(files))))
     unlink(subdir)
   }
@@ -101,25 +121,30 @@ vos_import <- function(con,
   ## Select only those on current import list.
   status <- DBI::dbGetQuery(con, paste0("SELECT * FROM DB.DBA.LOAD_LIST"))
   current <- status$ll_file %in% importing_files
-  status <- status[current,]
+  status <- status[current, ]
 
-  import_errors <-  any(!is.na(status$ll_error))
-  if(import_errors){
+  import_errors <- any(!is.na(status$ll_error))
+  if (import_errors) {
     err <- status[!is.na(status$ll_error), c("ll_file", "ll_error")]
     stop(paste("Error importing:", paste(basename(err$ll_file), err$ll_error)),
-         call. = FALSE)
+      call. = FALSE
+    )
   }
 
   invisible(status)
 }
 
-assert_extensions <- function(files){
-  known_extensions <- c("grdf", "nq",  "owl", "nt",
-                        "rdf", "trig", "ttl", "xml")
+assert_extensions <- function(files) {
+  known_extensions <- c(
+    "grdf", "nq", "owl", "nt",
+    "rdf", "trig", "ttl", "xml"
+  )
   pattern <- paste0("[.]", known_extensions, "(.gz)?$")
   results <-
-    vapply(files, function(filename) any(
-      vapply(pattern, grepl, logical(1L), filename)),
+    vapply(
+      files, function(filename) any(
+          vapply(pattern, grepl, logical(1L), filename)
+        ),
       logical(1L)
     )
 
@@ -127,38 +152,39 @@ assert_extensions <- function(files){
 }
 
 
-guess_ext <- function(files){
+guess_ext <- function(files) {
   filename <- basename(files[[1]])
   ext <- sub(".*([.]\\w+)", "*\\1", filename)
-  if(ext == "*.gz"){
-    ext <- paste0(sub(".*([.]\\w+)", "*\\1",
-                      sub("[.]\\w+$", "", filename)),
-                  ".gz")
+  if (ext == "*.gz") {
+    ext <- paste0(
+      sub(
+        ".*([.]\\w+)", "*\\1",
+        sub("[.]\\w+$", "", filename)
+      ),
+      ".gz"
+    )
   }
   ext
 }
 
 
 #' @importFrom fs path_tidy
-assert_allowedDirs <- function(wd = ".", db_dir = vos_db()){
+assert_allowedDirs <- function(wd = ".", db_dir = vos_db()) {
 
   ## In case user connects to external virtuoso
-  status <- tryCatch(vos_status(),
-                     error = function(e) "not detected",
-                     finally = NULL)
-  if(status == "not detected"){
-    warning(paste("Could not access virtuoso.ini configuration.",
-               "If you are using an external virtuoso server,",
-               "ensure working directory is in allowedDirs"),
-            call. = FALSE)
+  status <- vos_status()
+  if (is.null(status)) {
+    warning(paste(
+      "Could not access virtuoso.ini configuration.",
+      "If you are using an external virtuoso server,",
+      "ensure working directory is in allowedDirs"
+    ),
+    call. = FALSE
+    )
     return(as.character(NA))
   }
 
   V <- ini::read.ini(file.path(db_dir, "virtuoso.ini"))
   allowed <- strsplit(V$Parameters$DirsAllowed, ",")[[1]]
-  ## FIXME Should also be TRUE if wd is a subdir of an allowed dir
   fs::path_tidy(wd) %in% fs::path_tidy(allowed)
-
-
-
 }

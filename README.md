@@ -10,6 +10,7 @@ status](https://ci.appveyor.com/api/projects/status/github/cboettig/virtuoso?bra
 status](https://codecov.io/gh/cboettig/virtuoso/branch/master/graph/badge.svg)](https://codecov.io/github/cboettig/virtuoso?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/virtuoso)](https://cran.r-project.org/package=virtuoso)
+[![](http://badges.ropensci.org/271_status.svg)](https://github.com/ropensci/sofware-review/issues/271)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -37,15 +38,16 @@ operating system.
 
 ``` r
 vos_install()
+#> Virtuoso is already installed.
 ```
 
 We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 64040.
+#> PROCESS 'virtuoso-t', running, pid 11168.
 #> Server is now starting up, this may take a few seconds...
-#> latest log entry: 22:23:15 Server online at 1111 (pid 64040)
+#> latest log entry: 11:32:23 Server online at 1111 (pid 11168)
 ```
 
 Once the server is running, we can connect to the database.
@@ -87,8 +89,8 @@ example <- system.file("extdata", "person.nq", package = "virtuoso")
 vos_import(con, example)
 ```
 
-Can also read in compressed formats as well. Remeber to set the pattern
-match appropriately. This is convient becuase N-Quads compress
+Can also read in compressed formats as well. Remember to set the pattern
+match appropriately. This is convenient because N-Quads compress
 particularly well, often by a factor of 20 (or rather, can be
 particularly large when uncompressed, owing to the repeated property and
 subject URIs).
@@ -118,8 +120,8 @@ vos_query(con,
        }")
 #>                                                 p                        o
 #> 1 http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://schema.org/Person
-#> 2                          http://schema.org/name                 Jane Doe
-#> 3                      http://schema.org/jobTitle                Professor
+#> 2                      http://schema.org/jobTitle                Professor
+#> 3                          http://schema.org/name                 Jane Doe
 #> 4                     http://schema.org/telephone           (425) 123-4567
 #> 5                           http://schema.org/url   http://www.janedoe.com
 ```
@@ -147,7 +149,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 22:23:16 PL LOG: No more files to load. Loader has finished,
+#> latest log entry: 11:32:24 PL LOG: No more files to load. Loader has finished,
 #> [1] "running"
 ```
 
@@ -160,12 +162,16 @@ environment. Use `vos_process()` to return the `processx` object. For
 example:
 
 ``` r
+library(ps)
 p <- vos_process()
-p$get_error_file()
-#> [1] "/Users/cboettig/Library/Logs/Virtuoso/virtuoso.log"
-p$suspend()
+ps_is_running(p)
+#> [1] TRUE
+ps_cpu_times(p)
+#>            user          system    childen_user children_system 
+#>        2.828942        0.407887              NA              NA
+ps_suspend(p)
 #> NULL
-p$resume()
+ps_resume(p)
 #> NULL
 ```
 
@@ -180,6 +186,6 @@ Please see the package vignettes for more information:
 
 -----
 
-Please note that the ‘virtuoso’ project is released with a [Contributor
-Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
-you agree to abide by its terms.
+Please note that the `virtuoso` R package is released with a
+[Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to
+this project, you agree to abide by its terms.

@@ -85,6 +85,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/virtuoso.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -164,7 +167,7 @@ the Virtuoso standard port, 1111</p></td>
     </tr>
     <tr>
       <th>system_odbcinst</th>
-      <td><p>Path to the system odbcinst.ini file. (Does not
+      <td><p>Path to the system <code>odbcinst.ini</code> file. (Does not
 require write access.) Default will attempt to find the file for your system.</p></td>
     </tr>
     <tr>
@@ -173,13 +176,46 @@ require write access.) Default will attempt to find the file for your system.</p
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>a DBI connection to the Virtuoso database.  This can
+be passed to additional virtuoso functions such as <code><a href='vos_import.html'>vos_import()</a></code>
+or <code><a href='vos_query.html'>vos_query()</a></code>, and can also be used as a standard DBI or dplyr
+database backend.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Default parameters are approporiate for the automatic installer
+provided by the package and for the default settings typically used by
+local Virtuoso installers.  Adjust these only if you are connecting to a
+remote virtuoso server that is not controlled from the R package.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='vos_install.html'>vos_install()</a></code>, <code><a href='vos_start.html'>vos_start()</a></code></p></div>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='co'>## start up</span>
+<span class='fu'><a href='vos_start.html'>vos_start</a></span>()
+<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'>vos_connect</span>()
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

@@ -1,11 +1,18 @@
 context("test vos_query")
 
-vos_start()
+testthat::setup(vos_start(wait = 120))
 
 
 
 test_that("We can connect, bulk load and query", {
+  skip_on_cran()
 
+  ## We can access process handle independently
+  p <- vos_process()
+  # expect_is(p, "ps_handle")
+  # expect_true(vos_status() %in% c("sleeping", "running"))
+
+  expect_length(vos_log(just_errors = TRUE), 0)
 
   con <- vos_connect()
   expect_is(con, "OpenLink Virtuoso")
@@ -17,7 +24,7 @@ test_that("We can connect, bulk load and query", {
 
   example <- system.file("extdata", "person.nq", package = "virtuoso")
   # Tests with alternative temp location:
-  #vos_import(con, example, wd = rappdirs::user_cache_dir("Virtuoso"))
+  vos_import(con, example, wd = tempdir())
   vos_import(con, example)
 
   Sys.sleep(5)
@@ -26,7 +33,7 @@ test_that("We can connect, bulk load and query", {
              ?s a <http://schema.org/Person>
             }"
   df <- vos_query(con, query)
-  expect_equal(dim(df), c(5,2))
+  expect_equal(dim(df), c(5, 2))
   expect_true(any(grepl("Jane Doe", df)))
 
 
@@ -34,20 +41,15 @@ test_that("We can connect, bulk load and query", {
   expect_error(vos_import(con, bad_file))
 
   vos_list_graphs(con)
-  vos_count_triples(con)
-  vos_count_triples(con, "rdflib")
+  ## not fully developed:
+  #  virtuoso:::vos_count_triples(con)
+  #  virtuoso:::vos_count_triples(con, "rdflib")
 
-### After data is cleared, cannot re-load it w/o restarting server first...
-### "We can clear all data",
-  vos_clear_graph(con)
-  df2 <- vos_query(con, query)
-  expect_equal(dim(df2), c(0,2))
-
-
+  ### After data is cleared, cannot re-load it w/o restarting server first...
+  ### "We can clear all data",
+  #  virtuoso:::vos_clear_graph(con)
+  #  df2 <- vos_query(con, query)
+  #  expect_equal(dim(df2), c(0,2))
 })
 
-vos_kill()
-
-
-
-
+testthat::teardown(vos_kill())

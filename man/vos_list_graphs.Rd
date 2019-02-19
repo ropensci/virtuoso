@@ -7,7 +7,7 @@
 vos_list_graphs(con)
 }
 \arguments{
-\item{con}{a ODBC connection to Virtuoso, from [`vos_connect()`]}
+\item{con}{a ODBC connection to Virtuoso, from \code{\link[=vos_connect]{vos_connect()}}}
 }
 \description{
 List graphs

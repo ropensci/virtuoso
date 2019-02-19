@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bulk import of nquads — vos_import • virtuoso</title>
+<title>Bulk Import of RDF triples — vos_import • virtuoso</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,9 +37,11 @@
 
 
 
-<meta property="og:title" content="Bulk import of nquads — vos_import" />
+<meta property="og:title" content="Bulk Import of RDF triples — vos_import" />
 
-<meta property="og:description" content="Bulk import of nquads" />
+<meta property="og:description" content="While triples data can be added one by one over SPARQL queries,
+Virtuoso bulk import is by far the fastest way to import large
+triplestores in the database." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -85,6 +87,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/virtuoso.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -123,14 +128,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Bulk import of nquads</h1>
+    <h1>Bulk Import of RDF triples</h1>
     <small class="dont-index">Source: <a href='https://github.com/cboettig/virtuoso/blob/master/R/vos_import.R'><code>R/vos_import.R</code></a></small>
     <div class="hidden name"><code>vos_import.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Bulk import of nquads</p>
+    <p>While triples data can be added one by one over SPARQL queries,
+Virtuoso bulk import is by far the fastest way to import large
+triplestores in the database.</p>
     
     </div>
 
@@ -142,7 +149,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>con</th>
-      <td><p>a ODBC connection to Virtuoso, from [`vos_connect()`]</p></td>
+      <td><p>a ODBC connection to Virtuoso, from <code><a href='vos_connect.html'>vos_connect()</a></code></p></td>
     </tr>
     <tr>
       <th>files</th>
@@ -152,9 +159,9 @@
       <th>wd</th>
       <td><p>Alternatively, can specify directory and globbing pattern
 to import. Note that in this case, wd must be in (or a subdir of)
-the `AllowedDirs` list of `virtuoso.ini` file created by
-[`vos_configure()`]. By default, this includes the working directory
-where you called [`vos_start()`] or [`vos_configure()`].</p></td>
+the <code>AllowedDirs</code> list of <code>virtuoso.ini</code> file created by
+<code><a href='vos_configure.html'>vos_configure()</a></code>. By default, this includes the working directory
+where you called <code><a href='vos_start.html'>vos_start()</a></code> or <code><a href='vos_configure.html'>vos_configure()</a></code>.</p></td>
     </tr>
     <tr>
       <th>glob</th>
@@ -176,36 +183,47 @@ Particularly useful when importing large numbers of bulk files.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>(Invisibly) returns the status table of the bulk loader,
- indicating file loading time or errors.</p>
+indicating file loading time or errors.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>the bulk importer imports all files matching a pattern
- in a given directory.  If given a list of files, these are
- temporarily symlinked (or copied on Windows machines) to
- the Virtuoso app cache dir in a subdirectory, and the entire
- subdirectory is loaded (filtered by the globbing pattern).
- If files are not specified, load is called directly on the specified
- directory and pattern.  This is particularly useful for loading large
- numbers of files.</p>
+in a given directory.  If given a list of files, these are
+temporarily symlinked (or copied on Windows machines) to
+the Virtuoso app cache dir in a subdirectory, and the entire
+subdirectory is loaded (filtered by the globbing pattern).
+If files are not specified, load is called directly on the specified
+directory and pattern.  This is particularly useful for loading large
+numbers of files.</p>
 <p>Note that Virtuoso recommends breaking large files into multiple smaller ones,
- which can improve loading time (particularly if using multiple cores.)</p>
-<p>Virtuoso Bulk Importer recognizes the following file formats:
- - `.grdf`
- - `.nq`
- - `.owl`
- - `.nt`
- - `.rdf`
- - `.trig`
- - `.ttl`
- - `.xml`
- Any of these can optionally be gzipped (with a `.gz` extension).</p>
+which can improve loading time (particularly if using multiple cores.)</p>
+<p>Virtuoso Bulk Importer recognizes the following file formats:</p><ul>
+<li><p><code>.grdf</code></p></li>
+<li><p><code>.nq</code></p></li>
+<li><p><code>.owl</code></p></li>
+<li><p><code>.nt</code></p></li>
+<li><p><code>.rdf</code></p></li>
+<li><p><code>.trig</code></p></li>
+<li><p><code>.ttl</code></p></li>
+<li><p><code>.xml</code></p></li>
+</ul>
+    <p>Any of these can optionally be gzipped (with a <code>.gz</code> extension).</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>&lt;http://vos.openlinksw.com/owiki/wiki/VOS/VirtBulkRDFLoader&gt;</p>
+    <p><a href='http://vos.openlinksw.com/owiki/wiki/VOS/VirtBulkRDFLoader'>http://vos.openlinksw.com/owiki/wiki/VOS/VirtBulkRDFLoader</a></p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'><a href='vos_start.html'>vos_start</a></span>()
+<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='vos_connect.html'>vos_connect</a></span>()
+
+<span class='no'>example</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"extdata"</span>, <span class='st'>"person.nq"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"virtuoso"</span>)
+<span class='fu'>vos_import</span>(<span class='no'>con</span>, <span class='no'>example</span>)
+
+
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -217,7 +235,9 @@ Particularly useful when importing large numbers of bulk files.</p></td>
       <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

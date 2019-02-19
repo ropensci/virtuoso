@@ -8,15 +8,31 @@ vos_log(p = NA, collapse = NULL, just_errors = FALSE)
 }
 \arguments{
 \item{p}{a process object, returned by
-[`vos_process()`] or  [`vos_start()`]}
+\code{\link[=vos_process]{vos_process()}} or  \code{\link[=vos_start]{vos_start()}}.
+(will be restored from cache if not provided)}
 
 \item{collapse}{an optional character string to separate the
 lines in a single character string.}
 
-\item{just_errors}{logical, default FALSE. Set to true to return
+\item{just_errors}{logical, default \link{FALSE}. Set to \link{TRUE} to return
 just the lines that contain the term "error", which can be useful
 in debugging or validating bulk imports.}
 }
+\value{
+Virtuoso logs as a character vector.
+}
 \description{
 Query the server logs
+}
+\examples{
+\dontrun{
+vos_start()
+vos_log()
+
+## look only for any error messages:
+vos_log(just_errors = TRUE)
+}
+}
+\seealso{
+\code{\link[=vos_start]{vos_start()}}
 }

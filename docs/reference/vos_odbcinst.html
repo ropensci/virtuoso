@@ -39,7 +39,10 @@
 
 <meta property="og:title" content="Configure the ODBC Driver for Virtuoso — vos_odbcinst" />
 
-<meta property="og:description" content="Configure the ODBC Driver for Virtuoso" />
+<meta property="og:description" content="ODBC uses an odbcinst.ini file to point ODBC at the library required
+to drive any given database.  This function helps us automatically
+locate the driver library on different operating systems and configure
+the odbcinst appropriately for each OS." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -85,6 +88,9 @@
   </a>
 </li>
 <li>
+  <a href="../articles/virtuoso.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -124,13 +130,16 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Configure the ODBC Driver for Virtuoso</h1>
-    <small class="dont-index">Source: <a href='https://github.com/cboettig/virtuoso/blob/master/R/odbc.R'><code>R/odbc.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/cboettig/virtuoso/blob/master/R/vos_odbcinst.R'><code>R/vos_odbcinst.R</code></a></small>
     <div class="hidden name"><code>vos_odbcinst.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Configure the ODBC Driver for Virtuoso</p>
+    <p>ODBC uses an <code>odbcinst.ini</code> file to point ODBC at the library required
+to drive any given database.  This function helps us automatically
+locate the driver library on different operating systems and configure
+the odbcinst appropriately for each OS.</p>
     
     </div>
 
@@ -142,7 +151,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>system_odbcinst</th>
-      <td><p>Path to the system odbcinst.ini file. (Does not
+      <td><p>Path to the system <code>odbcinst.ini</code> file. (Does not
 require write access.) Default will attempt to find the file for your system.</p></td>
     </tr>
     <tr>
@@ -151,28 +160,41 @@ require write access.) Default will attempt to find the file for your system.</p
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>the path to the odbcinst file that is created or modified.</p>
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is called automatically by [`vos_install()`] and thus
+    <p>This function is called automatically by <code><a href='vos_install.html'>vos_install()</a></code> and thus
 does not usually need to be called by the user.  Users can also manually
 configure ODBC as outlined in
-&lt;https://github.com/r-dbi/odbc#dsn-configuration-files&gt;.
+<a href='https://github.com/r-dbi/odbc#dsn-configuration-files'>https://github.com/r-dbi/odbc#dsn-configuration-files</a>.
 This is merely a convenience function automating that process on most
 systems.</p>
-<p>ODBC Uses a odbcinst.ini file to point ODBC at the library required
-to drive any given database.  This function helps us automatically
-locate the driver library on different operating systems and configure
-the odbcinst appropriately for each OS.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'>## Configures ODBC and returns silently on success.</span>
+<span class='fu'>vos_odbcinst</span>()
+
+<span class='co'>## see where the inst file is located:</span>
+<span class='no'>inst</span> <span class='kw'>&lt;-</span> <span class='fu'>vos_odbcinst</span>()
+<span class='no'>inst</span></div><div class='output co'>#&gt; /Users/cboettig/Library/Application Support/Virtuoso/odbcinst.ini</div><div class='input'>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#value">Value</a></li>
+
       <li><a href="#details">Details</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

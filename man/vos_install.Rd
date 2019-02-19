@@ -2,15 +2,31 @@
 % Please edit documentation in R/vos_install.R
 \name{vos_install}
 \alias{vos_install}
-\title{Helper method for installing Virtuoso Server on Mac OSX}
+\title{Helper method for installing Virtuoso Server}
 \usage{
-vos_install(use_brew = FALSE, prompt = is_interactive())
+vos_install(ask = is_interactive(), use_brew = FALSE)
 }
 \arguments{
-\item{use_brew}{Should we use homebrew to install? (Mac OSX only)}
+\item{ask}{Should we ask user for interactive installation?}
 
-\item{prompt}{Should we prompt user for interactive installation?}
+\item{use_brew}{Should we use homebrew to install? (MacOS only)}
 }
 \description{
-Helper method for installing Virtuoso Server on Mac OSX
+Installation helper for Mac and Windows machines.  By default,
+method will download and launch the official \code{.dmg} or \code{.exe} installer
+for your platform, running the standard drag-n-drop installer or
+interactive dialog.  Setting \code{ask = FALSE} will allow the installer
+to run entirely unsupervised, which is suitable for use in scripts.
+Mac users can alternatively opt to install Virtuoso through HomeBrew
+by setting \code{use_brew=TRUE}. Linux users should simply install the
+\code{virtuoso-opensource} package (e.g. in debian & ubuntu) using the
+package manager or by contacting your system administrator.
+}
+\examples{
+\dontrun{
+vos_install()
+}
+}
+\seealso{
+\code{\link[=vos_start]{vos_start()}}, \code{\link[=vos_uninstall]{vos_uninstall()}}
 }

@@ -1,11 +1,11 @@
 
-is_osx <- function() unname(Sys.info()['sysname'] == 'Darwin')
+is_osx <- function() unname(Sys.info()["sysname"] == "Darwin")
 
-is_linux <- function() unname(Sys.info()['sysname'] == 'Linux')
+is_linux <- function() unname(Sys.info()["sysname"] == "Linux")
 
-is_windows <- function() .Platform$OS.type == 'windows'
+is_windows <- function() .Platform$OS.type == "windows"
 
-which_os <- function(){
+which_os <- function() {
   if (is_osx()) return("osx")
   if (is_linux()) return("linux")
   if (is_windows()) return("windows")
@@ -15,8 +15,7 @@ which_os <- function(){
 
 
 # utils::askYesKnow is new to R 3.5.0; avoid for backwards compatibility
-askYesNo <- function(msg){
-
+askYesNo <- function(msg) {
   prompts <- c("Yes", "No", "Cancel")
   choices <- tolower(prompts)
   msg1 <- paste0("(", paste(choices, collapse = "/"), ") ")
@@ -25,14 +24,18 @@ askYesNo <- function(msg){
     cat(msg, "\n")
     msg <- msg1
   }
-  else msg <- paste0(msg, " ", msg1)
+  else {
+    msg <- paste0(msg, " ", msg1)
+  }
 
   ans <- readline(msg)
   match <- pmatch(tolower(ans), tolower(choices))
 
-  if (!nchar(ans))
+  if (!nchar(ans)) {
     TRUE
-  else if (is.na(match))
+  } else if (is.na(match)) {
     stop("Unrecognized response ", dQuote(ans))
-  else c(TRUE, FALSE, NA)[match]
+  } else {
+    c(TRUE, FALSE, NA)[match]
+  }
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Query the server status — vos_status • virtuoso</title>
+<title>virtuoso: An R Interface to Virtuoso Using ODBC — virtuoso-package • virtuoso</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,9 +37,24 @@
 
 
 
-<meta property="og:title" content="Query the server status — vos_status" />
+<meta property="og:title" content="virtuoso: An R Interface to Virtuoso Using ODBC — virtuoso-package" />
 
-<meta property="og:description" content="Query the server status" />
+<meta property="og:description" content="Virtuoso is a high-performance &quot;universal server,&quot; which can act
+as both a relational database (supporting standard SQL queries),
+and an Resource Description Framework (RDF) triplestore, supporting
+SPARQL queries and semantic reasoning. The virtuoso R package provides
+R users with a DBI-compatible connection to the Virtuoso database.
+The package also provides helper routines to install, launch, and manage
+a Virtuoso server locally on Mac, Windows and Linux platforms using
+the standard interactive installers from the R command-line.  By
+automatically handling these setup steps, the package can make Virtuoso
+considerably faster and easier for a most users to deploy in a local
+environment. While this can be used as a normal dplyr backend, Virtuoso
+excels when used as a RDF triplestore.  Managing the bulk import of triples
+from common serializations with a single intuitive command is another key
+feature of the virtuoso R package.  Bulk import performance can be tens to
+hundreds of times faster than the comparable imports using existing R tools,
+including rdflib and redland packages." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -126,66 +141,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Query the server status</h1>
-    <small class="dont-index">Source: <a href='https://github.com/cboettig/virtuoso/blob/master/R/vos_status.R'><code>R/vos_status.R</code></a></small>
-    <div class="hidden name"><code>vos_status.Rd</code></div>
+    <h1>virtuoso: An R Interface to Virtuoso Using ODBC</h1>
+    <small class="dont-index">Source: <a href='https://github.com/cboettig/virtuoso/blob/master/R/virtuoso-package.R'><code>R/virtuoso-package.R</code></a></small>
+    <div class="hidden name"><code>virtuoso-package.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Query the server status</p>
+    <p>Virtuoso is a high-performance "universal server," which can act
+as both a relational database (supporting standard SQL queries),
+and an Resource Description Framework (RDF) triplestore, supporting
+SPARQL queries and semantic reasoning. The <code>virtuoso</code> R package provides
+R users with a DBI-compatible connection to the Virtuoso database.
+The package also provides helper routines to install, launch, and manage
+a Virtuoso server locally on Mac, Windows and Linux platforms using
+the standard interactive installers from the R command-line.  By
+automatically handling these setup steps, the package can make Virtuoso
+considerably faster and easier for a most users to deploy in a local
+environment. While this can be used as a normal <code>dplyr</code> backend, Virtuoso
+excels when used as a RDF triplestore.  Managing the bulk import of triples
+from common serializations with a single intuitive command is another key
+feature of the <code>virtuoso</code> R package.  Bulk import performance can be tens to
+hundreds of times faster than the comparable imports using existing R tools,
+including <code>rdflib</code> and <code>redland</code> packages.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>vos_status</span>(<span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>10</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>p</th>
-      <td><p>a process object, returned by
-<code><a href='vos_process.html'>vos_process()</a></code> or  <code><a href='vos_start.html'>vos_start()</a></code>.
-(will be restored from cache if not provided)</p></td>
-    </tr>
-    <tr>
-      <th>wait</th>
-      <td><p>number of seconds to wait for server to come online</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+        
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>a character string indicating the state of the server:</p><ul>
-<li><p>"not detected" if no process can be found</p></li>
-<li><p>"dead" process exists but reports that server is not alive.  Server may fail
-to come online due to errors in configuration file. see <code><a href='vos_configure.html'>vos_configure()</a></code></p></li>
-<li><p>"running" Server is up and accepting queries.</p></li>
-<li><p>"sleeping" Server is up and accepting queries.</p></li>
-</ul>
-
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Note: Use <code><a href='vos_log.html'>vos_log()</a></code> to see the full log</p>
+    <div class='dont-index'><p>Useful links:</p><ul>
+<li><p><a href='https://github.com/cboettig/virtuoso'>https://github.com/cboettig/virtuoso</a></p></li>
+<li><p>Report bugs at <a href='https://github.com/cboettig/virtuoso/issues'>https://github.com/cboettig/virtuoso/issues</a></p></li>
+</ul></div>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>vos_status</span>()
-<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
-      <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+    <h2>Author</h2>
+    <p><strong>Maintainer</strong>: Carl Boettiger <a href='mailto:cboettig@gmail.com'>cboettig@gmail.com</a> (0000-0002-1642-628X) [copyright holder]</p>
+<p>Other contributors:</p><ul>
+<li><p>Bryce Mecum <a href='mailto:brycemecum@gmail.com'>brycemecum@gmail.com</a> (0000-0002-0381-3766) [contributor]</p></li>
+</ul>
+
 
   </div>
 </div>

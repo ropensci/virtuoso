@@ -8,13 +8,29 @@ vos_status(p = NA, wait = 10)
 }
 \arguments{
 \item{p}{a process object, returned by
-[`vos_process()`] or  [`vos_start()`]}
+\code{\link[=vos_process]{vos_process()}} or  \code{\link[=vos_start]{vos_start()}}.
+(will be restored from cache if not provided)}
 
 \item{wait}{number of seconds to wait for server to come online}
+}
+\value{
+a character string indicating the state of the server:
+\itemize{
+\item "not detected" if no process can be found
+\item "dead" process exists but reports that server is not alive.  Server may fail
+to come online due to errors in configuration file. see \code{\link[=vos_configure]{vos_configure()}}
+\item "running" Server is up and accepting queries.
+\item "sleeping" Server is up and accepting queries.
+}
 }
 \description{
 Query the server status
 }
 \details{
-Note: Use `[vos_log()]`` to see the full log
+Note: Use \code{\link[=vos_log]{vos_log()}} to see the full log
+}
+\examples{
+\dontrun{
+vos_status()
+}
 }

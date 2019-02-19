@@ -7,7 +7,7 @@
 vos_clear_graph(con, graph = "rdflib")
 }
 \arguments{
-\item{con}{a ODBC connection to Virtuoso, from [`vos_connect()`]}
+\item{con}{a ODBC connection to Virtuoso, from \code{\link[=vos_connect]{vos_connect()}}}
 
 \item{graph}{Name (technically URI) for a graph in the database.
 Can leave as default. If a graph is already specified by the
@@ -18,5 +18,5 @@ Clear all triples from a graph
 }
 \details{
 NOTE: after clearing a graph, re-running the bulk
-importer may not re-import triples.
+importer may refuse to re-import triples.
 }

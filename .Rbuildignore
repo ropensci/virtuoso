@@ -1,3 +1,4 @@
+^codemeta\.json$
 ^\.github$
 ^CODE_OF_CONDUCT\.md$
 ^appveyor\.yml$
@@ -11,3 +12,7 @@
 ^\.Rproj\.user$
 ^vignettes/articles$
 ^pkgdown$
+.*-review.md
+\*.nq$
+.*\.dmg$
+.*\.exe$

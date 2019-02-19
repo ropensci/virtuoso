@@ -8,8 +8,24 @@ vos_kill(p = NA)
 }
 \arguments{
 \item{p}{a process object, returned by
-[`vos_process()`] or  [`vos_start()`]}
+\code{\link[=vos_process]{vos_process()}} or  \code{\link[=vos_start]{vos_start()}}.
+(will be restored from cache if not provided)}
 }
 \description{
-Kill ends the process started by [`vos_start()`]
+Kill ends the process started by \code{\link[=vos_start]{vos_start()}}
+}
+\details{
+vos_kill simply shuts down the local Virtuoso server,
+it does not remove any data stored in the database system.
+\code{\link[=vos_kill]{vos_kill()}} terminates the process, removing the
+process id from the process table.
+}
+\examples{
+\dontrun{
+vos_start()
+vos_kill()
+}
+}
+\seealso{
+\code{\link[=vos_start]{vos_start()}}
 }

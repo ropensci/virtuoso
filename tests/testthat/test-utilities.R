@@ -5,17 +5,18 @@ test_that("we can detect valid and invalid file types", {
   results <- assert_extensions(files)
   expect_false(results[[3]])
   expect_true(results[[2]])
-  })
+})
 
 test_that("we can guess extension", {
-
   expect_equal(guess_ext("test.nq"), "*.nq")
   expect_equal(guess_ext("test.nq.gz"), "*.nq.gz")
 })
 
 test_that("assert allowed dirs exits if server not connected ", {
-  skip_if(suppressWarnings(vos_status()))
+  skip_if(!is.null(suppressMessages(vos_status())))
 
-  expect_warning(assert_allowedDirs())
-
+  expect_warning(
+    assert_allowedDirs(),
+    "ensure working directory is in allowedDirs"
+  )
 })

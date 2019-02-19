@@ -9,3 +9,9 @@ vos_uninstall()
 \description{
 Automatic uninstaller for Mac OSX and Windows clients.
 }
+\examples{
+\dontrun{
+vos_uninstall()
+}
+
+}
