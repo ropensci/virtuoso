@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">virtuoso</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -109,7 +109,7 @@
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/cboettig/virtuoso">
+  <a href="https://github.com/ropensci/virtuoso">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -127,7 +127,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Delete Virtuoso Database</h1>
-    <small class="dont-index">Source: <a href='https://github.com/cboettig/virtuoso/blob/master/R/vos_destroy_all.R'><code>R/vos_destroy_all.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/ropensci/virtuoso/blob/master/R/vos_destroy_all.R'><code>R/vos_destroy_all.R</code></a></small>
     <div class="hidden name"><code>vos_delete_db.Rd</code></div>
     </div>
 
@@ -137,14 +137,14 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>vos_delete_db</span>(<span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>(), <span class='kw'>db_dir</span> <span class='kw'>=</span> <span class='fu'>vos_db</span>())</pre>
+    <pre class="usage"><span class='fu'>vos_delete_db</span>(<span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'>is_interactive</span>(), <span class='kw'>db_dir</span> <span class='kw'>=</span> <span class='fu'>vos_db</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>ask</th>
-      <td><p>prompt before deleting?</p></td>
+      <td><p>ask before deleting?</p></td>
     </tr>
     <tr>
       <th>db_dir</th>

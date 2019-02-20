@@ -76,7 +76,7 @@ appropriate virtuoso.ini file." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">virtuoso</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@ appropriate virtuoso.ini file." />
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/cboettig/virtuoso">
+  <a href="https://github.com/ropensci/virtuoso">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -131,7 +131,7 @@ appropriate virtuoso.ini file." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Configure Virtuoso Server ini file</h1>
-    <small class="dont-index">Source: <a href='https://github.com/cboettig/virtuoso/blob/master/R/vos_configure.R'><code>R/vos_configure.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/ropensci/virtuoso/blob/master/R/vos_configure.R'><code>R/vos_configure.R</code></a></small>
     <div class="hidden name"><code>vos_configure.Rd</code></div>
     </div>
 
@@ -186,9 +186,10 @@ and returns the path to this file.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='co'>## configure with typical defaults:</span>
- <span class='fu'>vos_configure</span>()</div><div class='output co'>#&gt; [1] "/Users/cboettig/Library/Application Support/Virtuoso/virtuoso.ini"</div><div class='input'> <span class='co'>## Increase or decrease RAM available to virtuoso:</span>
- <span class='fu'>vos_configure</span>(<span class='kw'>gigs_ram</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] "/Users/cboettig/Library/Application Support/Virtuoso/virtuoso.ini"</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># can take &gt; 5s to test</span>
+<span class='co'>## configure with typical defaults:</span>
+<span class='fu'>vos_configure</span>()</div><div class='output co'>#&gt; [1] "/Users/cboettig/Library/Application Support/Virtuoso/virtuoso.ini"</div><div class='input'><span class='co'>## Increase or decrease RAM available to virtuoso:</span>
+<span class='fu'>vos_configure</span>(<span class='kw'>gigs_ram</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; [1] "/Users/cboettig/Library/Application Support/Virtuoso/virtuoso.ini"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

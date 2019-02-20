@@ -42,7 +42,7 @@
 <meta property="og:description" content="Installation helper for Mac and Windows machines.  By default,
 method will download and launch the official .dmg or .exe installer
 for your platform, running the standard drag-n-drop installer or
-interactive dialog.  Setting prompt = FALSE will allow the installer
+interactive dialog.  Setting ask = FALSE will allow the installer
 to run entirely unsupervised, which is suitable for use in scripts.
 Mac users can alternatively opt to install Virtuoso through HomeBrew
 by setting use_brew=TRUE. Linux users should simply install the
@@ -80,7 +80,7 @@ package manager or by contacting your system administrator." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">virtuoso</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -117,7 +117,7 @@ package manager or by contacting your system administrator." />
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/cboettig/virtuoso">
+  <a href="https://github.com/ropensci/virtuoso">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -135,7 +135,7 @@ package manager or by contacting your system administrator." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Helper method for installing Virtuoso Server</h1>
-    <small class="dont-index">Source: <a href='https://github.com/cboettig/virtuoso/blob/master/R/vos_install.R'><code>R/vos_install.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/ropensci/virtuoso/blob/master/R/vos_install.R'><code>R/vos_install.R</code></a></small>
     <div class="hidden name"><code>vos_install.Rd</code></div>
     </div>
 
@@ -144,7 +144,7 @@ package manager or by contacting your system administrator." />
     <p>Installation helper for Mac and Windows machines.  By default,
 method will download and launch the official <code>.dmg</code> or <code>.exe</code> installer
 for your platform, running the standard drag-n-drop installer or
-interactive dialog.  Setting <code>prompt = FALSE</code> will allow the installer
+interactive dialog.  Setting <code>ask = FALSE</code> will allow the installer
 to run entirely unsupervised, which is suitable for use in scripts.
 Mac users can alternatively opt to install Virtuoso through HomeBrew
 by setting <code>use_brew=TRUE</code>. Linux users should simply install the
@@ -153,14 +153,14 @@ package manager or by contacting your system administrator.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>vos_install</span>(<span class='kw'>prompt</span> <span class='kw'>=</span> <span class='fu'>is_interactive</span>(), <span class='kw'>use_brew</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>vos_install</span>(<span class='kw'>ask</span> <span class='kw'>=</span> <span class='fu'>is_interactive</span>(), <span class='kw'>use_brew</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>prompt</th>
-      <td><p>Should we prompt user for interactive installation?</p></td>
+      <th>ask</th>
+      <td><p>Should we ask user for interactive installation?</p></td>
     </tr>
     <tr>
       <th>use_brew</th>
