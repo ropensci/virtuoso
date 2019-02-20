@@ -1,16 +1,16 @@
 
 # virtuoso <img src="man/figures/logo.svg" align="right" alt="" width="120" />
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build
-status](https://travis-ci.org/cboettig/virtuoso.svg?branch=master)](https://travis-ci.org/cboettig/virtuoso)
+status](https://travis-ci.org/ropensci/virtuoso.svg?branch=master)](https://travis-ci.org/ropensci/virtuoso)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/cboettig/virtuoso?branch=master&svg=true)](https://ci.appveyor.com/project/cboettig/virtuoso)
 [![Coverage
-status](https://codecov.io/gh/cboettig/virtuoso/branch/master/graph/badge.svg)](https://codecov.io/github/cboettig/virtuoso?branch=master)
+status](https://codecov.io/gh/ropensci/virtuoso/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/virtuoso?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/virtuoso)](https://cran.r-project.org/package=virtuoso)
-[![](http://badges.ropensci.org/271_status.svg)](https://github.com/ropensci/sofware-review/issues/271)
+[![](http://badges.ropensci.org/271_status.svg)](https://github.com/ropensci/software-review/issues/271)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -22,7 +22,7 @@ database from R.
 You can install the development version of virtuoso from GitHub with:
 
 ``` r
-remotes::install_github("cboettig/virtuoso")
+remotes::install_github("ropensci/virtuoso")
 ```
 
 ## Getting Started
@@ -45,9 +45,9 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 11168.
+#> PROCESS 'virtuoso-t', running, pid 3209.
 #> Server is now starting up, this may take a few seconds...
-#> latest log entry: 11:32:23 Server online at 1111 (pid 11168)
+#> latest log entry: 12:58:25 Server online at 1111 (pid 3209)
 ```
 
 Once the server is running, we can connect to the database.
@@ -120,8 +120,8 @@ vos_query(con,
        }")
 #>                                                 p                        o
 #> 1 http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://schema.org/Person
-#> 2                      http://schema.org/jobTitle                Professor
-#> 3                          http://schema.org/name                 Jane Doe
+#> 2                          http://schema.org/name                 Jane Doe
+#> 3                      http://schema.org/jobTitle                Professor
 #> 4                     http://schema.org/telephone           (425) 123-4567
 #> 5                           http://schema.org/url   http://www.janedoe.com
 ```
@@ -149,7 +149,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 11:32:24 PL LOG: No more files to load. Loader has finished,
+#> latest log entry: 12:58:26 PL LOG: No more files to load. Loader has finished,
 #> [1] "running"
 ```
 
@@ -168,7 +168,7 @@ ps_is_running(p)
 #> [1] TRUE
 ps_cpu_times(p)
 #>            user          system    childen_user children_system 
-#>        2.828942        0.407887              NA              NA
+#>       2.8859579       0.3426895              NA              NA
 ps_suspend(p)
 #> NULL
 ps_resume(p)
@@ -180,12 +180,15 @@ ps_resume(p)
 Please see the package vignettes for more information:
 
   - [details on Virtuoso Installation &
-    configuration](https://cboettig.github.io/virtuoso/articles/installation.html)
+    configuration](https://ropensci.github.io/virtuoso/articles/installation.html)
   - [The Data Lake: richer examples of RDF
-    use](https://cboettig.github.io/virtuoso/articles/articles/datalake.html)
+    use](https://ropensci.github.io/virtuoso/articles/articles/datalake.html)
 
 -----
 
 Please note that the `virtuoso` R package is released with a
 [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to
-this project, you agree to abide by its terms.
+this project, you agree to abide by its
+terms.
+
+[![ropensci\_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)

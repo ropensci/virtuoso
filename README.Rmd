@@ -5,11 +5,12 @@ output: github_document
 
 # virtuoso <img src="man/figures/logo.svg" align="right" alt="" width="120" />
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Travis build status](https://travis-ci.org/cboettig/virtuoso.svg?branch=master)](https://travis-ci.org/cboettig/virtuoso)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Travis build status](https://travis-ci.org/ropensci/virtuoso.svg?branch=master)](https://travis-ci.org/ropensci/virtuoso)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/cboettig/virtuoso?branch=master&svg=true)](https://ci.appveyor.com/project/cboettig/virtuoso)
-[![Coverage status](https://codecov.io/gh/cboettig/virtuoso/branch/master/graph/badge.svg)](https://codecov.io/github/cboettig/virtuoso?branch=master)
-[![CRAN status](https://www.r-pkg.org/badges/version/virtuoso)](https://cran.r-project.org/package=virtuoso) [![](http://badges.ropensci.org/271_status.svg)](https://github.com/ropensci/sofware-review/issues/271)
+[![Coverage status](https://codecov.io/gh/ropensci/virtuoso/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/virtuoso?branch=master)
+[![CRAN status](https://www.r-pkg.org/badges/version/virtuoso)](https://cran.r-project.org/package=virtuoso) 
+[![](http://badges.ropensci.org/271_status.svg)](https://github.com/ropensci/software-review/issues/271)
 
  
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -31,7 +32,7 @@ The goal of virtuoso is to provide an easy interface to Virtuoso RDF database fr
 You can install the development version of virtuoso from GitHub with:
 
 ``` r
-remotes::install_github("cboettig/virtuoso")
+remotes::install_github("ropensci/virtuoso")
 ```
 
 ## Getting Started
@@ -139,8 +140,8 @@ vos_kill()
 
 Please see the package vignettes for more information:
 
-- [details on Virtuoso Installation & configuration](https://cboettig.github.io/virtuoso/articles/installation.html)
-- [The Data Lake: richer examples of RDF use](https://cboettig.github.io/virtuoso/articles/articles/datalake.html)
+- [details on Virtuoso Installation & configuration](https://ropensci.github.io/virtuoso/articles/installation.html)
+- [The Data Lake: richer examples of RDF use](https://ropensci.github.io/virtuoso/articles/articles/datalake.html)
 
 ---
 
@@ -150,3 +151,6 @@ Please note that the `virtuoso` R package is released with a [Contributor Code o
 ```{r include=FALSE}
 if(require(codemetar)) codemetar::write_codemeta()
 ```
+
+
+[![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)

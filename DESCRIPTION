@@ -1,7 +1,7 @@
 Package: virtuoso
 Type: Package
 Title: An R interface to Virtuoso using ODBC
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(person("Carl", "Boettiger", 
                   email = "cboettig@gmail.com", 
                   role = c("aut", "cre", "cph"),
@@ -27,8 +27,8 @@ Description: Virtuoso is a high-performance "universal server," which can act
              hundreds of times faster than the comparable imports using existing R tools,
              including rdflib and redland packages.  
 License: MIT + file LICENSE
-URL: https://github.com/cboettig/virtuoso
-BugReports: https://github.com/cboettig/virtuoso/issues
+URL: https://github.com/ropensci/virtuoso
+BugReports: https://github.com/ropensci/virtuoso/issues
 Encoding: UTF-8
 LazyData: true
 Imports: 
