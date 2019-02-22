@@ -35,7 +35,7 @@ library(rdftools)
 We start up our Virtuoso server, wait for it to come up, and then connect:
 
 ```{r install}
-vos_start()
+p <- vos_start()
 ```
 
 ```{r}
@@ -60,6 +60,7 @@ write_nquads(uri_flights,  "flights.nq", prefix = "flights:")
 ```
 
 We're ready to import all these triples.  This may take a few minutes:
+
 
 ```{r}
 system.time(

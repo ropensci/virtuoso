@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">virtuoso</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -73,7 +73,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/cboettig/virtuoso">
+  <a href="https://github.com/ropensci/virtuoso">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -93,198 +93,203 @@
       <h1>The Data Lake: Schema on Read</h1>
                         <h4 class="author">Carl Boettiger</h4>
             
-            <h4 class="date">2019-01-30</h4>
+            <h4 class="date">2019-02-22</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/cboettig/virtuoso/blob/master/vignettes/articles/datalake.Rmd"><code>vignettes/articles/datalake.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ropensci/virtuoso/blob/master/vignettes/articles/datalake.Rmd"><code>vignettes/articles/datalake.Rmd</code></a></small>
       <div class="hidden name"><code>datalake.Rmd</code></div>
 
     </div>
 
     
     
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(virtuoso)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(rdftools) <span class="co"># for write_nquads.  Needs: install_github("cboettig/rdftools")</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; Attaching package: 'dplyr'</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; The following objects are masked from 'package:stats':</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt;     filter, lag</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; The following objects are masked from 'package:base':</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt;     intersect, setdiff, setequal, union</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(virtuoso)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'dplyr'</span>
+<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     filter, lag</span>
+<span class="co">#&gt; The following objects are masked from 'package:base':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(nycflights13)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(jsonld)
+
+
+<span class="co"># needed write_nquads().  Install using: install_github("cboettig/rdftools")</span>
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(rdftools) </code></pre></div>
 <div id="tabular-data" class="section level1">
 <h1 class="hasAnchor">
 <a href="#tabular-data" class="anchor"></a>Tabular Data</h1>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(nycflights13)</a></code></pre></div>
 <p>We start up our Virtuoso server, wait for it to come up, and then connect:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../../reference/vos_start.html">vos_start</a></span>()</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; PROCESS 'virtuoso-t', running, pid 29690.</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Server is now starting up, this may take a few seconds...</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; latest log entry: 16:12:04 Server online at 1111 (pid 29690)</span></a></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">con &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/vos_connect.html">vos_connect</a></span>()</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/vos_start.html">vos_start</a></span>()
+<span class="co">#&gt; PROCESS 'virtuoso-t', running, pid 4307.</span>
+<span class="co">#&gt; Server is now starting up, this may take a few seconds...</span>
+<span class="co">#&gt; latest log entry: 19:55:18 Server online at 1111 (pid 4307)</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">con &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/vos_connect.html">vos_connect</a></span>()</code></pre></div>
 <p>We can represent any data as RDF with a little care. For instance, consider the <code>nycflights13</code> data. First, we must represent any primary or foreign keys in any table as URIs, indicated by a prefix, and not by bare strings:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">uri_flights &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">tailnum =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"planes:"</span>, tailnum),</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">         <span class="dt">carrier =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"airlines:"</span>, carrier))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uri_flights &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">tailnum =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"planes:"</span>, tailnum),
+         <span class="dt">carrier =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"airlines:"</span>, carrier))</code></pre></div>
 <p>We write the <code>data.frame</code>s out as nquads. Recall that each cell of a <code>data.frame</code> can be represented as a triple, in which the column is the predicate, the primary key (or row number) the subject, and the cell value the object. We turn column names and primary keys into URIs using a prefix based on the table name.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/rdftools/topics/write_nquads">write_nquads</a></span>(airlines,  <span class="st">"airlines.nq"</span>, <span class="dt">key =</span> <span class="st">"carrier"</span>, <span class="dt">prefix =</span> <span class="st">"airlines:"</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/rdftools/topics/write_nquads">write_nquads</a></span>(planes,  <span class="st">"planes.nq"</span>, <span class="dt">key =</span> <span class="st">"tailnum"</span>, <span class="dt">prefix =</span> <span class="st">"planes:"</span>)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/rdftools/topics/write_nquads">write_nquads</a></span>(uri_flights,  <span class="st">"flights.nq"</span>, <span class="dt">prefix =</span> <span class="st">"flights:"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/rdftools/topics/write_nquads">write_nquads</a></span>(airlines,  <span class="st">"airlines.nq"</span>, <span class="dt">key =</span> <span class="st">"carrier"</span>, <span class="dt">prefix =</span> <span class="st">"airlines:"</span>)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/rdftools/topics/write_nquads">write_nquads</a></span>(planes,  <span class="st">"planes.nq"</span>, <span class="dt">key =</span> <span class="st">"tailnum"</span>, <span class="dt">prefix =</span> <span class="st">"planes:"</span>)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/rdftools/topics/write_nquads">write_nquads</a></span>(uri_flights,  <span class="st">"flights.nq"</span>, <span class="dt">prefix =</span> <span class="st">"flights:"</span>)</code></pre></div>
 <p>We’re ready to import all these triples. This may take a few minutes:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">  <span class="kw"><a href="../../reference/vos_import.html">vos_import</a></span>(con, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"flights.nq"</span>, <span class="st">"planes.nq"</span>, <span class="st">"airlines.nq"</span>))</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">)</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;    user  system elapsed </span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;   0.021   0.025 138.710</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(
+  <span class="kw"><a href="../../reference/vos_import.html">vos_import</a></span>(con, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"flights.nq"</span>, <span class="st">"planes.nq"</span>, <span class="st">"airlines.nq"</span>))
+)
+<span class="co">#&gt;    user  system elapsed </span>
+<span class="co">#&gt;   0.000   0.008 100.327</span></code></pre></div>
 <p>The data from all three tables is now reduced into a single triplestore graph, one triple for each data point. Rather than joining tables, we can write SPARQL query that names the columns we want.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">query &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">'SELECT  ?carrier ?name ?manufacturer ?model ?dep_delay</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">WHERE {</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">?flight &lt;flights:tailnum&gt;  ?tailnum .</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">?flight &lt;flights:carrier&gt;  ?carrier .</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="st">?flight &lt;flights:dep_delay&gt;  ?dep_delay .</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">?tailnum &lt;planes:manufacturer&gt; ?manufacturer .</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="st">?tailnum &lt;planes:model&gt; ?model .</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="st">?carrier &lt;airlines:name&gt; ?name</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="st">}'</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(</a>
-<a class="sourceLine" id="cb8-13" data-line-number="13">df &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/vos_query.html">vos_query</a></span>(con, query)</a>
-<a class="sourceLine" id="cb8-14" data-line-number="14">)</a>
-<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt;    user  system elapsed </span></a>
-<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="co">#&gt;   2.957   0.447  17.898</span></a>
-<a class="sourceLine" id="cb8-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(df)</a>
-<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="co">#&gt;       carrier                     name     manufacturer     model</span></a>
-<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="co">#&gt; 1 airlines:EV ExpressJet Airlines Inc.          EMBRAER EMB-145XR</span></a>
-<a class="sourceLine" id="cb8-21" data-line-number="21"><span class="co">#&gt; 2 airlines:EV ExpressJet Airlines Inc.          EMBRAER EMB-145LR</span></a>
-<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="co">#&gt; 3 airlines:EV ExpressJet Airlines Inc.          EMBRAER EMB-145LR</span></a>
-<a class="sourceLine" id="cb8-23" data-line-number="23"><span class="co">#&gt; 4 airlines:US          US Airways Inc. AIRBUS INDUSTRIE  A320-214</span></a>
-<a class="sourceLine" id="cb8-24" data-line-number="24"><span class="co">#&gt; 5 airlines:EV ExpressJet Airlines Inc.          EMBRAER EMB-145XR</span></a>
-<a class="sourceLine" id="cb8-25" data-line-number="25"><span class="co">#&gt; 6 airlines:EV ExpressJet Airlines Inc.          EMBRAER EMB-145XR</span></a>
-<a class="sourceLine" id="cb8-26" data-line-number="26"><span class="co">#&gt;   dep_delay</span></a>
-<a class="sourceLine" id="cb8-27" data-line-number="27"><span class="co">#&gt; 1        11</span></a>
-<a class="sourceLine" id="cb8-28" data-line-number="28"><span class="co">#&gt; 2        14</span></a>
-<a class="sourceLine" id="cb8-29" data-line-number="29"><span class="co">#&gt; 3        -6</span></a>
-<a class="sourceLine" id="cb8-30" data-line-number="30"><span class="co">#&gt; 4        -3</span></a>
-<a class="sourceLine" id="cb8-31" data-line-number="31"><span class="co">#&gt; 5        -2</span></a>
-<a class="sourceLine" id="cb8-32" data-line-number="32"><span class="co">#&gt; 6        -4</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">query &lt;-<span class="st"> </span>
+<span class="st">'SELECT  ?carrier ?name ?manufacturer ?model ?dep_delay</span>
+<span class="st">WHERE {</span>
+<span class="st">?flight &lt;flights:tailnum&gt;  ?tailnum .</span>
+<span class="st">?flight &lt;flights:carrier&gt;  ?carrier .</span>
+<span class="st">?flight &lt;flights:dep_delay&gt;  ?dep_delay .</span>
+<span class="st">?tailnum &lt;planes:manufacturer&gt; ?manufacturer .</span>
+<span class="st">?tailnum &lt;planes:model&gt; ?model .</span>
+<span class="st">?carrier &lt;airlines:name&gt; ?name</span>
+<span class="st">}'</span>
+
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(
+df &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/vos_query.html">vos_query</a></span>(con, query)
+)
+<span class="co">#&gt;    user  system elapsed </span>
+<span class="co">#&gt;   0.493   0.024   3.544</span>
+
+<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(df)
+<span class="co">#&gt;       carrier                     name                  manufacturer</span>
+<span class="co">#&gt; 1 airlines:B6          JetBlue Airways                        AIRBUS</span>
+<span class="co">#&gt; 2 airlines:DL     Delta Air Lines Inc.                        BOEING</span>
+<span class="co">#&gt; 3 airlines:EV ExpressJet Airlines Inc.                      CANADAIR</span>
+<span class="co">#&gt; 4 airlines:DL     Delta Air Lines Inc. MCDONNELL DOUGLAS AIRCRAFT CO</span>
+<span class="co">#&gt; 5 airlines:F9   Frontier Airlines Inc.                        AIRBUS</span>
+<span class="co">#&gt; 6 airlines:MQ                Envoy Air          GULFSTREAM AEROSPACE</span>
+<span class="co">#&gt;         model dep_delay</span>
+<span class="co">#&gt; 1    A320-232       -43</span>
+<span class="co">#&gt; 2     757-232       -33</span>
+<span class="co">#&gt; 3 CL-600-2B19       -32</span>
+<span class="co">#&gt; 4       MD-88       -30</span>
+<span class="co">#&gt; 5    A320-214       -27</span>
+<span class="co">#&gt; 6      G1159B       -26</span></code></pre></div>
 </div>
 <div id="list-data" class="section level1">
 <h1 class="hasAnchor">
 <a href="#list-data" class="anchor"></a>List Data</h1>
 <p>Transform JSON (or list data) into triples. In this case, we have a large JSON blob (or R list) containing metadata on all rOpenSci packages:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(jsonld)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/download.file">download.file</a></span>(<span class="st">"https://raw.githubusercontent.com/ropensci/roregistry/gh-pages/raw_cm.json"</span>, <span class="st">"raw_cm.json"</span>)</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">nq &lt;-<span class="st"> </span>jsonld<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/jsonld/topics/jsonld">jsonld_to_rdf</a></span>(<span class="st">"raw_cm.json"</span>) <span class="co"># drops implicit URIs if not base URIs</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/writeLines">writeLines</a></span>(nq, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">gzfile</a></span>(<span class="st">"ro.nq.gz"</span>))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/download.file">download.file</a></span>(<span class="st">"https://raw.githubusercontent.com/ropensci/roregistry/gh-pages/raw_cm.json"</span>, <span class="st">"raw_cm.json"</span>)
+nq &lt;-<span class="st"> </span>jsonld<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/jsonld/topics/jsonld">jsonld_to_rdf</a></span>(<span class="st">"raw_cm.json"</span>) <span class="co"># drops implicit URIs if not base URIs</span>
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/writeLines">writeLines</a></span>(nq, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/connections">gzfile</a></span>(<span class="st">"ro.nq.gz"</span>))</code></pre></div>
 <p>And bulk-import</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../../reference/vos_import.html">vos_import</a></span>(con, <span class="st">"ro.nq.gz"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../../reference/vos_import.html">vos_import</a></span>(con, <span class="st">"ro.nq.gz"</span>)</code></pre></div>
 <p>Find all packages where “Carl Boettiger” is an “author”, and return: package name, license, and co-author surnames:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">query &lt;-</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">"PREFIX schema: &lt;http://schema.org/&gt;</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">SELECT DISTINCT ?coauthor  ?license ?package </span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st"> WHERE {</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="st"> ?s schema:name ?package ;</span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="st">    schema:author ?author ;</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="st">    schema:license ?license ;</span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="st">    schema:author ?coauth .</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="st"> ?author schema:givenName 'Carl' .</span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="st"> ?author schema:familyName 'Boettiger' .</span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="st"> ?coauth schema:familyName ?coauthor</span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="st">}"</span></a>
-<a class="sourceLine" id="cb11-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="kw"><a href="../../reference/vos_query.html">vos_query</a></span>(con, query) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb11-15" data-line-number="15"><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">license =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/basename">basename</a></span>(license), <span class="dt">package =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/basename">basename</a></span>(package)) <span class="co"># Tidy up URIs into names</span></a>
-<a class="sourceLine" id="cb11-16" data-line-number="16"><span class="co">#&gt;       coauthor      license</span></a>
-<a class="sourceLine" id="cb11-17" data-line-number="17"><span class="co">#&gt; 1         Hart      CC0-1.0</span></a>
-<a class="sourceLine" id="cb11-18" data-line-number="18"><span class="co">#&gt; 2         Lapp BSD-3-Clause</span></a>
-<a class="sourceLine" id="cb11-19" data-line-number="19"><span class="co">#&gt; 3          Vos BSD-3-Clause</span></a>
-<a class="sourceLine" id="cb11-20" data-line-number="20"><span class="co">#&gt; 4          Ram      CC0-1.0</span></a>
-<a class="sourceLine" id="cb11-21" data-line-number="21"><span class="co">#&gt; 5    Boettiger BSD-3-Clause</span></a>
-<a class="sourceLine" id="cb11-22" data-line-number="22"><span class="co">#&gt; 6    Boettiger          MIT</span></a>
-<a class="sourceLine" id="cb11-23" data-line-number="23"><span class="co">#&gt; 7    Boettiger      GPL-3.0</span></a>
-<a class="sourceLine" id="cb11-24" data-line-number="24"><span class="co">#&gt; 8    Boettiger          MIT</span></a>
-<a class="sourceLine" id="cb11-25" data-line-number="25"><span class="co">#&gt; 9    Boettiger      GPL-3.0</span></a>
-<a class="sourceLine" id="cb11-26" data-line-number="26"><span class="co">#&gt; 10   Boettiger          MIT</span></a>
-<a class="sourceLine" id="cb11-27" data-line-number="27"><span class="co">#&gt; 11   Boettiger          MIT</span></a>
-<a class="sourceLine" id="cb11-28" data-line-number="28"><span class="co">#&gt; 12   Boettiger      CC0-1.0</span></a>
-<a class="sourceLine" id="cb11-29" data-line-number="29"><span class="co">#&gt; 13   Boettiger      CC0-1.0</span></a>
-<a class="sourceLine" id="cb11-30" data-line-number="30"><span class="co">#&gt; 14      Salmon      GPL-3.0</span></a>
-<a class="sourceLine" id="cb11-31" data-line-number="31"><span class="co">#&gt; 15       Jones          MIT</span></a>
-<a class="sourceLine" id="cb11-32" data-line-number="32"><span class="co">#&gt; 16 Chamberlain BSD-3-Clause</span></a>
-<a class="sourceLine" id="cb11-33" data-line-number="33"><span class="co">#&gt; 17 Chamberlain          MIT</span></a>
-<a class="sourceLine" id="cb11-34" data-line-number="34"><span class="co">#&gt; 18 Chamberlain          MIT</span></a>
-<a class="sourceLine" id="cb11-35" data-line-number="35"><span class="co">#&gt; 19 Chamberlain      CC0-1.0</span></a>
-<a class="sourceLine" id="cb11-36" data-line-number="36"><span class="co">#&gt; 20 Chamberlain      CC0-1.0</span></a>
-<a class="sourceLine" id="cb11-37" data-line-number="37"><span class="co">#&gt; 21 Chamberlain          MIT</span></a>
-<a class="sourceLine" id="cb11-38" data-line-number="38"><span class="co">#&gt; 22  Shumelchyk BSD-3-Clause</span></a>
-<a class="sourceLine" id="cb11-39" data-line-number="39"><span class="co">#&gt; 23   Boettiger          MIT</span></a>
-<a class="sourceLine" id="cb11-40" data-line-number="40"><span class="co">#&gt; 24 Chamberlain          MIT</span></a>
-<a class="sourceLine" id="cb11-41" data-line-number="41"><span class="co">#&gt; 25         Zhu          MIT</span></a>
-<a class="sourceLine" id="cb11-42" data-line-number="42"><span class="co">#&gt; 26        Jahn          MIT</span></a>
-<a class="sourceLine" id="cb11-43" data-line-number="43"><span class="co">#&gt; 27   Boettiger          MIT</span></a>
-<a class="sourceLine" id="cb11-44" data-line-number="44"><span class="co">#&gt; 28         Ram          MIT</span></a>
-<a class="sourceLine" id="cb11-45" data-line-number="45"><span class="co">#&gt; 29 Temple Lang      CC0-1.0</span></a>
-<a class="sourceLine" id="cb11-46" data-line-number="46"><span class="co">#&gt; 30  Wainwright      CC0-1.0</span></a>
-<a class="sourceLine" id="cb11-47" data-line-number="47"><span class="co">#&gt; 31         Ram          MIT</span></a>
-<a class="sourceLine" id="cb11-48" data-line-number="48"><span class="co">#&gt; 32   Boettiger          MIT</span></a>
-<a class="sourceLine" id="cb11-49" data-line-number="49"><span class="co">#&gt; 33        Dyck          MIT</span></a>
-<a class="sourceLine" id="cb11-50" data-line-number="50"><span class="co">#&gt; 34   Boettiger      CC0-1.0</span></a>
-<a class="sourceLine" id="cb11-51" data-line-number="51"><span class="co">#&gt; 35       Harte      CC0-1.0</span></a>
-<a class="sourceLine" id="cb11-52" data-line-number="52"><span class="co">#&gt; 36 Chamberlain      CC0-1.0</span></a>
-<a class="sourceLine" id="cb11-53" data-line-number="53"><span class="co">#&gt; 37         Ram      CC0-1.0</span></a>
-<a class="sourceLine" id="cb11-54" data-line-number="54"><span class="co">#&gt; 38   Boettiger          MIT</span></a>
-<a class="sourceLine" id="cb11-55" data-line-number="55"><span class="co">#&gt; 39         Ram          MIT</span></a>
-<a class="sourceLine" id="cb11-56" data-line-number="56"><span class="co">#&gt; 40 Chamberlain          MIT</span></a>
-<a class="sourceLine" id="cb11-57" data-line-number="57"><span class="co">#&gt; 41   Boettiger          MIT</span></a>
-<a class="sourceLine" id="cb11-58" data-line-number="58"><span class="co">#&gt; 42   Boettiger      CC0-1.0</span></a>
-<a class="sourceLine" id="cb11-59" data-line-number="59"><span class="co">#&gt; 43 Temple Lang      CC0-1.0</span></a>
-<a class="sourceLine" id="cb11-60" data-line-number="60"><span class="co">#&gt;                                                                   package</span></a>
-<a class="sourceLine" id="cb11-61" data-line-number="61"><span class="co">#&gt; 1                                 rfigshare: An R Interface to 'figshare'</span></a>
-<a class="sourceLine" id="cb11-62" data-line-number="62"><span class="co">#&gt; 2                                                O for the 'NeXML' Format</span></a>
-<a class="sourceLine" id="cb11-63" data-line-number="63"><span class="co">#&gt; 3                                                O for the 'NeXML' Format</span></a>
-<a class="sourceLine" id="cb11-64" data-line-number="64"><span class="co">#&gt; 4                                 rfigshare: An R Interface to 'figshare'</span></a>
-<a class="sourceLine" id="cb11-65" data-line-number="65"><span class="co">#&gt; 5                                                O for the 'NeXML' Format</span></a>
-<a class="sourceLine" id="cb11-66" data-line-number="66"><span class="co">#&gt; 6                 arkdb: Archive and Unarchive Databases Using Flat Files</span></a>
-<a class="sourceLine" id="cb11-67" data-line-number="67"><span class="co">#&gt; 7                  codemetar: Generate 'CodeMeta' Metadata for R Packages</span></a>
-<a class="sourceLine" id="cb11-68" data-line-number="68"><span class="co">#&gt; 8  EML: Create and Manipulate Data using the Ecological Metadata Language</span></a>
-<a class="sourceLine" id="cb11-69" data-line-number="69"><span class="co">#&gt; 9                  piggyback: Managing Larger Data on a GitHub Repository</span></a>
-<a class="sourceLine" id="cb11-70" data-line-number="70"><span class="co">#&gt; 10                    rdflib: Tools to Manipulate and Query Semantic Data</span></a>
-<a class="sourceLine" id="cb11-71" data-line-number="71"><span class="co">#&gt; 11                                  rdryad: Access for Dryad Web Services</span></a>
-<a class="sourceLine" id="cb11-72" data-line-number="72"><span class="co">#&gt; 12                                rfigshare: An R Interface to 'figshare'</span></a>
-<a class="sourceLine" id="cb11-73" data-line-number="73"><span class="co">#&gt; 13                                   rfishbase: R Interface to 'FishBase'</span></a>
-<a class="sourceLine" id="cb11-74" data-line-number="74"><span class="co">#&gt; 14                 codemetar: Generate 'CodeMeta' Metadata for R Packages</span></a>
-<a class="sourceLine" id="cb11-75" data-line-number="75"><span class="co">#&gt; 15 EML: Create and Manipulate Data using the Ecological Metadata Language</span></a>
-<a class="sourceLine" id="cb11-76" data-line-number="76"><span class="co">#&gt; 16                                               O for the 'NeXML' Format</span></a>
-<a class="sourceLine" id="cb11-77" data-line-number="77"><span class="co">#&gt; 17                        rcrossref: Client for Various 'CrossRef' 'APIs'</span></a>
-<a class="sourceLine" id="cb11-78" data-line-number="78"><span class="co">#&gt; 18                                  rdryad: Access for Dryad Web Services</span></a>
-<a class="sourceLine" id="cb11-79" data-line-number="79"><span class="co">#&gt; 19                                rfigshare: An R Interface to 'figshare'</span></a>
-<a class="sourceLine" id="cb11-80" data-line-number="80"><span class="co">#&gt; 20                                   rfishbase: R Interface to 'FishBase'</span></a>
-<a class="sourceLine" id="cb11-81" data-line-number="81"><span class="co">#&gt; 21                 rplos: Interface to the Search API for 'PLoS' Journals</span></a>
-<a class="sourceLine" id="cb11-82" data-line-number="82"><span class="co">#&gt; 22                                               O for the 'NeXML' Format</span></a>
-<a class="sourceLine" id="cb11-83" data-line-number="83"><span class="co">#&gt; 23           datasauce: Create and manipulate Schema.org Dataset metadata</span></a>
-<a class="sourceLine" id="cb11-84" data-line-number="84"><span class="co">#&gt; 24           datasauce: Create and manipulate Schema.org Dataset metadata</span></a>
-<a class="sourceLine" id="cb11-85" data-line-number="85"><span class="co">#&gt; 25                        rcrossref: Client for Various 'CrossRef' 'APIs'</span></a>
-<a class="sourceLine" id="cb11-86" data-line-number="86"><span class="co">#&gt; 26                        rcrossref: Client for Various 'CrossRef' 'APIs'</span></a>
-<a class="sourceLine" id="cb11-87" data-line-number="87"><span class="co">#&gt; 27                        rcrossref: Client for Various 'CrossRef' 'APIs'</span></a>
-<a class="sourceLine" id="cb11-88" data-line-number="88"><span class="co">#&gt; 28                        rcrossref: Client for Various 'CrossRef' 'APIs'</span></a>
-<a class="sourceLine" id="cb11-89" data-line-number="89"><span class="co">#&gt; 29                                   rfishbase: R Interface to 'FishBase'</span></a>
-<a class="sourceLine" id="cb11-90" data-line-number="90"><span class="co">#&gt; 30                                   rfishbase: R Interface to 'FishBase'</span></a>
-<a class="sourceLine" id="cb11-91" data-line-number="91"><span class="co">#&gt; 31      rfisheries: Programmatic Interface to the 'openfisheries.org' API</span></a>
-<a class="sourceLine" id="cb11-92" data-line-number="92"><span class="co">#&gt; 32      rfisheries: Programmatic Interface to the 'openfisheries.org' API</span></a>
-<a class="sourceLine" id="cb11-93" data-line-number="93"><span class="co">#&gt; 33      rfisheries: Programmatic Interface to the 'openfisheries.org' API</span></a>
-<a class="sourceLine" id="cb11-94" data-line-number="94"><span class="co">#&gt; 34          rgpdd: R Interface to the Global Population Dynamics Database</span></a>
-<a class="sourceLine" id="cb11-95" data-line-number="95"><span class="co">#&gt; 35          rgpdd: R Interface to the Global Population Dynamics Database</span></a>
-<a class="sourceLine" id="cb11-96" data-line-number="96"><span class="co">#&gt; 36          rgpdd: R Interface to the Global Population Dynamics Database</span></a>
-<a class="sourceLine" id="cb11-97" data-line-number="97"><span class="co">#&gt; 37          rgpdd: R Interface to the Global Population Dynamics Database</span></a>
-<a class="sourceLine" id="cb11-98" data-line-number="98"><span class="co">#&gt; 38                 rplos: Interface to the Search API for 'PLoS' Journals</span></a>
-<a class="sourceLine" id="cb11-99" data-line-number="99"><span class="co">#&gt; 39                 rplos: Interface to the Search API for 'PLoS' Journals</span></a>
-<a class="sourceLine" id="cb11-100" data-line-number="100"><span class="co">#&gt; 40                      taxview: Tools for Vizualizing Data Taxonomically</span></a>
-<a class="sourceLine" id="cb11-101" data-line-number="101"><span class="co">#&gt; 41                      taxview: Tools for Vizualizing Data Taxonomically</span></a>
-<a class="sourceLine" id="cb11-102" data-line-number="102"><span class="co">#&gt; 42 treebase: Discovery, Access and Manipulation of 'TreeBASE' Phylogenies</span></a>
-<a class="sourceLine" id="cb11-103" data-line-number="103"><span class="co">#&gt; 43 treebase: Discovery, Access and Manipulation of 'TreeBASE' Phylogenies</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">query &lt;-
+<span class="st">"PREFIX schema: &lt;http://schema.org/&gt;</span>
+<span class="st">SELECT DISTINCT ?coauthor  ?license ?package </span>
+<span class="st"> WHERE {</span>
+<span class="st"> ?s schema:name ?package ;</span>
+<span class="st">    schema:author ?author ;</span>
+<span class="st">    schema:license ?license ;</span>
+<span class="st">    schema:author ?coauth .</span>
+<span class="st"> ?author schema:givenName 'Carl' .</span>
+<span class="st"> ?author schema:familyName 'Boettiger' .</span>
+<span class="st"> ?coauth schema:familyName ?coauthor</span>
+<span class="st">}"</span>
+
+<span class="kw"><a href="../../reference/vos_query.html">vos_query</a></span>(con, query) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span>() <span class="op">%&gt;%</span>
+<span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">license =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/basename">basename</a></span>(license), <span class="dt">package =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/basename">basename</a></span>(package)) <span class="co"># Tidy up URIs into names</span>
+<span class="co">#&gt;       coauthor      license</span>
+<span class="co">#&gt; 1         Lapp BSD-3-Clause</span>
+<span class="co">#&gt; 2          Vos BSD-3-Clause</span>
+<span class="co">#&gt; 3    Boettiger BSD-3-Clause</span>
+<span class="co">#&gt; 4  Chamberlain BSD-3-Clause</span>
+<span class="co">#&gt; 5   Shumelchyk BSD-3-Clause</span>
+<span class="co">#&gt; 6    Boettiger          MIT</span>
+<span class="co">#&gt; 7    Boettiger      GPL-3.0</span>
+<span class="co">#&gt; 8       Salmon      GPL-3.0</span>
+<span class="co">#&gt; 9    Boettiger          MIT</span>
+<span class="co">#&gt; 10       Jones          MIT</span>
+<span class="co">#&gt; 11   Boettiger      GPL-3.0</span>
+<span class="co">#&gt; 12   Boettiger          MIT</span>
+<span class="co">#&gt; 13   Boettiger          MIT</span>
+<span class="co">#&gt; 14 Chamberlain          MIT</span>
+<span class="co">#&gt; 15   Boettiger      CC0-1.0</span>
+<span class="co">#&gt; 16 Chamberlain      CC0-1.0</span>
+<span class="co">#&gt; 17        Hart      CC0-1.0</span>
+<span class="co">#&gt; 18         Ram      CC0-1.0</span>
+<span class="co">#&gt; 19   Boettiger      CC0-1.0</span>
+<span class="co">#&gt; 20 Chamberlain      CC0-1.0</span>
+<span class="co">#&gt; 21 Temple Lang      CC0-1.0</span>
+<span class="co">#&gt; 22  Wainwright      CC0-1.0</span>
+<span class="co">#&gt; 23   Boettiger          MIT</span>
+<span class="co">#&gt; 24   Boettiger          MIT</span>
+<span class="co">#&gt; 25 Chamberlain          MIT</span>
+<span class="co">#&gt; 26 Chamberlain          MIT</span>
+<span class="co">#&gt; 27         Zhu          MIT</span>
+<span class="co">#&gt; 28        Jahn          MIT</span>
+<span class="co">#&gt; 29   Boettiger          MIT</span>
+<span class="co">#&gt; 30         Ram          MIT</span>
+<span class="co">#&gt; 31         Ram          MIT</span>
+<span class="co">#&gt; 32   Boettiger          MIT</span>
+<span class="co">#&gt; 33        Dyck          MIT</span>
+<span class="co">#&gt; 34   Boettiger      CC0-1.0</span>
+<span class="co">#&gt; 35       Harte      CC0-1.0</span>
+<span class="co">#&gt; 36 Chamberlain      CC0-1.0</span>
+<span class="co">#&gt; 37         Ram      CC0-1.0</span>
+<span class="co">#&gt; 38 Chamberlain          MIT</span>
+<span class="co">#&gt; 39   Boettiger          MIT</span>
+<span class="co">#&gt; 40         Ram          MIT</span>
+<span class="co">#&gt; 41 Chamberlain          MIT</span>
+<span class="co">#&gt; 42   Boettiger          MIT</span>
+<span class="co">#&gt; 43   Boettiger      CC0-1.0</span>
+<span class="co">#&gt; 44 Temple Lang      CC0-1.0</span>
+<span class="co">#&gt;                                                                   package</span>
+<span class="co">#&gt; 1                                                O for the 'NeXML' Format</span>
+<span class="co">#&gt; 2                                                O for the 'NeXML' Format</span>
+<span class="co">#&gt; 3                                                O for the 'NeXML' Format</span>
+<span class="co">#&gt; 4                                                O for the 'NeXML' Format</span>
+<span class="co">#&gt; 5                                                O for the 'NeXML' Format</span>
+<span class="co">#&gt; 6                 arkdb: Archive and Unarchive Databases Using Flat Files</span>
+<span class="co">#&gt; 7                  codemetar: Generate 'CodeMeta' Metadata for R Packages</span>
+<span class="co">#&gt; 8                  codemetar: Generate 'CodeMeta' Metadata for R Packages</span>
+<span class="co">#&gt; 9  EML: Create and Manipulate Data using the Ecological Metadata Language</span>
+<span class="co">#&gt; 10 EML: Create and Manipulate Data using the Ecological Metadata Language</span>
+<span class="co">#&gt; 11                 piggyback: Managing Larger Data on a GitHub Repository</span>
+<span class="co">#&gt; 12                    rdflib: Tools to Manipulate and Query Semantic Data</span>
+<span class="co">#&gt; 13                                  rdryad: Access for Dryad Web Services</span>
+<span class="co">#&gt; 14                                  rdryad: Access for Dryad Web Services</span>
+<span class="co">#&gt; 15                                rfigshare: An R Interface to 'figshare'</span>
+<span class="co">#&gt; 16                                rfigshare: An R Interface to 'figshare'</span>
+<span class="co">#&gt; 17                                rfigshare: An R Interface to 'figshare'</span>
+<span class="co">#&gt; 18                                rfigshare: An R Interface to 'figshare'</span>
+<span class="co">#&gt; 19                                   rfishbase: R Interface to 'FishBase'</span>
+<span class="co">#&gt; 20                                   rfishbase: R Interface to 'FishBase'</span>
+<span class="co">#&gt; 21                                   rfishbase: R Interface to 'FishBase'</span>
+<span class="co">#&gt; 22                                   rfishbase: R Interface to 'FishBase'</span>
+<span class="co">#&gt; 23                        virtuoso: An R interface to Virtuoso using ODBC</span>
+<span class="co">#&gt; 24           datasauce: Create and manipulate Schema.org Dataset metadata</span>
+<span class="co">#&gt; 25           datasauce: Create and manipulate Schema.org Dataset metadata</span>
+<span class="co">#&gt; 26                        rcrossref: Client for Various 'CrossRef' 'APIs'</span>
+<span class="co">#&gt; 27                        rcrossref: Client for Various 'CrossRef' 'APIs'</span>
+<span class="co">#&gt; 28                        rcrossref: Client for Various 'CrossRef' 'APIs'</span>
+<span class="co">#&gt; 29                        rcrossref: Client for Various 'CrossRef' 'APIs'</span>
+<span class="co">#&gt; 30                        rcrossref: Client for Various 'CrossRef' 'APIs'</span>
+<span class="co">#&gt; 31      rfisheries: Programmatic Interface to the 'openfisheries.org' API</span>
+<span class="co">#&gt; 32      rfisheries: Programmatic Interface to the 'openfisheries.org' API</span>
+<span class="co">#&gt; 33      rfisheries: Programmatic Interface to the 'openfisheries.org' API</span>
+<span class="co">#&gt; 34          rgpdd: R Interface to the Global Population Dynamics Database</span>
+<span class="co">#&gt; 35          rgpdd: R Interface to the Global Population Dynamics Database</span>
+<span class="co">#&gt; 36          rgpdd: R Interface to the Global Population Dynamics Database</span>
+<span class="co">#&gt; 37          rgpdd: R Interface to the Global Population Dynamics Database</span>
+<span class="co">#&gt; 38                 rplos: Interface to the Search API for 'PLoS' Journals</span>
+<span class="co">#&gt; 39                 rplos: Interface to the Search API for 'PLoS' Journals</span>
+<span class="co">#&gt; 40                 rplos: Interface to the Search API for 'PLoS' Journals</span>
+<span class="co">#&gt; 41                      taxview: Tools for Vizualizing Data Taxonomically</span>
+<span class="co">#&gt; 42                      taxview: Tools for Vizualizing Data Taxonomically</span>
+<span class="co">#&gt; 43 treebase: Discovery, Access and Manipulation of 'TreeBASE' Phylogenies</span>
+<span class="co">#&gt; 44 treebase: Discovery, Access and Manipulation of 'TreeBASE' Phylogenies</span></code></pre></div>
 </div>
   </div>
 
@@ -307,7 +312,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
 </div>

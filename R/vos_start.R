@@ -85,7 +85,7 @@ vos_start <- function(ini = NULL, wait = 30) {
   Sys.sleep(2)
   vos_status(wait = wait)
 
-
+  assign("px", px, envir = virtuoso_cache)
   ##
   invisible(vos_process())
 }
