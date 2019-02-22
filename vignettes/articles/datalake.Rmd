@@ -35,7 +35,7 @@ library(rdftools)
 We start up our Virtuoso server, wait for it to come up, and then connect:
 
 ```{r install}
-p <- vos_start()
+vos_start()
 ```
 
 ```{r}
@@ -145,4 +145,5 @@ unlink("flights.nq")
 unlink("planes.nq")
 unlink("airlines.nq")
 unlink("ro.nq.gz")
+unlink("raw_cm.json")
 ```
