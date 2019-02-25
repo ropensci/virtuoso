@@ -8,7 +8,7 @@
 #' but allows the use of variables to walk through graph nodes.
 #' @seealso [vos_start()], [vos_connect()]
 #' @references
-#' - <https://en.wikipedia.org/SPARQL>
+#' - <https://en.wikipedia.org/wiki/SPARQL>
 #' - <https://ropensci.github.io/rdflib/articles/rdf_intro.html>
 #'
 #' @examples

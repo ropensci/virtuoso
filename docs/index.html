@@ -65,9 +65,6 @@
   </a>
 </li>
 <li>
-  <a href="articles/virtuoso.html">Get started</a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -79,6 +76,9 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="articles/articles/datalake.html">The Data Lake: Schema on Read</a>
+    </li>
+    <li>
+      <a href="articles/articles/virtuoso.html">Getting Started</a>
     </li>
     <li>
       <a href="articles/installation.html">Introduction: Virtuoso Installation and Configuration</a>
@@ -130,7 +130,9 @@
 <span class="co">#&gt; Virtuoso is already installed.</span></code></pre></div>
 <p>We can now start our Virtuoso server from R:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/vos_start.html">vos_start</a></span>()
-<span class="co">#&gt; Virtuoso is already running with pid: 2098</span></code></pre></div>
+<span class="co">#&gt; PROCESS 'virtuoso-t', running, pid 3191.</span>
+<span class="co">#&gt; Server is now starting up, this may take a few seconds...</span>
+<span class="co">#&gt; latest log entry: 19:06:39 Server online at 1111 (pid 3191)</span></code></pre></div>
 <p>Once the server is running, we can connect to the database.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">con &lt;-<span class="st"> </span><span class="kw"><a href="reference/vos_connect.html">vos_connect</a></span>()</code></pre></div>
 <p>Our connection is now live, and accepts SPARQL queries directly.</p>
@@ -196,7 +198,7 @@
 <a href="#server-controls" class="anchor"></a>Server controls</h2>
 <p>We can control any <code>virtuoso</code> server started with <code><a href="reference/vos_start.html">vos_start()</a></code> using a series of helper commands.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/vos_status.html">vos_status</a></span>()
-<span class="co">#&gt; latest log entry: 18:40:26 PL LOG: No more files to load. Loader has finished,</span>
+<span class="co">#&gt; latest log entry: 19:06:39 PL LOG: No more files to load. Loader has finished,</span>
 <span class="co">#&gt; [1] "sleeping"</span></code></pre></div>
 <p>Advanced usage note: <code><a href="reference/vos_start.html">vos_start()</a></code> invisibly returns a <code>processx</code> object which we can pass to other server control functions, or access the embedded <code>processx</code> control methods directly. The <code>virtuoso</code> package also caches this object in an environment so that it can be accessed directly without having to keep track of an object in the global environment. Use <code><a href="reference/vos_process.html">vos_process()</a></code> to return the <code>processx</code> object. For example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ps)
@@ -205,7 +207,7 @@ p &lt;-<span class="st"> </span><span class="kw"><a href="reference/vos_process.
 <span class="co">#&gt; [1] TRUE</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/ps/topics/ps_cpu_times">ps_cpu_times</a></span>(p)
 <span class="co">#&gt;            user          system    childen_user children_system </span>
-<span class="co">#&gt;            1.42            0.25            0.00            0.00</span>
+<span class="co">#&gt;            1.41            0.26            0.00            0.00</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/ps/topics/ps_suspend">ps_suspend</a></span>(p)
 <span class="co">#&gt; NULL</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/ps/topics/ps_resume">ps_resume</a></span>(p)
