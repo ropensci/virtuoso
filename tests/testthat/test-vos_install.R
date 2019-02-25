@@ -1,6 +1,7 @@
 context("vos install")
 
 test_that("Virtuoso is installed", {
+  skip_if_not(has_virtuoso())
   virtuoso:::vos_set_path()
   expect_message(
     vos_install(ask = FALSE),
