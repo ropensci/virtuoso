@@ -1,23 +1,14 @@
 
-# virtuoso <img src="man/figures/logo.svg" align="right" alt="" width="120" />
+virtuoso <img src="man/figures/logo.svg" align="right" alt="" width="120" />
+============================================================================
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![Travis build
-status](https://travis-ci.org/ropensci/virtuoso.svg?branch=master)](https://travis-ci.org/ropensci/virtuoso)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/cboettig/virtuoso?branch=master&svg=true)](https://ci.appveyor.com/project/cboettig/virtuoso)
-[![Coverage
-status](https://codecov.io/gh/ropensci/virtuoso/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/virtuoso?branch=master)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/virtuoso)](https://cran.r-project.org/package=virtuoso)
-[![](http://badges.ropensci.org/271_status.svg)](https://github.com/ropensci/software-review/issues/271)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing) [![Travis build status](https://travis-ci.org/ropensci/virtuoso.svg?branch=master)](https://travis-ci.org/ropensci/virtuoso) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/cboettig/virtuoso?branch=master&svg=true)](https://ci.appveyor.com/project/cboettig/virtuoso) [![Coverage status](https://codecov.io/gh/ropensci/virtuoso/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/virtuoso?branch=master) [![CRAN status](https://www.r-pkg.org/badges/version/virtuoso)](https://cran.r-project.org/package=virtuoso) [![](http://badges.ropensci.org/271_status.svg)](https://github.com/ropensci/software-review/issues/271)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+The goal of virtuoso is to provide an easy interface to Virtuoso RDF database from R.
 
-The goal of virtuoso is to provide an easy interface to Virtuoso RDF
-database from R.
-
-## Installation
+Installation
+------------
 
 You can install the development version of virtuoso from GitHub with:
 
@@ -25,16 +16,14 @@ You can install the development version of virtuoso from GitHub with:
 remotes::install_github("ropensci/virtuoso")
 ```
 
-## Getting Started
+Getting Started
+---------------
 
 ``` r
 library(virtuoso)
 ```
 
-For Mac users, `virtuoso` package includes a utility function to install
-and configure a local Virtuoso Open Source instance using Homebrew.
-Otherwise, simply install the Virtuoso Open Source edition for your
-operating system.
+For Mac users, `virtuoso` package includes a utility function to install and configure a local Virtuoso Open Source instance using Homebrew. Otherwise, simply install the Virtuoso Open Source edition for your operating system.
 
 ``` r
 vos_install()
@@ -45,9 +34,9 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 3209.
+#> PROCESS 'virtuoso-t', running, pid 1126.
 #> Server is now starting up, this may take a few seconds...
-#> latest log entry: 12:58:25 Server online at 1111 (pid 3209)
+#> latest log entry: 18:15:52 Server online at 1111 (pid 1126)
 ```
 
 Once the server is running, we can connect to the database.
@@ -77,10 +66,10 @@ DBI::dbGetQuery(con, "SPARQL SELECT * WHERE { ?s ?p ?o } LIMIT 4")
 #> 4 http://www.openlinksw.com/schemas/virtrdf#QuadMapFormat
 ```
 
-## DSL
+DSL
+---
 
-`virtuoso` also provides wrappers around some common queries to make it
-easier to work with Virtuoso and RDF.
+`virtuoso` also provides wrappers around some common queries to make it easier to work with Virtuoso and RDF.
 
 The bulk loader can be used to quickly import existing sets of triples.
 
@@ -89,25 +78,19 @@ example <- system.file("extdata", "person.nq", package = "virtuoso")
 vos_import(con, example)
 ```
 
-Can also read in compressed formats as well. Remember to set the pattern
-match appropriately. This is convenient because N-Quads compress
-particularly well, often by a factor of 20 (or rather, can be
-particularly large when uncompressed, owing to the repeated property and
-subject URIs).
+Can also read in compressed formats as well. Remember to set the pattern match appropriately. This is convenient because N-Quads compress particularly well, often by a factor of 20 (or rather, can be particularly large when uncompressed, owing to the repeated property and subject URIs).
 
 ``` r
 ex <- system.file("extdata", "library.nq.gz", package = "virtuoso")
 vos_import(con, ex)
 ```
 
-`vos_import` invisibly returns a table of the loaded files, with error
-message and loading times. If a file cannot be imported, an error
-message is returned:
+`vos_import` invisibly returns a table of the loaded files, with error message and loading times. If a file cannot be imported, an error message is returned:
 
 ``` r
 bad_file <- system.file("extdata", "bad_quads.nq", package = "virtuoso")
 vos_import(con, bad_file)
-#> Error: Error importing: bad_quads.nq 37000 [Vectorized Turtle loader] SP029: NQuads RDF loader, line 2: Undefined namespace prefix at ITIS:1000000
+#> Error: Error importing: bad_quads.nq 37000 SP029: NQuads RDF loader, line 2: Undefined namespace prefix at ITIS:1000000
 ```
 
 We can now query the imported data using SPARQL.
@@ -120,8 +103,8 @@ vos_query(con,
        }")
 #>                                                 p                        o
 #> 1 http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://schema.org/Person
-#> 2                          http://schema.org/name                 Jane Doe
-#> 3                      http://schema.org/jobTitle                Professor
+#> 2                      http://schema.org/jobTitle                Professor
+#> 3                          http://schema.org/name                 Jane Doe
 #> 4                     http://schema.org/telephone           (425) 123-4567
 #> 5                           http://schema.org/url   http://www.janedoe.com
 ```
@@ -142,24 +125,18 @@ vos_query(con,
 #> 3                         The Introduction
 ```
 
-## Server controls
+Server controls
+---------------
 
-We can control any `virtuoso` server started with `vos_start()` using a
-series of helper commands.
+We can control any `virtuoso` server started with `vos_start()` using a series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 12:58:26 PL LOG: No more files to load. Loader has finished,
-#> [1] "running"
+#> latest log entry: 18:15:53 PL LOG: No more files to load. Loader has finished,
+#> [1] "sleeping"
 ```
 
-Advanced usage note: `vos_start()` invisibly returns a `processx` object
-which we can pass to other server control functions, or access the
-embedded `processx` control methods directly. The `virtuoso` package
-also caches this object in an environment so that it can be accessed
-directly without having to keep track of an object in the global
-environment. Use `vos_process()` to return the `processx` object. For
-example:
+Advanced usage note: `vos_start()` invisibly returns a `processx` object which we can pass to other server control functions, or access the embedded `processx` control methods directly. The `virtuoso` package also caches this object in an environment so that it can be accessed directly without having to keep track of an object in the global environment. Use `vos_process()` to return the `processx` object. For example:
 
 ``` r
 library(ps)
@@ -168,27 +145,23 @@ ps_is_running(p)
 #> [1] TRUE
 ps_cpu_times(p)
 #>            user          system    childen_user children_system 
-#>       2.8859579       0.3426895              NA              NA
+#>            1.41            0.30            0.00            0.00
 ps_suspend(p)
 #> NULL
 ps_resume(p)
 #> NULL
 ```
 
-## Going further
+Going further
+-------------
 
 Please see the package vignettes for more information:
 
-  - [details on Virtuoso Installation &
-    configuration](https://ropensci.github.io/virtuoso/articles/installation.html)
-  - [The Data Lake: richer examples of RDF
-    use](https://ropensci.github.io/virtuoso/articles/articles/datalake.html)
+-   [details on Virtuoso Installation & configuration](https://ropensci.github.io/virtuoso/articles/installation.html)
+-   [The Data Lake: richer examples of RDF use](https://ropensci.github.io/virtuoso/articles/articles/datalake.html)
 
------
+------------------------------------------------------------------------
 
-Please note that the `virtuoso` R package is released with a
-[Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to
-this project, you agree to abide by its
-terms.
+Please note that the `virtuoso` R package is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
 [![ropensci\_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)

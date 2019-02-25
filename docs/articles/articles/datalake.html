@@ -93,7 +93,7 @@
       <h1>The Data Lake: Schema on Read</h1>
                         <h4 class="author">Carl Boettiger</h4>
             
-            <h4 class="date">2019-02-22</h4>
+            <h4 class="date">2019-02-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ropensci/virtuoso/blob/master/vignettes/articles/datalake.Rmd"><code>vignettes/articles/datalake.Rmd</code></a></small>
       <div class="hidden name"><code>datalake.Rmd</code></div>
@@ -122,10 +122,10 @@
 <h1 class="hasAnchor">
 <a href="#tabular-data" class="anchor"></a>Tabular Data</h1>
 <p>We start up our Virtuoso server, wait for it to come up, and then connect:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/vos_start.html">vos_start</a></span>()
-<span class="co">#&gt; PROCESS 'virtuoso-t', running, pid 4307.</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../../reference/vos_start.html">vos_start</a></span>()
+<span class="co">#&gt; PROCESS 'virtuoso-t', running, pid 2507.</span>
 <span class="co">#&gt; Server is now starting up, this may take a few seconds...</span>
-<span class="co">#&gt; latest log entry: 19:55:18 Server online at 1111 (pid 4307)</span></code></pre></div>
+<span class="co">#&gt; latest log entry: 18:40:36 Server online at 1111 (pid 2507)</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">con &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/vos_connect.html">vos_connect</a></span>()</code></pre></div>
 <p>We can represent any data as RDF with a little care. For instance, consider the <code>nycflights13</code> data. First, we must represent any primary or foreign keys in any table as URIs, indicated by a prefix, and not by bare strings:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">uri_flights &lt;-<span class="st"> </span>flights <span class="op">%&gt;%</span><span class="st"> </span>
@@ -140,7 +140,7 @@
   <span class="kw"><a href="../../reference/vos_import.html">vos_import</a></span>(con, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"flights.nq"</span>, <span class="st">"planes.nq"</span>, <span class="st">"airlines.nq"</span>))
 )
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;   0.000   0.008 100.327</span></code></pre></div>
+<span class="co">#&gt;   0.008   0.000  99.525</span></code></pre></div>
 <p>The data from all three tables is now reduced into a single triplestore graph, one triple for each data point. Rather than joining tables, we can write SPARQL query that names the columns we want.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">query &lt;-<span class="st"> </span>
 <span class="st">'SELECT  ?carrier ?name ?manufacturer ?model ?dep_delay</span>
@@ -157,23 +157,16 @@
 df &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/vos_query.html">vos_query</a></span>(con, query)
 )
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;   0.493   0.024   3.544</span>
+<span class="co">#&gt;   0.488   0.036   2.203</span>
 
 <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(df)
-<span class="co">#&gt;       carrier                     name                  manufacturer</span>
-<span class="co">#&gt; 1 airlines:B6          JetBlue Airways                        AIRBUS</span>
-<span class="co">#&gt; 2 airlines:DL     Delta Air Lines Inc.                        BOEING</span>
-<span class="co">#&gt; 3 airlines:EV ExpressJet Airlines Inc.                      CANADAIR</span>
-<span class="co">#&gt; 4 airlines:DL     Delta Air Lines Inc. MCDONNELL DOUGLAS AIRCRAFT CO</span>
-<span class="co">#&gt; 5 airlines:F9   Frontier Airlines Inc.                        AIRBUS</span>
-<span class="co">#&gt; 6 airlines:MQ                Envoy Air          GULFSTREAM AEROSPACE</span>
-<span class="co">#&gt;         model dep_delay</span>
-<span class="co">#&gt; 1    A320-232       -43</span>
-<span class="co">#&gt; 2     757-232       -33</span>
-<span class="co">#&gt; 3 CL-600-2B19       -32</span>
-<span class="co">#&gt; 4       MD-88       -30</span>
-<span class="co">#&gt; 5    A320-214       -27</span>
-<span class="co">#&gt; 6      G1159B       -26</span></code></pre></div>
+<span class="co">#&gt;       carrier                     name manufacturer     model dep_delay</span>
+<span class="co">#&gt; 1 airlines:EV ExpressJet Airlines Inc.      EMBRAER EMB-145XR        -6</span>
+<span class="co">#&gt; 2 airlines:EV ExpressJet Airlines Inc.      EMBRAER EMB-145XR        14</span>
+<span class="co">#&gt; 3 airlines:EV ExpressJet Airlines Inc.      EMBRAER EMB-145XR         2</span>
+<span class="co">#&gt; 4 airlines:EV ExpressJet Airlines Inc.      EMBRAER EMB-145XR        -7</span>
+<span class="co">#&gt; 5 airlines:EV ExpressJet Airlines Inc.      EMBRAER EMB-145XR       -10</span>
+<span class="co">#&gt; 6 airlines:EV ExpressJet Airlines Inc.      EMBRAER EMB-145XR        -7</span></code></pre></div>
 </div>
 <div id="list-data" class="section level1">
 <h1 class="hasAnchor">
@@ -201,95 +194,97 @@ nq &lt;-<span class="st"> </span>jsonld<span class="op">::</span><span class="kw
 <span class="kw"><a href="../../reference/vos_query.html">vos_query</a></span>(con, query) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/distinct.html">distinct</a></span>() <span class="op">%&gt;%</span>
 <span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">license =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/basename">basename</a></span>(license), <span class="dt">package =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/basename">basename</a></span>(package)) <span class="co"># Tidy up URIs into names</span>
 <span class="co">#&gt;       coauthor      license</span>
-<span class="co">#&gt; 1         Lapp BSD-3-Clause</span>
-<span class="co">#&gt; 2          Vos BSD-3-Clause</span>
-<span class="co">#&gt; 3    Boettiger BSD-3-Clause</span>
-<span class="co">#&gt; 4  Chamberlain BSD-3-Clause</span>
-<span class="co">#&gt; 5   Shumelchyk BSD-3-Clause</span>
-<span class="co">#&gt; 6    Boettiger          MIT</span>
-<span class="co">#&gt; 7    Boettiger      GPL-3.0</span>
-<span class="co">#&gt; 8       Salmon      GPL-3.0</span>
-<span class="co">#&gt; 9    Boettiger          MIT</span>
-<span class="co">#&gt; 10       Jones          MIT</span>
-<span class="co">#&gt; 11   Boettiger      GPL-3.0</span>
-<span class="co">#&gt; 12   Boettiger          MIT</span>
+<span class="co">#&gt; 1    Boettiger          MIT</span>
+<span class="co">#&gt; 2         Lapp BSD-3-Clause</span>
+<span class="co">#&gt; 3          Vos BSD-3-Clause</span>
+<span class="co">#&gt; 4    Boettiger BSD-3-Clause</span>
+<span class="co">#&gt; 5  Chamberlain BSD-3-Clause</span>
+<span class="co">#&gt; 6   Shumelchyk BSD-3-Clause</span>
+<span class="co">#&gt; 7    Boettiger          MIT</span>
+<span class="co">#&gt; 8    Boettiger      GPL-3.0</span>
+<span class="co">#&gt; 9       Salmon      GPL-3.0</span>
+<span class="co">#&gt; 10   Boettiger          MIT</span>
+<span class="co">#&gt; 11       Jones          MIT</span>
+<span class="co">#&gt; 12   Boettiger      GPL-3.0</span>
 <span class="co">#&gt; 13   Boettiger          MIT</span>
-<span class="co">#&gt; 14 Chamberlain          MIT</span>
-<span class="co">#&gt; 15   Boettiger      CC0-1.0</span>
-<span class="co">#&gt; 16 Chamberlain      CC0-1.0</span>
-<span class="co">#&gt; 17        Hart      CC0-1.0</span>
-<span class="co">#&gt; 18         Ram      CC0-1.0</span>
-<span class="co">#&gt; 19   Boettiger      CC0-1.0</span>
-<span class="co">#&gt; 20 Chamberlain      CC0-1.0</span>
-<span class="co">#&gt; 21 Temple Lang      CC0-1.0</span>
-<span class="co">#&gt; 22  Wainwright      CC0-1.0</span>
-<span class="co">#&gt; 23   Boettiger          MIT</span>
+<span class="co">#&gt; 14   Boettiger          MIT</span>
+<span class="co">#&gt; 15 Chamberlain          MIT</span>
+<span class="co">#&gt; 16   Boettiger      CC0-1.0</span>
+<span class="co">#&gt; 17 Chamberlain      CC0-1.0</span>
+<span class="co">#&gt; 18        Hart      CC0-1.0</span>
+<span class="co">#&gt; 19         Ram      CC0-1.0</span>
+<span class="co">#&gt; 20   Boettiger      CC0-1.0</span>
+<span class="co">#&gt; 21 Chamberlain      CC0-1.0</span>
+<span class="co">#&gt; 22 Temple Lang      CC0-1.0</span>
+<span class="co">#&gt; 23  Wainwright      CC0-1.0</span>
 <span class="co">#&gt; 24   Boettiger          MIT</span>
-<span class="co">#&gt; 25 Chamberlain          MIT</span>
+<span class="co">#&gt; 25   Boettiger          MIT</span>
 <span class="co">#&gt; 26 Chamberlain          MIT</span>
-<span class="co">#&gt; 27         Zhu          MIT</span>
-<span class="co">#&gt; 28        Jahn          MIT</span>
-<span class="co">#&gt; 29   Boettiger          MIT</span>
-<span class="co">#&gt; 30         Ram          MIT</span>
+<span class="co">#&gt; 27 Chamberlain          MIT</span>
+<span class="co">#&gt; 28         Zhu          MIT</span>
+<span class="co">#&gt; 29        Jahn          MIT</span>
+<span class="co">#&gt; 30   Boettiger          MIT</span>
 <span class="co">#&gt; 31         Ram          MIT</span>
-<span class="co">#&gt; 32   Boettiger          MIT</span>
-<span class="co">#&gt; 33        Dyck          MIT</span>
-<span class="co">#&gt; 34   Boettiger      CC0-1.0</span>
-<span class="co">#&gt; 35       Harte      CC0-1.0</span>
-<span class="co">#&gt; 36 Chamberlain      CC0-1.0</span>
-<span class="co">#&gt; 37         Ram      CC0-1.0</span>
-<span class="co">#&gt; 38 Chamberlain          MIT</span>
-<span class="co">#&gt; 39   Boettiger          MIT</span>
-<span class="co">#&gt; 40         Ram          MIT</span>
-<span class="co">#&gt; 41 Chamberlain          MIT</span>
-<span class="co">#&gt; 42   Boettiger          MIT</span>
-<span class="co">#&gt; 43   Boettiger      CC0-1.0</span>
-<span class="co">#&gt; 44 Temple Lang      CC0-1.0</span>
+<span class="co">#&gt; 32         Ram          MIT</span>
+<span class="co">#&gt; 33   Boettiger          MIT</span>
+<span class="co">#&gt; 34        Dyck          MIT</span>
+<span class="co">#&gt; 35   Boettiger      CC0-1.0</span>
+<span class="co">#&gt; 36       Harte      CC0-1.0</span>
+<span class="co">#&gt; 37 Chamberlain      CC0-1.0</span>
+<span class="co">#&gt; 38         Ram      CC0-1.0</span>
+<span class="co">#&gt; 39 Chamberlain          MIT</span>
+<span class="co">#&gt; 40   Boettiger          MIT</span>
+<span class="co">#&gt; 41         Ram          MIT</span>
+<span class="co">#&gt; 42 Chamberlain          MIT</span>
+<span class="co">#&gt; 43   Boettiger          MIT</span>
+<span class="co">#&gt; 44   Boettiger      CC0-1.0</span>
+<span class="co">#&gt; 45 Temple Lang      CC0-1.0</span>
 <span class="co">#&gt;                                                                   package</span>
-<span class="co">#&gt; 1                                                O for the 'NeXML' Format</span>
+<span class="co">#&gt; 1                                emld: Ecological Metadata as Linked Data</span>
 <span class="co">#&gt; 2                                                O for the 'NeXML' Format</span>
 <span class="co">#&gt; 3                                                O for the 'NeXML' Format</span>
 <span class="co">#&gt; 4                                                O for the 'NeXML' Format</span>
 <span class="co">#&gt; 5                                                O for the 'NeXML' Format</span>
-<span class="co">#&gt; 6                 arkdb: Archive and Unarchive Databases Using Flat Files</span>
-<span class="co">#&gt; 7                  codemetar: Generate 'CodeMeta' Metadata for R Packages</span>
+<span class="co">#&gt; 6                                                O for the 'NeXML' Format</span>
+<span class="co">#&gt; 7                 arkdb: Archive and Unarchive Databases Using Flat Files</span>
 <span class="co">#&gt; 8                  codemetar: Generate 'CodeMeta' Metadata for R Packages</span>
-<span class="co">#&gt; 9  EML: Create and Manipulate Data using the Ecological Metadata Language</span>
+<span class="co">#&gt; 9                  codemetar: Generate 'CodeMeta' Metadata for R Packages</span>
 <span class="co">#&gt; 10 EML: Create and Manipulate Data using the Ecological Metadata Language</span>
-<span class="co">#&gt; 11                 piggyback: Managing Larger Data on a GitHub Repository</span>
-<span class="co">#&gt; 12                    rdflib: Tools to Manipulate and Query Semantic Data</span>
-<span class="co">#&gt; 13                                  rdryad: Access for Dryad Web Services</span>
+<span class="co">#&gt; 11 EML: Create and Manipulate Data using the Ecological Metadata Language</span>
+<span class="co">#&gt; 12                 piggyback: Managing Larger Data on a GitHub Repository</span>
+<span class="co">#&gt; 13                    rdflib: Tools to Manipulate and Query Semantic Data</span>
 <span class="co">#&gt; 14                                  rdryad: Access for Dryad Web Services</span>
-<span class="co">#&gt; 15                                rfigshare: An R Interface to 'figshare'</span>
+<span class="co">#&gt; 15                                  rdryad: Access for Dryad Web Services</span>
 <span class="co">#&gt; 16                                rfigshare: An R Interface to 'figshare'</span>
 <span class="co">#&gt; 17                                rfigshare: An R Interface to 'figshare'</span>
 <span class="co">#&gt; 18                                rfigshare: An R Interface to 'figshare'</span>
-<span class="co">#&gt; 19                                   rfishbase: R Interface to 'FishBase'</span>
+<span class="co">#&gt; 19                                rfigshare: An R Interface to 'figshare'</span>
 <span class="co">#&gt; 20                                   rfishbase: R Interface to 'FishBase'</span>
 <span class="co">#&gt; 21                                   rfishbase: R Interface to 'FishBase'</span>
 <span class="co">#&gt; 22                                   rfishbase: R Interface to 'FishBase'</span>
-<span class="co">#&gt; 23                        virtuoso: An R interface to Virtuoso using ODBC</span>
-<span class="co">#&gt; 24           datasauce: Create and manipulate Schema.org Dataset metadata</span>
+<span class="co">#&gt; 23                                   rfishbase: R Interface to 'FishBase'</span>
+<span class="co">#&gt; 24                        virtuoso: An R interface to Virtuoso using ODBC</span>
 <span class="co">#&gt; 25           datasauce: Create and manipulate Schema.org Dataset metadata</span>
-<span class="co">#&gt; 26                        rcrossref: Client for Various 'CrossRef' 'APIs'</span>
+<span class="co">#&gt; 26           datasauce: Create and manipulate Schema.org Dataset metadata</span>
 <span class="co">#&gt; 27                        rcrossref: Client for Various 'CrossRef' 'APIs'</span>
 <span class="co">#&gt; 28                        rcrossref: Client for Various 'CrossRef' 'APIs'</span>
 <span class="co">#&gt; 29                        rcrossref: Client for Various 'CrossRef' 'APIs'</span>
 <span class="co">#&gt; 30                        rcrossref: Client for Various 'CrossRef' 'APIs'</span>
-<span class="co">#&gt; 31      rfisheries: Programmatic Interface to the 'openfisheries.org' API</span>
+<span class="co">#&gt; 31                        rcrossref: Client for Various 'CrossRef' 'APIs'</span>
 <span class="co">#&gt; 32      rfisheries: Programmatic Interface to the 'openfisheries.org' API</span>
 <span class="co">#&gt; 33      rfisheries: Programmatic Interface to the 'openfisheries.org' API</span>
-<span class="co">#&gt; 34          rgpdd: R Interface to the Global Population Dynamics Database</span>
+<span class="co">#&gt; 34      rfisheries: Programmatic Interface to the 'openfisheries.org' API</span>
 <span class="co">#&gt; 35          rgpdd: R Interface to the Global Population Dynamics Database</span>
 <span class="co">#&gt; 36          rgpdd: R Interface to the Global Population Dynamics Database</span>
 <span class="co">#&gt; 37          rgpdd: R Interface to the Global Population Dynamics Database</span>
-<span class="co">#&gt; 38                 rplos: Interface to the Search API for 'PLoS' Journals</span>
+<span class="co">#&gt; 38          rgpdd: R Interface to the Global Population Dynamics Database</span>
 <span class="co">#&gt; 39                 rplos: Interface to the Search API for 'PLoS' Journals</span>
 <span class="co">#&gt; 40                 rplos: Interface to the Search API for 'PLoS' Journals</span>
-<span class="co">#&gt; 41                      taxview: Tools for Vizualizing Data Taxonomically</span>
+<span class="co">#&gt; 41                 rplos: Interface to the Search API for 'PLoS' Journals</span>
 <span class="co">#&gt; 42                      taxview: Tools for Vizualizing Data Taxonomically</span>
-<span class="co">#&gt; 43 treebase: Discovery, Access and Manipulation of 'TreeBASE' Phylogenies</span>
-<span class="co">#&gt; 44 treebase: Discovery, Access and Manipulation of 'TreeBASE' Phylogenies</span></code></pre></div>
+<span class="co">#&gt; 43                      taxview: Tools for Vizualizing Data Taxonomically</span>
+<span class="co">#&gt; 44 treebase: Discovery, Access and Manipulation of 'TreeBASE' Phylogenies</span>
+<span class="co">#&gt; 45 treebase: Discovery, Access and Manipulation of 'TreeBASE' Phylogenies</span></code></pre></div>
 </div>
   </div>
 

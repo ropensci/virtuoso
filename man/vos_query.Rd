@@ -32,7 +32,7 @@ DBI::dbGetQuery(con, "SPARQL SELECT * WHERE { ?s ?p ?o } LIMIT 4")
 }
 \references{
 \itemize{
-\item \url{https://www.wikipedia.org/SPARQL}
+\item \url{https://en.wikipedia.org/SPARQL}
 \item \url{https://ropensci.github.io/rdflib/articles/rdf_intro.html}
 }
 }

@@ -8,14 +8,14 @@
 #' but allows the use of variables to walk through graph nodes.
 #' @seealso [vos_start()], [vos_connect()]
 #' @references
-#' - <https://www.wikipedia.org/SPARQL>
+#' - <https://en.wikipedia.org/SPARQL>
 #' - <https://ropensci.github.io/rdflib/articles/rdf_intro.html>
 #'
 #' @examples
 #' \dontrun{
 #' vos_start()
 #' con <- vos_connect()
-#' 
+#'
 #' # show first 4 triples in the database
 #' DBI::dbGetQuery(con, "SPARQL SELECT * WHERE { ?s ?p ?o } LIMIT 4")
 #' }
