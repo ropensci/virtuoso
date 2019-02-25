@@ -6,6 +6,7 @@ testthat::setup(vos_start(wait = 120))
 
 test_that("We can connect, bulk load and query", {
   skip_on_cran()
+  skip_on_appveyor()
 
   ## We can access process handle independently
   p <- vos_process()
