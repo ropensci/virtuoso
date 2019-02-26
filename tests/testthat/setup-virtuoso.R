@@ -1,12 +1,13 @@
 
 
 testthat::setup({
-  message("Running one-time install of Virtuoso for tests...")
-  wait <- !has_virtuoso()
 
-  testthat::skip_on_cran()
-  vos_install(ask = FALSE)
+  if (identical(Sys.getenv("NOT_CRAN"), "true")){
 
-  if (wait) Sys.sleep(120)
+    message("Running one-time install of Virtuoso for tests...")
+    wait <- !has_virtuoso()
+    vos_install(ask = FALSE)
+    if (wait) Sys.sleep(120)
+  }
 
 })
