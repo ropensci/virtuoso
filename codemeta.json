@@ -268,7 +268,7 @@
     }
   ],
   "readme": "https://github.com/ropensci/virtuoso/blob/master/README.md",
-  "fileSize": "93.336KB",
+  "fileSize": "93.567KB",
   "contIntegration": [
     "https://travis-ci.org/cboettig/virtuoso",
     "https://ci.appveyor.com/project/cboettig/virtuoso",
