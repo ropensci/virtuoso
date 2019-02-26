@@ -35,7 +35,7 @@ database backend.
 Connect to a Virtuoso Server over ODBC
 }
 \details{
-Default parameters are approporiate for the automatic installer
+Default parameters are appropriate for the automatic installer
 provided by the package and for the default settings typically used by
 local Virtuoso installers.  Adjust these only if you are connecting to a
 remote virtuoso server that is not controlled from the R package.

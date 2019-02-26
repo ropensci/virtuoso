@@ -8,7 +8,7 @@
 #' @param port Port used by Virtuoso. Defaults to
 #'  the Virtuoso standard port, 1111
 #' @inheritParams vos_odbcinst
-#' @details Default parameters are approporiate for the automatic installer
+#' @details Default parameters are appropriate for the automatic installer
 #' provided by the package and for the default settings typically used by
 #' local Virtuoso installers.  Adjust these only if you are connecting to a
 #' remote virtuoso server that is not controlled from the R package.
@@ -27,7 +27,7 @@
 #' vos_start()
 #' con <- vos_connect()
 #' }
-#' 
+#'
 vos_connect <- function(driver = NULL,
                         uid = "dba",
                         pwd = "dba",
