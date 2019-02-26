@@ -2,14 +2,18 @@ context("test vos_query")
 
 testthat::setup({
 
-  skip_on_cran()
-  vos_start(wait = 120)
-  })
+  ## skip_on_cran() not applicable to setup blocks!
+  if (identical(Sys.getenv("NOT_CRAN"), "true")){
+    vos_start(wait = 120)
+  }
+
+})
 
 
 
 test_that("We can connect, bulk load and query", {
   skip_on_cran()
+  skip_on_appveyor()
 
   ## We can access process handle independently
   p <- vos_process()
