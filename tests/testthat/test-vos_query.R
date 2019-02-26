@@ -1,6 +1,10 @@
 context("test vos_query")
 
-testthat::setup(vos_start(wait = 120))
+testthat::setup({
+
+  skip_on_cran()
+  vos_start(wait = 120)
+  })
 
 
 
