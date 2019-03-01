@@ -22,6 +22,7 @@ SPARQL is a graph query language similar in syntax SQL,
 but allows the use of variables to walk through graph nodes.
 }
 \examples{
+vos_status()
 \donttest{
 if(has_virtuoso()){
 vos_start()

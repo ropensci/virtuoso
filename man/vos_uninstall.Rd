@@ -13,7 +13,8 @@ Automatic uninstaller for Mac OSX and Windows clients.
 \dontshow{
 vos_set_paths(home=tempdir())
 }
+\donttest{
 vos_uninstall()
-
+}
 
 }

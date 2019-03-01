@@ -12,6 +12,7 @@
 #' - <https://ropensci.github.io/rdflib/articles/rdf_intro.html>
 #'
 #' @examples
+#' vos_status()
 #' \donttest{
 #' if(has_virtuoso()){
 #' vos_start()

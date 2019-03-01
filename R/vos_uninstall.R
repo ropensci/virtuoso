@@ -7,8 +7,9 @@
 #' \dontshow{
 #' vos_set_paths(home=tempdir())
 #' }
+#' \donttest{
 #' vos_uninstall()
-#'
+#' }
 #'
 vos_uninstall <- function() {
   vos_set_path()

@@ -22,15 +22,14 @@
 #' database backend.
 #' @seealso [vos_install()], [vos_start()]
 #' @examples
+#' vos_status()
+#' \donttest{
 #' if(has_virtuoso()){
-#' \dontshow{
-#' virtuoso:::vos_test_paths()
-#' }
 #' ## start up
 #' vos_start()
 #' con <- vos_connect()
 #' }
-#'
+#' }
 vos_connect <- function(driver = NULL,
                         uid = "dba",
                         pwd = "dba",
