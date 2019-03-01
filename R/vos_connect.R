@@ -22,7 +22,7 @@
 #' database backend.
 #' @seealso [vos_install()], [vos_start()]
 #' @examples
-#' \dontrun{
+#' if(has_virtuoso()){
 #' ## start up
 #' vos_start()
 #' con <- vos_connect()

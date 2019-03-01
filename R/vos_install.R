@@ -16,9 +16,9 @@
 #' @export
 #' @importFrom processx run process
 #' @examples
-#' \dontrun{
+#' \dontshow{ if(has_virtuoso()) }
 #' vos_install()
-#' }
+#'
 vos_install <- function(ask = is_interactive(), use_brew = FALSE) {
 
   ## Windows & DMG installers do not persist path
@@ -44,6 +44,14 @@ vos_install <- function(ask = is_interactive(), use_brew = FALSE) {
   vos_odbcinst()
 }
 
+
+#' check for Virtuoso
+#'
+#' test if the system has a virtuoso installation on the path
+#' @return logical indicating if virtuoso-t binary was found or now.
+#' @examples
+#' has_virtuoso()
+#' @export
 has_virtuoso <- function() {
   file.exists(unname(Sys.which("virtuoso-t")))
 }

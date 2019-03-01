@@ -41,7 +41,7 @@ local Virtuoso installers.  Adjust these only if you are connecting to a
 remote virtuoso server that is not controlled from the R package.
 }
 \examples{
-\dontrun{
+if(has_virtuoso()){
 ## start up
 vos_start()
 con <- vos_connect()

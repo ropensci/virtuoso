@@ -12,7 +12,7 @@
 #' - <https://ropensci.github.io/rdflib/articles/rdf_intro.html>
 #'
 #' @examples
-#' \dontrun{
+#' if(has_virtuoso()){
 #' vos_start()
 #' con <- vos_connect()
 #'

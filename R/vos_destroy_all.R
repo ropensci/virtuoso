@@ -11,9 +11,12 @@
 #'  [FALSE] otherwise (invisibly).
 #' @export
 #' @examples
-#' \dontrun{
-#' vos_destroy_all()
+#'
+#' \dontshow{
+#' vos_set_paths(tempfile(), tempfile(), tempfile(), tempfile(), tempfile())
 #' }
+#' vos_destroy_all()
+#'
 vos_destroy_all <- function(force = FALSE) {
   s1 <- unlink(vos_db(), recursive = TRUE, force = force)
   s2 <- unlink(vos_cache(), recursive = TRUE, force = force)
