@@ -12,7 +12,7 @@ Authors@R: c(person("Carl", "Boettiger",
                     comment = c(ORCID = "0000-0002-0381-3766")))
 Description: Database interface to the 'Virtuoso' server. 'Virtuoso' is a 
              high-performance "universal server," which can act
-             as both a relational database, supporting standard Struqtured Query 
+             as both a relational database, supporting standard Structured Query 
              Language (SQL) queries, while also supporting data following the
              Resource Description Framework (RDF) model for Linked Data.
              RDF data can be queried using SPARQL (SPARQL Protocol and RDF Query Language)
