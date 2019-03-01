@@ -5,12 +5,12 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "virtuoso",
-  "description": "Database interface to the 'Virtuoso' server. 'Virtuoso' is a \n             high-performance \"universal server,\" which can act\n             as both a relational database, supporting standard Struqtured Query \n             Language (SQL) queries, while also supporting data following the\n             Resource Description Framework (RDF) model for Linked Data.\n             RDF data can be queried using SPARQL (SPARQL Protocol and RDF Query Language)\n             queries, a graph-based query that supports semantic reasoning. \n             The 'virtuoso' R package provides users with a simple and convenient\n             mechanism to manage and query a 'Virtuoso' database using the DBI (DataBase Interface)\n             compatible ODBC (Open Database Connectivity) interface. This allows users\n             to leverage the performance of local or remote 'Virtuoso' servers using\n             popular R packages such as 'DBI' and 'dplyr', while also providing a \n             high-performance solution for working with large RDF triplestores from R.\n             The package also provides helper routines to install, launch, and manage\n             a 'Virtuoso' server locally on Mac, Windows and Linux platforms using\n             the standard interactive installers from the R command-line.  By \n             automatically handling these setup steps, the package can make using 'Virtuoso'\n             considerably faster and easier for a most users to deploy in a local\n             environment. Managing the bulk import of triples\n             from common serializations with a single intuitive command is another key\n             feature of the 'virtuoso' R package.  Bulk import performance can be tens to\n             hundreds of times faster than the comparable imports using existing R tools,\n             including 'rdflib' and 'redland' packages.  ",
+  "description": "Provides users with a simple and convenient\n             mechanism to manage and query a 'Virtuoso' database using the DBI (DataBase Interface)\n             compatible ODBC (Open Database Connectivity) interface.\n             'Virtuoso' is a high-performance \"universal server,\" which can act\n             as both a relational database, supporting standard Structured Query\n             Language (SQL) queries, while also supporting data following the\n             Resource Description Framework (RDF) model for Linked Data.\n             RDF data can be queried using SPARQL (SPARQL Protocol and RDF Query Language)\n             queries, a graph-based query that supports semantic reasoning.\n             This allows users to leverage the performance of local or remote 'Virtuoso' servers using\n             popular R packages such as 'DBI' and 'dplyr', while also providing a \n             high-performance solution for working with large RDF triplestores from R.\n             The package also provides helper routines to install, launch, and manage\n             a 'Virtuoso' server locally on Mac, Windows and Linux platforms using\n             the standard interactive installers from the R command-line.  By \n             automatically handling these setup steps, the package can make using 'Virtuoso'\n             considerably faster and easier for a most users to deploy in a local\n             environment. Managing the bulk import of triples\n             from common serializations with a single intuitive command is another key\n             feature of the 'virtuoso' R package.  Bulk import performance can be tens to\n             hundreds of times faster than the comparable imports using existing R tools,\n             including 'rdflib' and 'redland' packages.  ",
   "name": "virtuoso: Interface to Virtuoso using ODBC",
   "codeRepository": "https://github.com/ropensci/virtuoso",
   "issueTracker": "https://github.com/ropensci/virtuoso/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -268,7 +268,7 @@
     }
   ],
   "readme": "https://github.com/ropensci/virtuoso/blob/master/README.md",
-  "fileSize": "93.917KB",
+  "fileSize": "95.082KB",
   "contIntegration": [
     "https://travis-ci.org/cboettig/virtuoso",
     "https://ci.appveyor.com/project/cboettig/virtuoso",
