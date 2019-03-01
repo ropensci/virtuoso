@@ -12,12 +12,15 @@
 #' - <https://ropensci.github.io/rdflib/articles/rdf_intro.html>
 #'
 #' @examples
-#' \dontrun{
+#' vos_status()
+#' \donttest{
+#' if(has_virtuoso()){
 #' vos_start()
 #' con <- vos_connect()
 #'
 #' # show first 4 triples in the database
 #' DBI::dbGetQuery(con, "SPARQL SELECT * WHERE { ?s ?p ?o } LIMIT 4")
+#' }
 #' }
 #' @export
 vos_query <- function(con, query) {

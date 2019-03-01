@@ -21,9 +21,14 @@ it does not remove any data stored in the database system.
 process id from the process table.
 }
 \examples{
-\dontrun{
-vos_start()
-vos_kill()
+if(has_virtuoso()){
+\dontshow{
+virtuoso:::vos_test_paths()
+}
+\donttest{
+  vos_start()
+  vos_kill()
+  }
 }
 }
 \seealso{

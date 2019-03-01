@@ -21,12 +21,14 @@
 #' systems.
 #'
 #' @examples
+#' \donttest{
 #' ## Configures ODBC and returns silently on success.
 #' vos_odbcinst()
-#' 
+#'
 #' ## see where the inst file is located:
 #' inst <- vos_odbcinst()
 #' inst
+#' }
 #' @export
 vos_odbcinst <-
   function(system_odbcinst = find_odbcinst(),

@@ -30,7 +30,6 @@ Query the server status
 Note: Use \code{\link[=vos_log]{vos_log()}} to see the full log
 }
 \examples{
-\dontrun{
 vos_status()
-}
+
 }

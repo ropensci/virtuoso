@@ -49,12 +49,17 @@
 #' @importFrom fs path_abs
 #' @export
 #' @examples
-#' \dontrun{
+#'
+#' vos_status()
+#'
+#' \donttest{
+#' if(has_virtuoso()){
 #' vos_start()
 #' con <- vos_connect()
-#' 
+#'
 #' example <- system.file("extdata", "person.nq", package = "virtuoso")
 #' vos_import(con, example)
+#' }
 #' }
 vos_import <- function(con,
                        files = NULL,

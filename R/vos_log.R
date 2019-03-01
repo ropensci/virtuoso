@@ -11,17 +11,13 @@
 #' @return Virtuoso logs as a character vector.
 #' @seealso [vos_start()]
 #' @examples
-#' \dontrun{
-#' vos_start()
 #' vos_log()
-#' 
-#' ## look only for any error messages:
-#' vos_log(just_errors = TRUE)
-#' }
+#'
 vos_log <- function(p = NA, collapse = NULL, just_errors = FALSE) {
   p <- vos_process(p)
   if (!inherits(p, "ps_handle")) return("")
   err_file <- file.path(vos_logdir(), "virtuoso.log")
+  if(!file.exists(err_file)) return("")
   log <- readLines(err_file)
 
   if (just_errors) {

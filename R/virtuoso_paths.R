@@ -1,3 +1,57 @@
+#' set Virtuoso paths
+#'
+#' Set the location of Virtuoso database, configure files,
+#' cache, and logs to your preferred location.  Set home
+#' to the location of your Virtuoso installation.
+#' @param db_dir Location of data in the Virtuoso (tables, triplestore)
+#' @param config_dir Location of configuration files for Virutoso
+#' @param cache_dir Location of cache for bulk importing
+#' @param log_dir Location of Virutoso Server logs
+#' @param home Location of the Virtuoso installation
+#' @return A logical vector, with elements being true
+#' if setting the corresponding variable succeeded
+#' (invisibly).
+#'
+#' @export
+#' @examples
+#' vos_set_paths()
+#'
+vos_set_paths <- function(db_dir = vos_db(),
+                         config_dir = vos_config(),
+                         cache_dir = vos_cache(),
+                         log_dir = vos_logdir(),
+                         home = virtuoso_home()
+){
+  Sys.setenv(VIRTUOSO_DB = db_dir, VIRTUOSO_CONFIG = config_dir,
+          VIRTUOSO_CACHE = cache_dir, VIRTUOSO_LOG = log_dir,
+          VIRTUOSO_HOME = home)
+}
+
+vos_test_paths <- function(){
+  x <- tempdir()
+  db <- file.path(x, "vos", "db")
+  config <- file.path(x, "vos", "config")
+  cache <- file.path(x, "vos", "cache")
+  log <- file.path(x, "vos", "log")
+
+  dir.create(db, FALSE, TRUE)
+  dir.create(config, FALSE, TRUE)
+  dir.create(cache, FALSE, TRUE)
+  dir.create(log, FALSE, TRUE)
+
+  vos_set_paths(db, config, cache, log)
+
+}
+
+#' unset all virtuoso paths
+vos_unset_paths <- function(){
+  Sys.unsetenv(c("VIRTUOSO_DB", "VIRTUOSO_CONFIG",
+               "VIRTUOSO_CACHE", "VIRTUOSO_LOG",
+               "VIRTUOSO_HOME"))
+}
+
+
+
 
 #' @importFrom rappdirs app_dir
 virtuoso_app <- rappdirs::app_dir("Virtuoso")
@@ -11,6 +65,7 @@ vos_db <- function(db_dir =
   dir.create(db_dir, FALSE, TRUE)
   db_dir
 }
+
 
 ## odbc config
 vos_config <- function(config_dir =

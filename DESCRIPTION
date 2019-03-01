@@ -1,7 +1,7 @@
 Package: virtuoso
 Type: Package
 Title: Interface to Virtuoso using ODBC
-Version: 0.1.2
+Version: 0.1.3
 Authors@R: c(person("Carl", "Boettiger", 
                   email = "cboettig@gmail.com", 
                   role = c("aut", "cre", "cph"),
@@ -10,17 +10,16 @@ Authors@R: c(person("Carl", "Boettiger",
                     role = "ctb", 
                     email = "brycemecum@gmail.com",
                     comment = c(ORCID = "0000-0002-0381-3766")))
-Description: Database interface to the 'Virtuoso' server. 'Virtuoso' is a 
-             high-performance "universal server," which can act
-             as both a relational database, supporting standard Structured Query 
+Description: Provides users with a simple and convenient
+             mechanism to manage and query a 'Virtuoso' database using the DBI (DataBase Interface)
+             compatible ODBC (Open Database Connectivity) interface.
+             'Virtuoso' is a high-performance "universal server," which can act
+             as both a relational database, supporting standard Structured Query
              Language (SQL) queries, while also supporting data following the
              Resource Description Framework (RDF) model for Linked Data.
              RDF data can be queried using SPARQL (SPARQL Protocol and RDF Query Language)
-             queries, a graph-based query that supports semantic reasoning. 
-             The 'virtuoso' R package provides users with a simple and convenient
-             mechanism to manage and query a 'Virtuoso' database using the DBI (DataBase Interface)
-             compatible ODBC (Open Database Connectivity) interface. This allows users
-             to leverage the performance of local or remote 'Virtuoso' servers using
+             queries, a graph-based query that supports semantic reasoning.
+             This allows users to leverage the performance of local or remote 'Virtuoso' servers using
              popular R packages such as 'DBI' and 'dplyr', while also providing a 
              high-performance solution for working with large RDF triplestores from R.
              The package also provides helper routines to install, launch, and manage

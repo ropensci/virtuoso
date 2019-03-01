@@ -23,9 +23,9 @@ by setting \code{use_brew=TRUE}. Linux users should simply install the
 package manager or by contacting your system administrator.
 }
 \examples{
-\dontrun{
+\dontshow{ if(has_virtuoso()) }
 vos_install()
-}
+
 }
 \seealso{
 \code{\link[=vos_start]{vos_start()}}, \code{\link[=vos_uninstall]{vos_uninstall()}}

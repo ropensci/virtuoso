@@ -20,11 +20,6 @@ Generally a user will not need to access this function directly,
 though it may be useful for debugging purposes.
 }
 \examples{
-\dontrun{
-
-vos_start()
-p <- vos_process()
-p
-}
+vos_process()
 
 }

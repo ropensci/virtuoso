@@ -4,14 +4,17 @@
 #' Automatic uninstaller for Mac OSX and Windows clients.
 #' @export
 #' @examples
-#' \dontrun{
+#' \dontshow{
+#' vos_set_paths(home=tempdir())
+#' }
+#' \donttest{
 #' vos_uninstall()
 #' }
-#' 
+#'
 vos_uninstall <- function() {
   vos_set_path()
   if (!has_virtuoso()) {
-    return(warning("Virtuoso installation not found", call. = FALSE))
+    return(message("Virtuoso installation not found", call. = FALSE))
   }
 
   ## Call the appropriate installer

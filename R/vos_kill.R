@@ -13,9 +13,14 @@
 #' @aliases vos_kill
 #' @importFrom ps ps_kill
 #' @examples
-#' \dontrun{
-#' vos_start()
-#' vos_kill()
+#' if(has_virtuoso()){
+#' \dontshow{
+#' virtuoso:::vos_test_paths()
+#' }
+#' \donttest{
+#'   vos_start()
+#'   vos_kill()
+#'   }
 #' }
 vos_kill <- function(p = NA) {
   status <- vos_status(p)

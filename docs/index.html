@@ -16,17 +16,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Interface to Virtuoso using ODBC">
-<meta property="og:description" content="Database interface to the 'Virtuoso' server. 'Virtuoso' is a 
-             high-performance &quot;universal server,&quot; which can act
-             as both a relational database, supporting standard Struqtured Query 
+<meta property="og:description" content="Provides users with a simple and convenient
+             mechanism to manage and query a 'Virtuoso' database using the DBI (DataBase Interface)
+             compatible ODBC (Open Database Connectivity) interface.
+             'Virtuoso' is a high-performance &quot;universal server,&quot; which can act
+             as both a relational database, supporting standard Structured Query
              Language (SQL) queries, while also supporting data following the
              Resource Description Framework (RDF) model for Linked Data.
              RDF data can be queried using SPARQL (SPARQL Protocol and RDF Query Language)
-             queries, a graph-based query that supports semantic reasoning. 
-             The 'virtuoso' R package provides users with a simple and convenient
-             mechanism to manage and query a 'Virtuoso' database using the DBI (DataBase Interface)
-             compatible ODBC (Open Database Connectivity) interface. This allows users
-             to leverage the performance of local or remote 'Virtuoso' servers using
+             queries, a graph-based query that supports semantic reasoning.
+             This allows users to leverage the performance of local or remote 'Virtuoso' servers using
              popular R packages such as 'DBI' and 'dplyr', while also providing a 
              high-performance solution for working with large RDF triplestores from R.
              The package also provides helper routines to install, launch, and manage
@@ -59,7 +58,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">virtuoso</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -140,9 +139,9 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Virtuoso is already installed.</span></a></code></pre></div>
 <p>We can now start our Virtuoso server from R:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="reference/vos_start.html">vos_start</a></span>()</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; PROCESS 'virtuoso-t', running, pid 44470.</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; PROCESS 'virtuoso-t', running, pid 60558.</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; Server is now starting up, this may take a few seconds...</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; latest log entry: 17:28:25 Server online at 1111 (pid 44470)</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; latest log entry: 10:36:45 Server online at 1111 (pid 60558)</span></a></code></pre></div>
 <p>Once the server is running, we can connect to the database.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">con &lt;-<span class="st"> </span><span class="kw"><a href="reference/vos_connect.html">vos_connect</a></span>()</a></code></pre></div>
 <p>Our connection is now live, and accepts SPARQL queries directly.</p>
@@ -208,7 +207,7 @@
 <a href="#server-controls" class="anchor"></a>Server controls</h2>
 <p>We can control any <code>virtuoso</code> server started with <code><a href="reference/vos_start.html">vos_start()</a></code> using a series of helper commands.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="reference/vos_status.html">vos_status</a></span>()</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; latest log entry: 17:28:27 PL LOG: No more files to load. Loader has finished,</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; latest log entry: 10:36:46 PL LOG: No more files to load. Loader has finished,</span></a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt; [1] "running"</span></a></code></pre></div>
 <p>Advanced usage note: <code><a href="reference/vos_start.html">vos_start()</a></code> invisibly returns a <code>processx</code> object which we can pass to other server control functions, or access the embedded <code>processx</code> control methods directly. The <code>virtuoso</code> package also caches this object in an environment so that it can be accessed directly without having to keep track of an object in the global environment. Use <code><a href="reference/vos_process.html">vos_process()</a></code> to return the <code>processx</code> object. For example:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ps)</a>
@@ -217,7 +216,7 @@
 <a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; [1] TRUE</span></a>
 <a class="sourceLine" id="cb13-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/ps/topics/ps_cpu_times">ps_cpu_times</a></span>(p)</a>
 <a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt;            user          system    childen_user children_system </span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt;        2.798689        0.343416              NA              NA</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt;       2.6763458       0.3772174              NA              NA</span></a>
 <a class="sourceLine" id="cb13-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/ps/topics/ps_suspend">ps_suspend</a></span>(p)</a>
 <a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; NULL</span></a>
 <a class="sourceLine" id="cb13-10" data-line-number="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/ps/topics/ps_resume">ps_resume</a></span>(p)</a>

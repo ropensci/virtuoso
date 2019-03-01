@@ -20,7 +20,10 @@ by virtuoso R package. This does not uninstall Virtuoso software
 itself, see \code{\link[=vos_uninstall]{vos_uninstall()}} to uninstall.
 }
 \examples{
-\dontrun{
-vos_destroy_all()
+
+\dontshow{
+virtuoso:::vos_test_paths()
 }
+vos_destroy_all()
+
 }
