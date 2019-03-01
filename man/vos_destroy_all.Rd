@@ -22,7 +22,7 @@ itself, see \code{\link[=vos_uninstall]{vos_uninstall()}} to uninstall.
 \examples{
 
 \dontshow{
-vos_set_paths(tempfile(), tempfile(), tempfile(), tempfile(), tempfile())
+virtuoso:::vos_test_paths()
 }
 vos_destroy_all()
 

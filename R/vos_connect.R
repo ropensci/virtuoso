@@ -23,6 +23,9 @@
 #' @seealso [vos_install()], [vos_start()]
 #' @examples
 #' if(has_virtuoso()){
+#' \dontshow{
+#' virtuoso:::vos_test_paths()
+#' }
 #' ## start up
 #' vos_start()
 #' con <- vos_connect()

@@ -34,11 +34,14 @@ virtuoso_cache <- new.env()
 #' @importFrom ps ps_pid
 #' @seealso [vos_install()]
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'
+#' if(has_virtuoso()){
 #' vos_start()
 #' ## or with custom config:
 #' vos_start(vos_configure(gigs_ram = 3))
+#'
+#' }
 #' }
 vos_start <- function(ini = NULL, wait = 30) {
 

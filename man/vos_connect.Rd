@@ -42,6 +42,9 @@ remote virtuoso server that is not controlled from the R package.
 }
 \examples{
 if(has_virtuoso()){
+\dontshow{
+virtuoso:::vos_test_paths()
+}
 ## start up
 vos_start()
 con <- vos_connect()

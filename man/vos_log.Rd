@@ -25,13 +25,8 @@ Virtuoso logs as a character vector.
 Query the server logs
 }
 \examples{
-\dontrun{
-vos_start()
 vos_log()
 
-## look only for any error messages:
-vos_log(just_errors = TRUE)
-}
 }
 \seealso{
 \code{\link[=vos_start]{vos_start()}}

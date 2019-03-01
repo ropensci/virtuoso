@@ -27,6 +27,22 @@ vos_set_paths <- function(db_dir = vos_db(),
           VIRTUOSO_HOME = home)
 }
 
+vos_test_paths <- function(){
+  x <- tempdir()
+  db <- file.path(x, "vos", "db")
+  config <- file.path(x, "vos", "config")
+  cache <- file.path(x, "vos", "cache")
+  log <- file.path(x, "vos", "log")
+
+  dir.create(db, FALSE, TRUE)
+  dir.create(config, FALSE, TRUE)
+  dir.create(cache, FALSE, TRUE)
+  dir.create(log, FALSE, TRUE)
+
+  vos_set_paths(db, config, cache, log)
+
+}
+
 #' unset all virtuoso paths
 vos_unset_paths <- function(){
   Sys.unsetenv(c("VIRTUOSO_DB", "VIRTUOSO_CONFIG",

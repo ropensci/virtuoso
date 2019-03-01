@@ -10,8 +10,10 @@ vos_uninstall()
 Automatic uninstaller for Mac OSX and Windows clients.
 }
 \examples{
-\dontrun{
-vos_uninstall()
+\dontshow{
+vos_set_paths(home=tempdir())
 }
+vos_uninstall()
+
 
 }

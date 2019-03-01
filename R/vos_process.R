@@ -8,13 +8,8 @@
 #' @importFrom ps ps_handle ps
 #' @export
 #' @examples
-#' \dontrun{
-#' 
-#' vos_start()
-#' p <- vos_process()
-#' p
-#' }
-#' 
+#' vos_process()
+#'
 vos_process <- function(p = NA) {
 
   ## p already is a handle to the process

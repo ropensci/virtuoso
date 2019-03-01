@@ -43,11 +43,14 @@ automatically attempt to configure one.  For more control over this,
 use \code{\link[=vos_configure]{vos_configure()}}, see examples.
 }
 \examples{
-\dontrun{
+\donttest{
 
+if(has_virtuoso()){
 vos_start()
 ## or with custom config:
 vos_start(vos_configure(gigs_ram = 3))
+
+}
 }
 }
 \seealso{
