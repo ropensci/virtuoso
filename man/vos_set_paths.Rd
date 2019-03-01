@@ -8,6 +8,17 @@ vos_set_paths(db_dir = vos_db(), config_dir = vos_config(),
   cache_dir = vos_cache(), log_dir = vos_logdir(),
   home = virtuoso_home())
 }
+\arguments{
+\item{db_dir}{Location of data in the Virtuoso (tables, triplestore)}
+
+\item{config_dir}{Location of configuration files for Virutoso}
+
+\item{cache_dir}{Location of cache for bulk importing}
+
+\item{log_dir}{Location of Virutoso Server logs}
+
+\item{home}{Location of the Virtuoso installation}
+}
 \value{
 A logical vector, with elements being true
 if setting the corresponding variable succeeded
