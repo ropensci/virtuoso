@@ -29,7 +29,7 @@ Description: Provides users with a simple and convenient
              considerably faster and easier for a most users to deploy in a local
              environment. Managing the bulk import of triples
              from common serializations with a single intuitive command is another key
-             feature of the 'virtuoso' R package.  Bulk import performance can be tens to
+             feature of this package.  Bulk import performance can be tens to
              hundreds of times faster than the comparable imports using existing R tools,
              including 'rdflib' and 'redland' packages.  
 License: MIT + file LICENSE
