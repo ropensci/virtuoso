@@ -7,7 +7,7 @@ output: github_document
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build status](https://travis-ci.org/ropensci/virtuoso.svg?branch=master)](https://travis-ci.org/ropensci/virtuoso)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/cboettig/virtuoso?branch=master&svg=true)](https://ci.appveyor.com/project/cboettig/virtuoso)
+[![Build status](https://ci.appveyor.com/api/projects/status/x5r18x1cvu6khksd/branch/master?svg=true)](https://ci.appveyor.com/project/cboettig/virtuoso/branch/master)
 [![Coverage status](https://codecov.io/gh/ropensci/virtuoso/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/virtuoso?branch=master)
 [![CRAN status](https://www.r-pkg.org/badges/version/virtuoso)](https://cran.r-project.org/package=virtuoso) 
 [![Peer review](http://badges.ropensci.org/271_status.svg)](https://github.com/ropensci/software-review/issues/271)

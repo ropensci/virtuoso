@@ -4,8 +4,8 @@
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build
 status](https://travis-ci.org/ropensci/virtuoso.svg?branch=master)](https://travis-ci.org/ropensci/virtuoso)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/cboettig/virtuoso?branch=master&svg=true)](https://ci.appveyor.com/project/cboettig/virtuoso)
+[![Build
+status](https://ci.appveyor.com/api/projects/status/x5r18x1cvu6khksd/branch/master?svg=true)](https://ci.appveyor.com/project/cboettig/virtuoso/branch/master)
 [![Coverage
 status](https://codecov.io/gh/ropensci/virtuoso/branch/master/graph/badge.svg)](https://codecov.io/github/ropensci/virtuoso?branch=master)
 [![CRAN
@@ -46,9 +46,9 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 29529.
+#> PROCESS 'virtuoso-t', running, pid 6291.
 #> Server is now starting up, this may take a few seconds...
-#> latest log entry: 22:10:30 Server online at 1111 (pid 29529)
+#> latest log entry: 18:57:56 Server online at 1111 (pid 6291)
 ```
 
 Once the server is running, we can connect to the database.
@@ -150,7 +150,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 22:10:31 PL LOG: No more files to load. Loader has finished,
+#> latest log entry: 18:57:58 PL LOG: No more files to load. Loader has finished,
 #> [1] "running"
 ```
 
@@ -169,7 +169,7 @@ ps_is_running(p)
 #> [1] TRUE
 ps_cpu_times(p)
 #>            user          system    childen_user children_system 
-#>       3.4115127       0.5192072              NA              NA
+#>       3.5994336       0.5744423              NA              NA
 ps_suspend(p)
 #> NULL
 ps_resume(p)
