@@ -12,3 +12,13 @@ vos_list_graphs(con)
 \description{
 List graphs
 }
+\examples{
+vos_status()
+\donttest{
+if(has_virtuoso()){
+vos_start()
+con <- vos_connect()
+vos_list_graphs(con)
+}
+}
+}
