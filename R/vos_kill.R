@@ -13,13 +13,12 @@
 #' @aliases vos_kill
 #' @importFrom ps ps_kill
 #' @examples
-#' if(has_virtuoso()){
-#' \dontshow{
-#' virtuoso:::vos_test_paths()
-#' }
 #' \donttest{
+#' if(has_virtuoso()){
+#'
 #'   vos_start()
 #'   vos_kill()
+#'
 #'   }
 #' }
 vos_kill <- function(p = NA) {

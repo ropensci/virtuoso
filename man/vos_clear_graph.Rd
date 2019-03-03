@@ -21,12 +21,14 @@ NOTE: after clearing a graph, re-running the bulk
 importer may refuse to re-import triples.
 }
 \examples{
-#' vos_status()
+vos_status()
 \donttest{
-if(has_virtuoso()){
+if( has_virtuoso() ){
+
 vos_start()
 con <- vos_connect()
 vos_clear_graph(con)
+
 }
 }
 }

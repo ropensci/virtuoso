@@ -11,9 +11,9 @@ Automatic uninstaller for Mac OSX and Windows clients.
 }
 \examples{
 \dontshow{
-vos_set_paths(home=tempdir())
+vos_test_paths()
 }
-\donttest{
+\dontrun{
 vos_uninstall()
 }
 
