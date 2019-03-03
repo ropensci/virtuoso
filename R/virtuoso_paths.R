@@ -4,7 +4,7 @@
 #' cache, and logs to your preferred location.  Set home
 #' to the location of your Virtuoso installation.
 #' @param db_dir Location of data in the Virtuoso (tables, triplestore)
-#' @param config_dir Location of configuration files for Virutoso
+#' @param config_dir Location of configuration files for Virtuoso
 #' @param cache_dir Location of cache for bulk importing
 #' @param log_dir Location of Virutoso Server logs
 #' @param home Location of the Virtuoso installation
