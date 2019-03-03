@@ -10,9 +10,6 @@ vos_uninstall()
 Automatic uninstaller for Mac OSX and Windows clients.
 }
 \examples{
-\dontshow{
-vos_test_paths()
-}
 \dontrun{
 vos_uninstall()
 }

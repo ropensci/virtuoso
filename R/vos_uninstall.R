@@ -4,9 +4,6 @@
 #' Automatic uninstaller for Mac OSX and Windows clients.
 #' @export
 #' @examples
-#' \dontshow{
-#' vos_test_paths()
-#' }
 #' \dontrun{
 #' vos_uninstall()
 #' }
