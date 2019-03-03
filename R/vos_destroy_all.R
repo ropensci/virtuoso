@@ -31,6 +31,13 @@ vos_destroy_all <- function(force = FALSE) {
 #' @param ask ask before deleting?
 #' @param db_dir location of the directory to delete
 #' @export
+#' @examples
+#'
+#' \dontshow{
+#' virtuoso:::vos_test_paths()
+#' }
+#' vos_delete_db()
+#'
 vos_delete_db <- function(ask = is_interactive(),
                           db_dir = vos_db()) {
   continue <- TRUE

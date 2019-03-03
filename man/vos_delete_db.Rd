@@ -14,3 +14,11 @@ vos_delete_db(ask = is_interactive(), db_dir = vos_db())
 \description{
 delete the entire Virtuoso database for a fresh start.
 }
+\examples{
+
+\dontshow{
+virtuoso:::vos_test_paths()
+}
+vos_delete_db()
+
+}

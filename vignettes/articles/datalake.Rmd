@@ -29,12 +29,18 @@ library(jsonld)
 # needed write_nquads().  Install using: install_github("cboettig/rdftools")
 library(rdftools) 
 ```
+Install virtuoso if not already present:
+
+```{r}
+vos_install()
+```
+
 
 # Tabular Data
 
 We start up our Virtuoso server, wait for it to come up, and then connect:
 
-```{r install}
+```{r }
 vos_start()
 ```
 

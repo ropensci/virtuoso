@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">virtuoso</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -104,6 +104,9 @@
       <a href="../articles/installation.html">Introduction: Virtuoso Installation and Configuration</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -171,13 +174,33 @@ in debugging or validating bulk imports.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='vos_start.html'>vos_start</a></span>()
-<span class='fu'>vos_log</span>()
-
-<span class='co'>## look only for any error messages:</span>
-<span class='fu'>vos_log</span>(<span class='kw'>just_errors</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='co'># }</span></pre>
+    <pre class="examples"><div class='input'><span class='fu'>vos_log</span>()</div><div class='output co'>#&gt;  [1] ""                                                                            
+#&gt;  [2] "\t\tSat Mar 02 2019"                                                         
+#&gt;  [3] "15:40:27 { Loading plugin 1: Type `plain', file `wikiv' in `../hosting'"     
+#&gt;  [4] "15:40:27   FAILED  plugin 1: Unable to locate file }"                        
+#&gt;  [5] "15:40:27 { Loading plugin 2: Type `plain', file `mediawiki' in `../hosting'" 
+#&gt;  [6] "15:40:27   FAILED  plugin 2: Unable to locate file }"                        
+#&gt;  [7] "15:40:27 { Loading plugin 3: Type `plain', file `creolewiki' in `../hosting'"
+#&gt;  [8] "15:40:27   FAILED  plugin 3: Unable to locate file }"                        
+#&gt;  [9] "15:40:27 { Loading plugin 4: Type `plain', file `im' in `../hosting'"        
+#&gt; [10] "15:40:27   FAILED  plugin 4: Unable to locate file }"                        
+#&gt; [11] "15:40:27 { Loading plugin 5: Type `plain', file `wbxml2' in `../hosting'"    
+#&gt; [12] "15:40:27   FAILED  plugin 5: Unable to locate file }"                        
+#&gt; [13] "15:40:27 OpenLink Virtuoso Universal Server"                                 
+#&gt; [14] "15:40:27 Version 07.20.3229-pthreads for Darwin as of Aug 15 2018"           
+#&gt; [15] "15:40:27 uses parts of OpenSSL, PCRE, Html Tidy"                             
+#&gt; [16] "15:40:27 Database version 3126"                                              
+#&gt; [17] "15:40:27 SQL Optimizer enabled (max 1000 layouts)"                           
+#&gt; [18] "15:40:28 Compiler unit is timed at 0.000208 msec"                            
+#&gt; [19] "15:40:29 Roll forward started"                                               
+#&gt; [20] "15:40:29     3 transactions, 185 bytes replayed (100 %)"                     
+#&gt; [21] "15:40:29 Roll forward complete"                                              
+#&gt; [22] "15:40:30 PL LOG: Can't get list of vad packages in ../vad/"                  
+#&gt; [23] "15:40:30 Checkpoint started"                                                 
+#&gt; [24] "15:40:30 Checkpoint finished, log reused"                                    
+#&gt; [25] "15:40:32 HTTP/WebDAV server online at 8890"                                  
+#&gt; [26] "15:40:32 Server online at 1111 (pid 60259)"                                  </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -200,7 +223,7 @@ in debugging or validating bulk imports.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
 </div>
       </footer>
    </div>

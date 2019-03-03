@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • virtuoso</title>
+<title>set Virtuoso paths — vos_set_paths • virtuoso</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -37,7 +37,11 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="set Virtuoso paths — vos_set_paths" />
+
+<meta property="og:description" content="Set the location of Virtuoso database, configure files,
+cache, and logs to your preferred location.  Set home
+to the location of your Virtuoso installation." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -57,7 +61,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -125,144 +129,70 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>set Virtuoso paths</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ropensci/virtuoso/blob/master/R/virtuoso_paths.R'><code>R/virtuoso_paths.R</code></a></small>
+    <div class="hidden name"><code>vos_set_paths.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>Set the location of Virtuoso database, configure files,
+cache, and logs to your preferred location.  Set home
+to the location of your Virtuoso installation.</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="has_virtuoso.html">has_virtuoso()</a></code> </p>
-        </td>
-        <td><p>check for Virtuoso</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_clear_graph.html">vos_clear_graph()</a></code> </p>
-        </td>
-        <td><p>Clear all triples from a graph</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_configure.html">vos_configure()</a></code> </p>
-        </td>
-        <td><p>Configure Virtuoso Server ini file</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_connect.html">vos_connect()</a></code> </p>
-        </td>
-        <td><p>Connect to a Virtuoso Server over ODBC</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_delete_db.html">vos_delete_db()</a></code> </p>
-        </td>
-        <td><p>Delete Virtuoso Database</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_destroy_all.html">vos_destroy_all()</a></code> </p>
-        </td>
-        <td><p>Destroy all Virtuoso's directories</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_import.html">vos_import()</a></code> </p>
-        </td>
-        <td><p>Bulk Import of RDF triples</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_install.html">vos_install()</a></code> </p>
-        </td>
-        <td><p>Helper method for installing Virtuoso Server</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_kill.html">vos_kill()</a></code> </p>
-        </td>
-        <td><p>Stop (kill) the Virtuoso server</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_list_graphs.html">vos_list_graphs()</a></code> </p>
-        </td>
-        <td><p>List graphs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_log.html">vos_log()</a></code> </p>
-        </td>
-        <td><p>Query the server logs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_odbcinst.html">vos_odbcinst()</a></code> </p>
-        </td>
-        <td><p>Configure the ODBC Driver for Virtuoso</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_process.html">vos_process()</a></code> </p>
-        </td>
-        <td><p>Return a handle to an existing Virtuoso Process</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_query.html">vos_query()</a></code> </p>
-        </td>
-        <td><p>Run a SPARQL query</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_set_paths.html">vos_set_paths()</a></code> </p>
-        </td>
-        <td><p>set Virtuoso paths</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_start.html">vos_start()</a></code> </p>
-        </td>
-        <td><p>Start a Virtuoso Server</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_status.html">vos_status()</a></code> </p>
-        </td>
-        <td><p>Query the server status</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="vos_uninstall.html">vos_uninstall()</a></code> </p>
-        </td>
-        <td><p>Uninstall Virtuoso</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>vos_set_paths</span>(<span class='kw'>db_dir</span> <span class='kw'>=</span> <span class='fu'>vos_db</span>(), <span class='kw'>config_dir</span> <span class='kw'>=</span> <span class='fu'>vos_config</span>(),
+  <span class='kw'>cache_dir</span> <span class='kw'>=</span> <span class='fu'>vos_cache</span>(), <span class='kw'>log_dir</span> <span class='kw'>=</span> <span class='fu'>vos_logdir</span>(),
+  <span class='kw'>home</span> <span class='kw'>=</span> <span class='fu'>virtuoso_home</span>())</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>db_dir</th>
+      <td><p>Location of data in the Virtuoso (tables, triplestore)</p></td>
+    </tr>
+    <tr>
+      <th>config_dir</th>
+      <td><p>Location of configuration files for Virutoso</p></td>
+    </tr>
+    <tr>
+      <th>cache_dir</th>
+      <td><p>Location of cache for bulk importing</p></td>
+    </tr>
+    <tr>
+      <th>log_dir</th>
+      <td><p>Location of Virutoso Server logs</p></td>
+    </tr>
+    <tr>
+      <th>home</th>
+      <td><p>Location of the Virtuoso installation</p></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>A logical vector, with elements being true
+if setting the corresponding variable succeeded
+(invisibly).</p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>vos_set_paths</span>()</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
   </div>
 </div>
 

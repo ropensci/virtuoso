@@ -43,7 +43,7 @@ vos_test_paths <- function(){
 
 }
 
-#' unset all virtuoso paths
+# unset all virtuoso paths
 vos_unset_paths <- function(){
   Sys.unsetenv(c("VIRTUOSO_DB", "VIRTUOSO_CONFIG",
                "VIRTUOSO_CACHE", "VIRTUOSO_LOG",
