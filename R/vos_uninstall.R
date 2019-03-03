@@ -4,10 +4,7 @@
 #' Automatic uninstaller for Mac OSX and Windows clients.
 #' @export
 #' @examples
-#' \dontshow{
-#' vos_set_paths(home=tempdir())
-#' }
-#' \donttest{
+#' \dontrun{
 #' vos_uninstall()
 #' }
 #'

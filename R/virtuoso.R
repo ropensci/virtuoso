@@ -7,14 +7,13 @@
 #' importer may refuse to re-import triples.
 #' @inheritParams vos_import
 #' @examples
-#' #' vos_status()
+#' vos_status()
 #' \donttest{
 #' if(has_virtuoso()){
 #' vos_start()
 #' con <- vos_connect()
 #' vos_clear_graph(con)
-#' }
-#' }
+#' }}
 vos_clear_graph <- function(con, graph = "rdflib") {
   DBI::dbGetQuery(con, paste0("SPARQL CLEAR GRAPH <", graph, ">"))
 }
@@ -32,8 +31,8 @@ vos_clear_graph <- function(con, graph = "rdflib") {
 #' vos_start()
 #' con <- vos_connect()
 #' vos_list_graphs(con)
-#' }
-#' }
+#'
+#' }}
 vos_list_graphs <- function(con) {
   DBI::dbGetQuery(
     con,
