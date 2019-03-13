@@ -14,6 +14,7 @@
 #' con <- vos_connect()
 #' vos_clear_graph(con)
 #' }}
+#' @noRd
 vos_clear_graph <- function(con, graph = "rdflib") {
   DBI::dbGetQuery(con, paste0("SPARQL CLEAR GRAPH <", graph, ">"))
 }

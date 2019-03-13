@@ -11,7 +11,7 @@ vos_set_paths(db_dir = vos_db(), config_dir = vos_config(),
 \arguments{
 \item{db_dir}{Location of data in the Virtuoso (tables, triplestore)}
 
-\item{config_dir}{Location of configuration files for Virutoso}
+\item{config_dir}{Location of configuration files for Virtuoso}
 
 \item{cache_dir}{Location of cache for bulk importing}
 
