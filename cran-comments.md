@@ -9,7 +9,7 @@ and I have added single quotes around software names and 'API' names as requeste
 - I affirm that the package only writes to locations that the user specifies.  
 - I have avoided the dontrun tests, using donttest where examples may take longer than 5 seconds, 
   while allowing other tests to run where appropriate.
-- Now every function includes an example in the documentation. 
+- Now every (exported) function includes an example in the documentation. 
 
 My apologies for these issues and thanks for your patience and your service to our community!
 
