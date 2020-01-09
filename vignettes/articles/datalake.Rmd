@@ -1,0 +1,216 @@
+---
+title: "The Data Lake: Schema on Read"
+author: "Carl Boettiger"
+date: "2020-01-09"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{datalake}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+
+
+
+
+```r
+library(virtuoso)
+library(dplyr)
+library(nycflights13)
+library(jsonld)
+
+
+# needed write_nquads().  Install using: install_github("cboettig/rdftools")
+library(rdftools) 
+```
+Install virtuoso if not already present:
+
+
+```r
+vos_install()
+#> Virtuoso is already installed.
+```
+
+
+# Tabular Data
+
+We start up our Virtuoso server, wait for it to come up, and then connect:
+
+
+```r
+vos_start()
+#> Virtuoso is already running with pid: 3647
+```
+
+
+```r
+con <- vos_connect()
+```
+
+
+We can represent any data as RDF with a little care.  For instance, consider the `nycflights13` data. First, we must represent any primary or foreign keys in any table as URIs, indicated by a prefix, and not by bare strings:
+
+
+```r
+uri_flights <- flights %>% 
+  mutate(tailnum = paste0("planes:", tailnum),
+         carrier = paste0("airlines:", carrier))
+```
+
+We write the `data.frame`s out as nquads.  Recall that each cell of a `data.frame` can be represented as a triple, in which the column is the predicate, the primary key (or row number) the subject, and the cell value the object.  We turn column names and primary keys into URIs using a prefix based on the table name. 
+
+
+```r
+write_nquads(airlines,  "airlines.nq", key = "carrier", prefix = "airlines:")
+write_nquads(planes,  "planes.nq", key = "tailnum", prefix = "planes:")
+write_nquads(uri_flights,  "flights.nq", prefix = "flights:")
+```
+
+We're ready to import all these triples.  This may take a few minutes:
+
+
+
+```r
+system.time(
+  vos_import(con, c("flights.nq", "planes.nq", "airlines.nq"))
+)
+#>    user  system elapsed 
+#>   0.024   0.037 163.698
+```
+
+
+The data from all three tables is now reduced into a single triplestore graph, one triple for each data point. Rather than joining tables, we can write SPARQL query that names the columns we want.
+
+
+
+
+```r
+query <- 
+'SELECT  ?carrier ?name ?manufacturer ?model ?dep_delay
+WHERE {
+?flight <flights:tailnum>  ?tailnum .
+?flight <flights:carrier>  ?carrier .
+?flight <flights:dep_delay>  ?dep_delay .
+?tailnum <planes:manufacturer> ?manufacturer .
+?tailnum <planes:model> ?model .
+?carrier <airlines:name> ?name
+}'
+
+system.time(
+df <- vos_query(con, query)
+)
+#>    user  system elapsed 
+#>   1.174   0.037   4.393
+
+head(df)
+#>       carrier                     name manufacturer     model dep_delay
+#> 1 airlines:EV ExpressJet Airlines Inc.      EMBRAER EMB-145XR        -6
+#> 2 airlines:EV ExpressJet Airlines Inc.      EMBRAER EMB-145XR        14
+#> 3 airlines:EV ExpressJet Airlines Inc.      EMBRAER EMB-145XR         2
+#> 4 airlines:EV ExpressJet Airlines Inc.      EMBRAER EMB-145XR        -7
+#> 5 airlines:EV ExpressJet Airlines Inc.      EMBRAER EMB-145XR       -10
+#> 6 airlines:EV ExpressJet Airlines Inc.      EMBRAER EMB-145XR        -7
+```
+
+
+# List Data
+
+
+
+
+Transform JSON (or list data) into triples.  In this case, we have a large JSON blob (or R list)
+containing metadata on all rOpenSci packages:
+
+
+```r
+download.file("https://raw.githubusercontent.com/ropensci/roregistry/gh-pages/raw_cm.json", "raw_cm.json")
+nq <- jsonld::jsonld_to_rdf("raw_cm.json") # drops implicit URIs if not base URIs
+writeLines(nq, gzfile("ro.nq.gz"))
+```
+
+
+
+And bulk-import
+
+
+```r
+vos_import(con, "ro.nq.gz")
+```
+
+Find all packages where "Carl Boettiger" is an "author", and return:
+package name, license, and co-author surnames: 
+
+
+```r
+query <-
+"PREFIX schema: <http://schema.org/>
+SELECT DISTINCT ?coauthor  ?license ?package 
+ WHERE {
+ ?s schema:name ?package ;
+    schema:author ?author ;
+    schema:license ?license ;
+    schema:author ?coauth .
+ ?author schema:givenName 'Carl' .
+ ?author schema:familyName 'Boettiger' .
+ ?coauth schema:familyName ?coauthor
+}"
+
+vos_query(con, query) %>% distinct() %>%
+mutate(license = basename(license), package = basename(package)) # Tidy up URIs into names
+#>       coauthor      license                                                                package
+#> 1    Boettiger          MIT                               emld: Ecological Metadata as Linked Data
+#> 2    Boettiger          MIT      ramlegacy: Download and Read RAM Legacy Stock Assessment Database
+#> 3        Gupta          MIT      ramlegacy: Download and Read RAM Legacy Stock Assessment Database
+#> 4         Lapp BSD-3-Clause                                               O for the 'NeXML' Format
+#> 5          Vos BSD-3-Clause                                               O for the 'NeXML' Format
+#> 6    Boettiger BSD-3-Clause                                               O for the 'NeXML' Format
+#> 7  Chamberlain BSD-3-Clause                                               O for the 'NeXML' Format
+#> 8   Shumelchyk BSD-3-Clause                                               O for the 'NeXML' Format
+#> 9    Boettiger          MIT                arkdb: Archive and Unarchive Databases Using Flat Files
+#> 10   Boettiger      GPL-3.0                 codemetar: Generate 'CodeMeta' Metadata for R Packages
+#> 11      Salmon      GPL-3.0                 codemetar: Generate 'CodeMeta' Metadata for R Packages
+#> 12   Boettiger          MIT                 EML: Read and Write Ecological Metadata Language Files
+#> 13       Jones          MIT                 EML: Read and Write Ecological Metadata Language Files
+#> 14   Boettiger      GPL-3.0                 piggyback: Managing Larger Data on a GitHub Repository
+#> 15   Boettiger          MIT                    rdflib: Tools to Manipulate and Query Semantic Data
+#> 16   Boettiger          MIT                                  rdryad: Access for Dryad Web Services
+#> 17 Chamberlain          MIT                                  rdryad: Access for Dryad Web Services
+#> 18         Ram          MIT                                  rdryad: Access for Dryad Web Services
+#> 19   Boettiger      CC0-1.0                                rfigshare: An R Interface to 'figshare'
+#> 20 Chamberlain      CC0-1.0                                rfigshare: An R Interface to 'figshare'
+#> 21        Hart      CC0-1.0                                rfigshare: An R Interface to 'figshare'
+#> 22         Ram      CC0-1.0                                rfigshare: An R Interface to 'figshare'
+#> 23   Boettiger      CC0-1.0                                   rfishbase: R Interface to 'FishBase'
+#> 24 Chamberlain      CC0-1.0                                   rfishbase: R Interface to 'FishBase'
+#> 25 Temple Lang      CC0-1.0                                   rfishbase: R Interface to 'FishBase'
+#> 26  Wainwright      CC0-1.0                                   rfishbase: R Interface to 'FishBase'
+#> 27   Boettiger          MIT                         virtuoso: Interface to 'Virtuoso' using 'ODBC'
+#> 28   Boettiger          MIT           datasauce: Create and manipulate Schema.org Dataset metadata
+#> 29 Chamberlain          MIT           datasauce: Create and manipulate Schema.org Dataset metadata
+#> 30 Chamberlain          MIT                        rcrossref: Client for Various 'CrossRef' 'APIs'
+#> 31         Zhu          MIT                        rcrossref: Client for Various 'CrossRef' 'APIs'
+#> 32        Jahn          MIT                        rcrossref: Client for Various 'CrossRef' 'APIs'
+#> 33   Boettiger          MIT                        rcrossref: Client for Various 'CrossRef' 'APIs'
+#> 34         Ram          MIT                        rcrossref: Client for Various 'CrossRef' 'APIs'
+#> 35         Ram          MIT      rfisheries: Programmatic Interface to the 'openfisheries.org' API
+#> 36   Boettiger          MIT      rfisheries: Programmatic Interface to the 'openfisheries.org' API
+#> 37        Dyck          MIT      rfisheries: Programmatic Interface to the 'openfisheries.org' API
+#> 38   Boettiger      CC0-1.0          rgpdd: R Interface to the Global Population Dynamics Database
+#> 39       Harte      CC0-1.0          rgpdd: R Interface to the Global Population Dynamics Database
+#> 40 Chamberlain      CC0-1.0          rgpdd: R Interface to the Global Population Dynamics Database
+#> 41         Ram      CC0-1.0          rgpdd: R Interface to the Global Population Dynamics Database
+#> 42 Chamberlain          MIT                 rplos: Interface to the Search API for 'PLoS' Journals
+#> 43   Boettiger          MIT                 rplos: Interface to the Search API for 'PLoS' Journals
+#> 44         Ram          MIT                 rplos: Interface to the Search API for 'PLoS' Journals
+#> 45 Chamberlain          MIT                      taxview: Tools for Vizualizing Data Taxonomically
+#> 46   Boettiger          MIT                      taxview: Tools for Vizualizing Data Taxonomically
+#> 47   Boettiger      CC0-1.0 treebase: Discovery, Access and Manipulation of 'TreeBASE' Phylogenies
+#> 48 Temple Lang      CC0-1.0 treebase: Discovery, Access and Manipulation of 'TreeBASE' Phylogenies
+```
+
+
+
+
+
+
