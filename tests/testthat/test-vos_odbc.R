@@ -8,6 +8,8 @@ test_that("We can detect ODBC drivers", {
 })
 
 test_that("We can find odbcinst.ini file", {
+  skip_on_os("solaris")
+
   path <- virtuoso:::find_odbcinst()
   expect_is(path, "character")
   expect_gt(length(path), 0)
@@ -16,6 +18,8 @@ test_that("We can find odbcinst.ini file", {
 })
 
 test_that("We can generate an odbcinst file", {
+  skip_on_os("solaris")
+
   path <- virtuoso:::vos_odbcinst()
   expect_is(path, "character")
   expect_gt(length(path), 0)
@@ -26,6 +30,8 @@ test_that("We can generate an odbcinst file", {
 })
 
 test_that("We can detect ODBC drivers in other OSs", {
+  skip_on_os("solaris")
+
   suppressWarnings({ # Ignore warnings from running on other OSs
     path <- virtuoso:::find_odbc_driver("windows")
     expect_is(path, "character")

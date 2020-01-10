@@ -13,6 +13,8 @@ test_that("we can guess extension", {
 })
 
 test_that("assert allowed dirs exits if server not connected ", {
+  skip_on_os("solaris")
+
   skip_if(!is.null(suppressMessages(vos_status())))
 
   expect_warning(
