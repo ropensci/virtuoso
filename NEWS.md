@@ -1,3 +1,7 @@
+# virtuoso 0.1.4
+
+* testing compatibility for Solaris platforms (for CRAN)
+
 # virtuoso 0.1.3
 
 * tweaks to testing and examples for CRAN
