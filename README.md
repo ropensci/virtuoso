@@ -46,9 +46,7 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> PROCESS 'virtuoso-t', running, pid 6291.
-#> Server is now starting up, this may take a few seconds...
-#> latest log entry: 18:57:56 Server online at 1111 (pid 6291)
+#> Virtuoso is already running with pid: 11624
 ```
 
 Once the server is running, we can connect to the database.
@@ -108,23 +106,32 @@ message is returned:
 ``` r
 bad_file <- system.file("extdata", "bad_quads.nq", package = "virtuoso")
 vos_import(con, bad_file)
-#> Error: Error importing: bad_quads.nq 37000 [Vectorized Turtle loader] SP029: NQuads RDF loader, line 2: Undefined namespace prefix at ITIS:1000000
+#> Error: Error importing: bad_quads.nq 37000 SP029: NQuads RDF loader, line 2: Undefined namespace prefix at ITIS:1000000
 ```
 
 We can now query the imported data using SPARQL.
 
 ``` r
-vos_query(con, 
+df <- vos_query(con, 
 "SELECT ?p ?o 
  WHERE { ?s ?p ?o .
         ?s a <http://schema.org/Person>
        }")
-#>                                                 p                        o
-#> 1 http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://schema.org/Person
-#> 2                          http://schema.org/name                 Jane Doe
-#> 3                      http://schema.org/jobTitle                Professor
-#> 4                     http://schema.org/telephone           (425) 123-4567
-#> 5                           http://schema.org/url   http://www.janedoe.com
+head(df)
+#>                                                 p
+#> 1 http://www.w3.org/1999/02/22-rdf-syntax-ns#type
+#> 2                         http://schema.org/email
+#> 3                    http://schema.org/familyName
+#> 4                     http://schema.org/givenName
+#> 5 http://www.w3.org/1999/02/22-rdf-syntax-ns#type
+#> 6                         http://schema.org/email
+#>                                   o
+#> 1          http://schema.org/Person
+#> 2             blake.seers@gmail.com
+#> 3                             Seers
+#> 4                             Blake
+#> 5          http://schema.org/Person
+#> 6 hajk-georg.drost@tuebingen.mpg.de
 ```
 
 ``` r
@@ -150,8 +157,8 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 18:57:58 PL LOG: No more files to load. Loader has finished,
-#> [1] "running"
+#> latest log entry: 19:11:55 PL LOG: No more files to load. Loader has finished,
+#> [1] "sleeping"
 ```
 
 Advanced usage note: `vos_start()` invisibly returns a `processx` object
@@ -169,7 +176,7 @@ ps_is_running(p)
 #> [1] TRUE
 ps_cpu_times(p)
 #>            user          system    childen_user children_system 
-#>       3.5994336       0.5744423              NA              NA
+#>            2.36            0.32            0.00            0.00
 ps_suspend(p)
 #> NULL
 ps_resume(p)
@@ -188,8 +195,9 @@ Please see the package vignettes for more information:
 -----
 
 Please note that the `virtuoso` R package is released with a
-[Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to
-this project, you agree to abide by its
+[Contributor Code of
+Conduct](https://docs.ropensci.org/virtuoso/CODE_OF_CONDUCT.html). By
+contributing to this project, you agree to abide by its
 terms.
 
 [![ropensci\_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
