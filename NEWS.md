@@ -1,3 +1,7 @@
+# virtuoso 0.1.5
+
+* update documentation links
+
 # virtuoso 0.1.4
 
 * testing compatibility for Solaris platforms (for CRAN)
