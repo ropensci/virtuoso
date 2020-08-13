@@ -33,7 +33,7 @@ Description: Provides users with a simple and convenient
              hundreds of times faster than the comparable imports using existing 'R' tools,
              including 'rdflib' and 'redland' packages.  
 License: MIT + file LICENSE
-URL: https://github.com/ropensci/virtuoso (devel), https://docs.ropensci.org/virtuoso/ (docs)
+URL: https://github.com/ropensci/virtuoso
 BugReports: https://github.com/ropensci/virtuoso/issues
 Encoding: UTF-8
 LazyData: true
@@ -61,3 +61,4 @@ Suggests:
     spelling
 VignetteBuilder: knitr
 Language: en-US
+SystemRequirements: virtuoso-opensource (Linux). For Mac & Windows, this package can automate Virtuoso installation.
