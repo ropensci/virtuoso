@@ -4,8 +4,10 @@
 \alias{vos_odbcinst}
 \title{Configure the ODBC Driver for Virtuoso}
 \usage{
-vos_odbcinst(system_odbcinst = find_odbcinst(),
-  local_odbcinst = odbcinst_path())
+vos_odbcinst(
+  system_odbcinst = find_odbcinst(),
+  local_odbcinst = odbcinst_path()
+)
 }
 \arguments{
 \item{system_odbcinst}{Path to the system \code{odbcinst.ini} file. (Does not

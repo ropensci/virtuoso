@@ -4,9 +4,13 @@
 \alias{vos_set_paths}
 \title{set Virtuoso paths}
 \usage{
-vos_set_paths(db_dir = vos_db(), config_dir = vos_config(),
-  cache_dir = vos_cache(), log_dir = vos_logdir(),
-  home = virtuoso_home())
+vos_set_paths(
+  db_dir = vos_db(),
+  config_dir = vos_config(),
+  cache_dir = vos_cache(),
+  log_dir = vos_logdir(),
+  home = virtuoso_home()
+)
 }
 \arguments{
 \item{db_dir}{Location of data in the Virtuoso (tables, triplestore)}

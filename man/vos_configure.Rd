@@ -4,8 +4,12 @@
 \alias{vos_configure}
 \title{Configure Virtuoso Server ini file}
 \usage{
-vos_configure(dirs_allowed = getwd(), gigs_ram = 2,
-  template = find_virtuoso_ini(), db_dir = vos_db())
+vos_configure(
+  dirs_allowed = getwd(),
+  gigs_ram = 2,
+  template = find_virtuoso_ini(),
+  db_dir = vos_db()
+)
 }
 \arguments{
 \item{dirs_allowed}{Paths (relative or absolute) to directories from which

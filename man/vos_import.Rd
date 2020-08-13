@@ -4,8 +4,14 @@
 \alias{vos_import}
 \title{Bulk Import of RDF triples}
 \usage{
-vos_import(con, files = NULL, wd = ".", glob = "*",
-  graph = "rdflib", n_cores = 1L)
+vos_import(
+  con,
+  files = NULL,
+  wd = ".",
+  glob = "*",
+  graph = "rdflib",
+  n_cores = 1L
+)
 }
 \arguments{
 \item{con}{a ODBC connection to Virtuoso, from \code{\link[=vos_connect]{vos_connect()}}}
