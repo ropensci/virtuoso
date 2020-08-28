@@ -35,6 +35,11 @@ vos_configure <- function(dirs_allowed = getwd(),
                           gigs_ram = 2,
                           template = find_virtuoso_ini(),
                           db_dir = vos_db()) {
+
+  if(!file.exists(template)){
+    warning("Exiting, virtuoso template not found... is virtuoso installed?")
+    return(invisible(NULL))
+  }
   dir.create(db_dir, FALSE)
 
   DirsAllowed <- paste(unique(

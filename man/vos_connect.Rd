@@ -4,9 +4,15 @@
 \alias{vos_connect}
 \title{Connect to a Virtuoso Server over ODBC}
 \usage{
-vos_connect(driver = NULL, uid = "dba", pwd = "dba",
-  host = "localhost", port = "1111",
-  system_odbcinst = find_odbcinst(), local_odbcinst = odbcinst_path())
+vos_connect(
+  driver = NULL,
+  uid = "dba",
+  pwd = "dba",
+  host = "localhost",
+  port = "1111",
+  system_odbcinst = find_odbcinst(),
+  local_odbcinst = odbcinst_path()
+)
 }
 \arguments{
 \item{driver}{Name of the Driver line in the ODBC configuration}

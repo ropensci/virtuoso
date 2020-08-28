@@ -14,10 +14,12 @@ test_that("We can download the windows installer", {
 
 test_that("We can set the correct paths", {
   skip_on_cran()
+
   # skip_on_os("linux")
   # skip_on_os("mac")
 
   virtuoso:::vos_set_path()
+  skip_if_not(has_virtuoso())
   expect_true(has_virtuoso())
 })
 
@@ -25,6 +27,7 @@ test_that("We can set the correct paths", {
 test_that("We get errors running windows installer on non-windows", {
   skip_on_cran()
   skip_on_os("windows")
+
   expect_error(virtuoso:::vos_install_windows(ask = FALSE))
   expect_error(vos_uninstall_windows())
 })

@@ -4,6 +4,7 @@ testthat::setup({
 
   ## skip_on_cran() not applicable to setup blocks!
   if (identical(Sys.getenv("NOT_CRAN"), "true")){
+    if(has_virtuoso())
     vos_start(wait = 120)
   }
 
@@ -14,6 +15,7 @@ testthat::setup({
 test_that("We can connect, bulk load and query", {
   skip_on_cran()
   skip_on_appveyor()
+  skip_if_not(has_virtuoso())
 
   ## We can access process handle independently
   p <- vos_process()
