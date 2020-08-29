@@ -5,10 +5,13 @@ is_linux <- function() unname(Sys.info()["sysname"] == "Linux")
 
 is_windows <- function() .Platform$OS.type == "windows"
 
+is_solaris <-function() grepl('SunOS',Sys.info()['sysname'])
+
 which_os <- function() {
   if (is_osx()) return("osx")
   if (is_linux()) return("linux")
   if (is_windows()) return("windows")
+  if (is_solaris()) return("solaris")
   warning("OS could not be determined", call. = FALSE)
   NULL
 }

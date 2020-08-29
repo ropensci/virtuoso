@@ -14,7 +14,8 @@
 #'
 #' @export
 #' @examples
-#' vos_set_paths()
+#' if(has_virtuoso())
+#'   vos_set_paths()
 #'
 vos_set_paths <- function(db_dir = vos_db(),
                          config_dir = vos_config(),
@@ -22,6 +23,10 @@ vos_set_paths <- function(db_dir = vos_db(),
                          log_dir = vos_logdir(),
                          home = virtuoso_home()
 ){
+  if(is_solaris()){
+    warning("Virtuoso not available for Solaris", call. = FALSE)
+    return("")
+  }
   Sys.setenv(VIRTUOSO_DB = db_dir, VIRTUOSO_CONFIG = config_dir,
           VIRTUOSO_CACHE = cache_dir, VIRTUOSO_LOG = log_dir,
           VIRTUOSO_HOME = home)

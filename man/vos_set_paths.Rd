@@ -34,6 +34,7 @@ cache, and logs to your preferred location.  Set home
 to the location of your Virtuoso installation.
 }
 \examples{
-vos_set_paths()
+if(has_virtuoso())
+  vos_set_paths()
 
 }

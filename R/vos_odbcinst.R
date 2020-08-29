@@ -118,6 +118,12 @@ path_lookup <- function(paths, target_name = basename(paths[[1]])) {
 
 #' @importFrom utils read.table
 find_odbcinst <- function() {
+
+  if(is_solaris()){
+    warning("Virtuoso not available for Solaris", call. = FALSE)
+    return("")
+  }
+
   if (Sys.which("odbcinst") == "") {
     return(normalizePath("~/.odbcinst.ini", mustWork = FALSE))
   }

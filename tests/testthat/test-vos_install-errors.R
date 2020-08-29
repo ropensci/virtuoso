@@ -7,6 +7,7 @@ context("vos install errors")
 
 test_that("We can download the windows installer", {
   skip_on_cran()
+  skip_if_offline()
 
   virtuoso:::download_windows_installer()
 })

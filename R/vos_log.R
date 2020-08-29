@@ -11,9 +11,14 @@
 #' @return Virtuoso logs as a character vector.
 #' @seealso [vos_start()]
 #' @examples
-#' vos_log()
+#' if(has_virtuoso())
+#'   vos_log()
 #'
 vos_log <- function(p = NA, collapse = NULL, just_errors = FALSE) {
+  if(is_solaris()){
+    warning("Virtuoso not available for Solaris", call. = FALSE)
+    return("")
+  }
   p <- vos_process(p)
   if (!inherits(p, "ps_handle")) return("")
   err_file <- file.path(vos_logdir(), "virtuoso.log")

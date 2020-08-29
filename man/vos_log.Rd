@@ -25,7 +25,8 @@ Virtuoso logs as a character vector.
 Query the server logs
 }
 \examples{
-vos_log()
+if(has_virtuoso())
+  vos_log()
 
 }
 \seealso{

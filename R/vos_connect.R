@@ -37,6 +37,11 @@ vos_connect <- function(driver = NULL,
                         port = "1111",
                         system_odbcinst = find_odbcinst(),
                         local_odbcinst = odbcinst_path()) {
+
+  if(is_solaris()){
+    warning("Virtuoso not available for Solaris", call. = FALSE)
+    return(NULL)
+  }
   if (is.null(driver)) {
     driver <- switch(which_os(),
       "linux" = "Local Virtuoso",

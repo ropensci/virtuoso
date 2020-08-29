@@ -8,9 +8,15 @@
 #' @importFrom ps ps_handle ps
 #' @export
 #' @examples
+#' if(has_virtuoso())
 #' vos_process()
 #'
 vos_process <- function(p = NA) {
+
+  if(is_solaris()){
+    warning("Virtuoso not available for Solaris", call. = FALSE)
+    return(NULL)
+  }
 
   ## p already is a handle to the process
   if (inherits(p, "ps_handle")) {

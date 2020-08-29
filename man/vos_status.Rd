@@ -30,6 +30,7 @@ Query the server status
 Note: Use \code{\link[=vos_log]{vos_log()}} to see the full log
 }
 \examples{
-vos_status()
+if(has_virtuoso())
+  vos_status()
 
 }

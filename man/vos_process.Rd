@@ -20,6 +20,7 @@ Generally a user will not need to access this function directly,
 though it may be useful for debugging purposes.
 }
 \examples{
+if(has_virtuoso())
 vos_process()
 
 }

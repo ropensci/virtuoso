@@ -1,7 +1,7 @@
 Package: virtuoso
 Type: Package
 Title: Interface to 'Virtuoso' using 'ODBC'
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: c(person("Carl", "Boettiger", 
                   email = "cboettig@gmail.com", 
                   role = c("aut", "cre", "cph"),

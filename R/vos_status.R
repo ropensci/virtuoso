@@ -14,9 +14,16 @@
 #' @importFrom ps ps_status
 #' @export
 #' @examples
-#' vos_status()
+#' if(has_virtuoso())
+#'   vos_status()
 #'
 vos_status <- function(p = NA, wait = 10) {
+
+  if(is_solaris()){
+    warning("Virtuoso not available for Solaris", call. = FALSE)
+    return(NULL)
+  }
+
   p <- vos_process(p)
   if (!inherits(p, "ps_handle")) {
     message("virtuoso isn't running.")
