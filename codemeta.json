@@ -14,10 +14,9 @@
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.6.1",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.6.1 (2019-07-05)",
+  "runtimePlatform": "R version 4.0.2 (2020-06-22)",
   "author": [
     {
       "@type": "Person",
@@ -268,14 +267,9 @@
     }
   ],
   "readme": "https://github.com/ropensci/virtuoso/blob/master/README.md",
-  "fileSize": "145.252KB",
-  "contIntegration": [
-    "https://travis-ci.org/cboettig/virtuoso",
-    "https://ci.appveyor.com/project/cboettig/virtuoso",
-    "https://codecov.io/github/cboettig/virtuoso?branch=master"
-  ],
-  "developmentStatus": "https://www.tidyverse.org/lifecycle/#experimental",
-  "releaseNotes": "https://github.com/ropensci/virtuoso/blob/master/NEWS.md",
+  "fileSize": "2152.89KB",
+  "contIntegration": ["https://travis-ci.org/ropensci/virtuoso", "https://ci.appveyor.com/project/cboettig/virtuoso/branch/master", "https://codecov.io/github/ropensci/virtuoso?branch=master"],
+  "developmentStatus": "https://www.tidyverse.org/lifecycle/#maturing",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",

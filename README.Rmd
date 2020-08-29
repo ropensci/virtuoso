@@ -141,8 +141,8 @@ vos_kill()
 
 Please see the package vignettes for more information:
 
-- [details on Virtuoso Installation & configuration](https://ropensci.github.io/virtuoso/articles/installation.html)
-- [The Data Lake: richer examples of RDF use](https://ropensci.github.io/virtuoso/articles/articles/datalake.html)
+- [details on Virtuoso Installation & configuration](https://docs.ropensci.org/virtuoso/articles/installation.html)
+- [The Data Lake: richer examples of RDF use](https://docs.ropensci.org/virtuoso/articles/articles/datalake.html)
 
 ---
 

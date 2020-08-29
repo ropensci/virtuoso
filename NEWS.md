@@ -1,8 +1,10 @@
-# 0.1.5
 
-* resubmit to CRAN
+# virtuoso 0.1.5
 
-# 0.1.4
+* update documentation links & return to CRAN
+
+# virtuoso 0.1.4
+>>>>>>> patch-cran
 
 * testing compatibility for Solaris platforms (for CRAN)
 

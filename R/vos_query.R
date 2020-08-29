@@ -9,7 +9,7 @@
 #' @seealso [vos_start()], [vos_connect()]
 #' @references
 #' - <https://en.wikipedia.org/wiki/SPARQL>
-#' - <https://ropensci.github.io/rdflib/articles/rdf_intro.html>
+#' - <https://docs.ropensci.org/rdflib/articles/rdf_intro.html>
 #'
 #' @examples
 #' vos_status()

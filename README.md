@@ -46,7 +46,9 @@ We can now start our Virtuoso server from R:
 
 ``` r
 vos_start()
-#> Virtuoso is already running with pid: 11624
+#> PROCESS 'virtuoso-t', running, pid 14318.
+#> Server is now starting up, this may take a few seconds...
+#> latest log entry: 21:43:06 Server online at 1111 (pid 14318)
 ```
 
 Once the server is running, we can connect to the database.
@@ -118,20 +120,12 @@ df <- vos_query(con,
         ?s a <http://schema.org/Person>
        }")
 head(df)
-#>                                                 p
-#> 1 http://www.w3.org/1999/02/22-rdf-syntax-ns#type
-#> 2                         http://schema.org/email
-#> 3                    http://schema.org/familyName
-#> 4                     http://schema.org/givenName
-#> 5 http://www.w3.org/1999/02/22-rdf-syntax-ns#type
-#> 6                         http://schema.org/email
-#>                                   o
-#> 1          http://schema.org/Person
-#> 2             blake.seers@gmail.com
-#> 3                             Seers
-#> 4                             Blake
-#> 5          http://schema.org/Person
-#> 6 hajk-georg.drost@tuebingen.mpg.de
+#>                                                 p                        o
+#> 1 http://www.w3.org/1999/02/22-rdf-syntax-ns#type http://schema.org/Person
+#> 2                      http://schema.org/jobTitle                Professor
+#> 3                          http://schema.org/name                 Jane Doe
+#> 4                     http://schema.org/telephone           (425) 123-4567
+#> 5                           http://schema.org/url   http://www.janedoe.com
 ```
 
 ``` r
@@ -157,7 +151,7 @@ series of helper commands.
 
 ``` r
 vos_status()
-#> latest log entry: 19:11:55 PL LOG: No more files to load. Loader has finished,
+#> latest log entry: 21:43:06 PL LOG: No more files to load. Loader has finished,
 #> [1] "sleeping"
 ```
 
@@ -175,8 +169,8 @@ p <- vos_process()
 ps_is_running(p)
 #> [1] TRUE
 ps_cpu_times(p)
-#>            user          system    childen_user children_system 
-#>            2.36            0.32            0.00            0.00
+#>            user          system   children_user children_system 
+#>            1.61            0.29            0.00            0.00
 ps_suspend(p)
 #> NULL
 ps_resume(p)
@@ -188,16 +182,15 @@ ps_resume(p)
 Please see the package vignettes for more information:
 
   - [details on Virtuoso Installation &
-    configuration](https://ropensci.github.io/virtuoso/articles/installation.html)
+    configuration](https://docs.ropensci.org/virtuoso/articles/installation.html)
   - [The Data Lake: richer examples of RDF
-    use](https://ropensci.github.io/virtuoso/articles/articles/datalake.html)
+    use](https://docs.ropensci.org/virtuoso/articles/articles/datalake.html)
 
 -----
 
 Please note that the `virtuoso` R package is released with a
 [Contributor Code of
 Conduct](https://docs.ropensci.org/virtuoso/CODE_OF_CONDUCT.html). By
-contributing to this project, you agree to abide by its
-terms.
+contributing to this project, you agree to abide by its terms.
 
 [![ropensci\_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
