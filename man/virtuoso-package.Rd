@@ -26,8 +26,7 @@ including \code{rdflib} and \code{redland} packages.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/ropensci/virtuoso (devel)}
-  \item \url{https://docs.ropensci.org/virtuoso/ (docs)}
+  \item \url{https://github.com/ropensci/virtuoso}
   \item Report bugs at \url{https://github.com/ropensci/virtuoso/issues}
 }
 

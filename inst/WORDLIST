@@ -1,5 +1,6 @@
 addons
 config
+cran
 DataBase
 dba
 debian
@@ -43,5 +44,3 @@ URIs
 Virutoso
 vos
 wd
-ORCID
-
