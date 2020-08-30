@@ -11,7 +11,7 @@ Authors@R: c(person("Carl", "Boettiger",
                     email = "brycemecum@gmail.com",
                     comment = c(ORCID = "0000-0002-0381-3766")))
 Description: Provides users with a simple and convenient
-             mechanism to manage and query a 'Virtuoso' database using the 'DBI' (DataBase Interface)
+             mechanism to manage and query a 'Virtuoso' database using the 'DBI' (Data-Base Interface)
              compatible 'ODBC' (Open Database Connectivity) interface.
              'Virtuoso' is a high-performance "universal server," which can act
              as both a relational database, supporting standard Structured Query
@@ -21,7 +21,7 @@ Description: Provides users with a simple and convenient
              queries, a graph-based query that supports semantic reasoning.
              This allows users to leverage the performance of local or remote 'Virtuoso' servers using
              popular 'R' packages such as 'DBI' and 'dplyr', while also providing a 
-             high-performance solution for working with large 'RDF' triplestores from 'R.'
+             high-performance solution for working with large 'RDF' 'triplestores' from 'R.'
              The package also provides helper routines to install, launch, and manage
              a 'Virtuoso' server locally on 'Mac', 'Windows' and 'Linux' platforms using
              the standard interactive installers from the 'R' command-line.  By 
