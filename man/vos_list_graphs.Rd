@@ -13,9 +13,9 @@ vos_list_graphs(con)
 List graphs
 }
 \examples{
-vos_status()
+status <- vos_status()
 \donttest{
-if(has_virtuoso()){
+if(has_virtuoso() & is.null(status)){
 vos_start()
 con <- vos_connect()
 vos_list_graphs(con)

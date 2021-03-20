@@ -65,10 +65,10 @@ virtuoso_app <- rappdirs::app_dir("Virtuoso")
 vos_db <- function(db_dir =
                      Sys.getenv(
                        "VIRTUOSO_DB",
-                       virtuoso_app$data()
+                       rappdirs::user_data_dir("Virtuoso")
                      )) {
   dir.create(db_dir, FALSE, TRUE)
-  db_dir
+  fs::path_expand(db_dir)
 }
 
 
@@ -76,20 +76,20 @@ vos_db <- function(db_dir =
 vos_config <- function(config_dir =
                          Sys.getenv(
                            "VIRTUOSO_CONFIG",
-                           virtuoso_app$config()
+                           rappdirs::user_config_dir("Virtuoso")
                          )) {
   dir.create(config_dir, FALSE, TRUE)
-  config_dir
+  fs::path_expand(config_dir)
 }
 
 ## for bulk importer
 vos_cache <- function(cache_dir =
                         Sys.getenv(
                           "VIRTUOSO_CACHE",
-                          virtuoso_app$cache()
+                          rappdirs::user_cache_dir("Virtuoso")
                         )) {
   dir.create(cache_dir, FALSE, TRUE)
-  cache_dir
+  fs::path_expand(cache_dir)
 }
 
 # virtuoso processx log (all though virtuoso also logs to vos_db...)
@@ -97,10 +97,10 @@ vos_cache <- function(cache_dir =
 vos_logdir <- function(log_dir =
                          Sys.getenv(
                            "VIRTUOSO_LOG",
-                           virtuoso_app$log()
+                           rappdirs::user_log_dir("Virtuoso")
                          )) {
   dir.create(log_dir, FALSE, TRUE)
-  log_dir
+  fs::path_expand(log_dir)
 }
 
 

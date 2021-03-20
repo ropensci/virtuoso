@@ -10,6 +10,7 @@ test_that("We can download the windows installer", {
   skip_if_offline()
 
   virtuoso:::download_windows_installer()
+  expect_true(TRUE)
 })
 
 
@@ -31,6 +32,8 @@ test_that("We get errors running windows installer on non-windows", {
 
   expect_error(virtuoso:::vos_install_windows(ask = FALSE))
   expect_error(vos_uninstall_windows())
+
+
 })
 
 
@@ -43,6 +46,8 @@ test_that("We get errors running mac installer on non-mac", {
 
   ## remarkably / scarily, this doesn't throw an error...
   # expect_error(virtuoso:::install_brew())
+
+  expect_true(TRUE)
 })
 
 test_that("We get error message on linux install", {

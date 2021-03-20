@@ -1,3 +1,6 @@
+# virtuoso 0.1.6
+
+* compatibility with recent changes in rappdirs
 
 # virtuoso 0.1.5
 
