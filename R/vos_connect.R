@@ -22,7 +22,7 @@
 #' database backend.
 #' @seealso [vos_install()], [vos_start()]
 #' @examples
-#' vos_status()
+#' status <- vos_status()
 #' \donttest{
 #' if(has_virtuoso()){
 #' ## start up
