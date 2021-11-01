@@ -53,13 +53,14 @@ vos_install <- function(ask = is_interactive(), use_brew = FALSE) {
 #' has_virtuoso()
 #' @export
 has_virtuoso <- function() {
+  vos_set_path()
   file.exists(unname(Sys.which("virtuoso-t")))
 }
 
 vos_set_path <- function(vos_home = NULL) {
   ## Virtuoso already detected in PATH
 
-  if (has_virtuoso()) {
+  if (file.exists(unname(Sys.which("virtuoso-t")))) {
     return(NULL)
   }
 
