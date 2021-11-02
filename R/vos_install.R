@@ -57,9 +57,16 @@ has_virtuoso <- function() {
   file.exists(unname(Sys.which("virtuoso-t")))
 }
 
-vos_set_path <- function(vos_home = NULL) {
-  ## Virtuoso already detected in PATH
 
+
+
+vos_set_path <- function(vos_home = NULL) {
+  if(is_solaris()){
+    message("virtuoso R package is not supported on Solaris")
+    return(NULL)
+  }
+
+    ## Virtuoso already detected in PATH
   if (file.exists(unname(Sys.which("virtuoso-t")))) {
     return(NULL)
   }
@@ -74,7 +81,8 @@ vos_set_path <- function(vos_home = NULL) {
   sep <- switch(which_os(),
     "linux" = ":",
     "osx" = ":",
-    "windows" = ";"
+    "windows" = ";",
+    ":"
   )
 
   bin_dir <- file.path(vos_home, "bin")

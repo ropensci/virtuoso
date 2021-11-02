@@ -1,3 +1,7 @@
+# virtuoso 0.1.8
+
+* Bugfix for CRAN's Solaris configuration
+
 # virtuoso 0.1.7
 
 * `has_virtuoso()` sets PATH on Mac & Windows so that it may evaluate correctly
@@ -12,7 +16,6 @@
 * update documentation links & return to CRAN
 
 # virtuoso 0.1.4
->>>>>>> patch-cran
 
 * testing compatibility for Solaris platforms (for CRAN)
 
