@@ -1,3 +1,8 @@
+# virtuoso 0.1.7
+
+* `has_virtuoso()` sets PATH on Mac & Windows so that it may evaluate correctly
+  without `start_virtuoso()`.  (See issue #35)
+
 # virtuoso 0.1.6
 
 * compatibility with recent changes in rappdirs
