@@ -36,7 +36,6 @@ License: MIT + file LICENSE
 URL: https://github.com/ropensci/virtuoso
 BugReports: https://github.com/ropensci/virtuoso/issues
 Encoding: UTF-8
-LazyData: true
 Imports: 
     odbc,
     processx,
