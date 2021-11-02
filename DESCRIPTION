@@ -1,7 +1,7 @@
 Package: virtuoso
 Type: Package
 Title: Interface to 'Virtuoso' using 'ODBC'
-Version: 0.1.7
+Version: 0.1.8
 Authors@R: c(person("Carl", "Boettiger", 
                   email = "cboettig@gmail.com", 
                   role = c("aut", "cre", "cph"),
@@ -36,7 +36,6 @@ License: MIT + file LICENSE
 URL: https://github.com/ropensci/virtuoso
 BugReports: https://github.com/ropensci/virtuoso/issues
 Encoding: UTF-8
-LazyData: true
 Imports: 
     odbc,
     processx,
