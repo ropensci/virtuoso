@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 ```
 
 
-The goal of virtuoso is to provide an easy interface to Virtuoso RDF database from R. 
+The goal of virtuoso is to provide an easy interface to Virtuoso RDF database from R.
 
 
 ## Installation
@@ -35,7 +35,7 @@ remotes::install_github("cboettig/virtuoso")
 library(virtuoso)
 ```
 
-For Mac users, `virtuoso` package includes a utility function to install and configure a local Virtuoso Open Source instance using Homebrew.  Otherwise, simply install the Virtuoso Open Source edition for your operating system. 
+For Mac users, `virtuoso` package includes a utility function to install and configure a local Virtuoso Open Source instance using Homebrew.  Otherwise, simply install the Virtuoso Open Source edition for your operating system.
 
 
 ```{r install}
@@ -56,7 +56,7 @@ vos_start()
 con <- vos_connect()
 ```
 
-Our connection is now live, and accepts SPARQL queries directly.  
+Our connection is now live, and accepts SPARQL queries directly.
 
 ```{r}
 DBI::dbGetQuery(con, "SPARQL SELECT * WHERE { ?s ?p ?o } LIMIT 4")
@@ -66,14 +66,14 @@ DBI::dbGetQuery(con, "SPARQL SELECT * WHERE { ?s ?p ?o } LIMIT 4")
 
 `virtuoso` also provides wrappers around some common queries to make it easier to work with Virtuoso and RDF.
 
-The bulk loader can be used to quickly import existing sets of triples. 
+The bulk loader can be used to quickly import existing sets of triples.
 
 ```{r}
 example <- system.file("extdata", "person.nq", package = "virtuoso")
 vos_import(con, example)
 ```
 
-Can also read in compressed formats as well.  Remember to set the pattern match appropriately.  This is convenient because N-Quads compress particularly well, often by a factor of 20 (or rather, can be particularly large when uncompressed, owing to the repeated property and subject URIs).  
+Can also read in compressed formats as well.  Remember to set the pattern match appropriately.  This is convenient because N-Quads compress particularly well, often by a factor of 20 (or rather, can be particularly large when uncompressed, owing to the repeated property and subject URIs).
 
 ```{r}
 ex <- system.file("extdata", "library.nq.gz", package = "virtuoso")
@@ -87,20 +87,20 @@ bad_file <- system.file("extdata", "bad_quads.nq", package = "virtuoso")
 vos_import(con, bad_file)
 ```
 
- 
-We can now query the imported data using SPARQL.  
+
+We can now query the imported data using SPARQL.
 
 ```{r}
-vos_query(con, 
-"SELECT ?p ?o 
+vos_query(con,
+"SELECT ?p ?o
  WHERE { ?s ?p ?o .
         ?s a <http://schema.org/Person>
        }")
 ```
 
 ```{r}
-vos_query(con, 
-"SELECT ?p ?o 
+vos_query(con,
+"SELECT ?p ?o
  WHERE { ?s ?p ?o .
         ?s a <http://example.org/vocab#Chapter>
        }")
@@ -109,7 +109,7 @@ vos_query(con,
 
 ## Server controls
 
-We can control any `virtuoso` server started with `vos_start()` using a series of helper commands.  
+We can control any `virtuoso` server started with `vos_start()` using a series of helper commands.
 
 ```{r}
 vos_status()
@@ -134,5 +134,5 @@ vos_kill()
 
 Please see the package vignettes for more information:
 
-- [details on Virtuoso Installation & configuration](https://cboettig.github.io/virtuoso/articles/installation.html)
-- [The Data Lake: richer examples of RDF use](https://cboettig.github.io/virtuoso/articles/articles/datalake.html)
+- [details on Virtuoso Installation & configuration](https://ropensci.github.io/virtuoso/articles/installation.html)
+- [The Data Lake: richer examples of RDF use](https://ropensci.github.io/virtuoso/articles/articles/datalake.html)
