@@ -170,5 +170,5 @@ ps_resume(p)
 
 Please see the package vignettes for more information:
 
-- [details on Virtuoso Installation & configuration](https://cboettig.github.io/virtuoso/articles/installation.html)
-- [The Data Lake: richer examples of RDF use](https://cboettig.github.io/virtuoso/articles/articles/datalake.html)
+- [details on Virtuoso Installation & configuration](https://ropensci.github.io/virtuoso/articles/installation.html)
+- [The Data Lake: richer examples of RDF use](https://ropensci.github.io/virtuoso/articles/articles/datalake.html)
