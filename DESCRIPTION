@@ -58,6 +58,7 @@ Suggests:
     jsonld,
     dplyr,
     spelling
+Config/Needs/website: cboettig/rdftools
 VignetteBuilder: knitr
 Language: en-US
 SystemRequirements: virtuoso-opensource (Linux). For Mac & Windows, this package can automate Virtuoso installation.
