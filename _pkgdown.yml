@@ -1,5 +1,2 @@
-extra_packages:
-  - cboettig/rdftools
-
 apt_packages:
   - virtuoso-opensource
